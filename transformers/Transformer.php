@@ -11,14 +11,14 @@ interface Transformer {
 	 * @param array $options
 	 * @return boolean
 	 */
-	public function transform(array $options);
+	public function process(array $options);
 
 	/**
-	 * Calculate the transformation options.
+	 * Calculate the transformation options and process.
 	 *
 	 * @access public
 	 * @return array
 	 */
-	public function process();
+	public function transform();
 
 }

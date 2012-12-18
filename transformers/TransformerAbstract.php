@@ -16,6 +16,14 @@ abstract class TransformerAbstract implements Transformer {
 	protected $_file;
 
 	/**
+	 * Configuration.
+	 *
+	 * @access protected
+	 * @var array
+	 */
+	protected $_config = array();
+
+	/**
 	 * Base image width.
 	 *
 	 * @access protected
@@ -36,8 +44,9 @@ abstract class TransformerAbstract implements Transformer {
 	 *
 	 * @access public
 	 * @param \mjohnson\transit\File $file
+	 * @param array $config
 	 */
-	public function __construct(File $file) {
+	public function __construct(File $file, array $config = array()) {
 		$dims = $file->dimensions();
 
 		if (!$dims) {
@@ -47,6 +56,7 @@ abstract class TransformerAbstract implements Transformer {
 		$this->_file = $file;
 		$this->_width = $dims['width'];
 		$this->_height = $dims['height'];
+		$this->_config = $config + $this->_config;
 	}
 
 	/**
@@ -66,7 +76,7 @@ abstract class TransformerAbstract implements Transformer {
 	 * @param array $options
 	 * @return boolean
 	 */
-	public function transform(array $options) {
+	public function process(array $options) {
 		$options = $options + array(
 			'dest_x' => 0,
 			'dest_y' => 0,
@@ -136,7 +146,7 @@ abstract class TransformerAbstract implements Transformer {
 		imagedestroy($source);
 		imagedestroy($target);
 
-		return true;
+		return $options['target'];
 	}
 
 }
