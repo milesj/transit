@@ -2,6 +2,9 @@
 
 namespace mjohnson\transit\transformers;
 
+/**
+ * Crops a photo, but resizes and keeps aspect ratio depending on which side is larger.
+ */
 class CropTransformer extends TransformerAbstract {
 
 	const TOP = 'top';
@@ -28,7 +31,7 @@ class CropTransformer extends TransformerAbstract {
 	 * Calculate the transformation options and process.
 	 *
 	 * @access public
-	 * @return array
+	 * @return string
 	 */
 	public function transform() {
 		$options = $this->_config;
@@ -44,7 +47,7 @@ class CropTransformer extends TransformerAbstract {
 			$width = round(($baseWidth / $baseHeight) * $height);
 
 		} else if (!is_numeric($height) && !is_numeric($width)) {
-			return false;
+			return null;
 		}
 
 		$location = $options['location'];
@@ -89,7 +92,6 @@ class CropTransformer extends TransformerAbstract {
 			'source_y'	=> $src_y,
 			'source_w'	=> $src_w,
 			'source_h'	=> $src_h,
-			'target'	=> '', // @todo
 			'quality'	=> $options['quality']
 		));
 	}

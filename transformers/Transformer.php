@@ -9,7 +9,7 @@ interface Transformer {
 	 *
 	 * @access public
 	 * @param array $options
-	 * @return boolean
+	 * @return string
 	 */
 	public function process(array $options);
 
@@ -17,7 +17,7 @@ interface Transformer {
 	 * Calculate the transformation options and process.
 	 *
 	 * @access public
-	 * @return array
+	 * @return string
 	 */
 	public function transform();
 

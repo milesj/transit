@@ -74,7 +74,7 @@ abstract class TransformerAbstract implements Transformer {
 	 *
 	 * @access public
 	 * @param array $options
-	 * @return boolean
+	 * @return string
 	 */
 	public function process(array $options) {
 		$options = $options + array(
@@ -89,64 +89,67 @@ abstract class TransformerAbstract implements Transformer {
 			'quality' => 100
 		);
 
-		$sourcePath = $this->getFile()->path();
-		$mimeType = $this->getFile()->type();
+		$file = $this->getFile();
+		$sourcePath = $file->path();
+		$mimeType = $file->type();
 
 		// Create an image to work with
 		switch ($mimeType) {
 			case 'image/gif':
-				$source = imagecreatefromgif($sourcePath);
+				$sourceImage = imagecreatefromgif($sourcePath);
 			break;
 			case 'image/png':
-				$source = imagecreatefrompng($sourcePath);
+				$sourceImage = imagecreatefrompng($sourcePath);
 			break;
 			case 'image/jpg':
 			case 'image/jpeg':
 			case 'image/pjpeg':
-				$source = imagecreatefromjpeg($sourcePath);
+				$sourceImage = imagecreatefromjpeg($sourcePath);
 			break;
 			default:
-				return false;
+				return null;
 			break;
 		}
 
-		$target = imagecreatetruecolor($options['dest_w'], $options['dest_h']);
+		$targetImage = imagecreatetruecolor($options['dest_w'], $options['dest_h']);
 
 		// If gif/png allow transparencies
 		if ($mimeType == 'image/gif' || $mimeType == 'image/png') {
-			imagealphablending($target, false);
-			imagesavealpha($target, true);
-			imagefilledrectangle($target, 0, 0, $options['dest_w'], $options['dest_h'], imagecolorallocatealpha($target, 255, 255, 255, 127));
+			imagealphablending($targetImage, false);
+			imagesavealpha($targetImage, true);
+			imagefilledrectangle($targetImage, 0, 0, $options['dest_w'], $options['dest_h'], imagecolorallocatealpha($targetImage, 255, 255, 255, 127));
 		}
 
 		// Lets take our source and apply it to the temporary file and resize
-		imagecopyresampled($target, $source, $options['dest_x'], $options['dest_y'], $options['source_x'], $options['source_y'], $options['dest_w'], $options['dest_h'], $options['source_w'], $options['source_h']);
+		imagecopyresampled($targetImage, $sourceImage, $options['dest_x'], $options['dest_y'], $options['source_x'], $options['source_y'], $options['dest_w'], $options['dest_h'], $options['source_w'], $options['source_h']);
 
 		// Now write the transformed image to the server
+		$targetPath = sprintf('%s%s.%s', $file->dir(), md5($file->name() . time()), $file->ext());
+
 		switch ($mimeType) {
 			case 'image/gif':
-				imagegif($target, $options['target']);
+				imagegif($targetImage, $targetPath);
 			break;
 			case 'image/png':
-				imagepng($target, $options['target']);
+				imagepng($targetImage, $targetPath);
 			break;
 			case 'image/jpg':
 			case 'image/jpeg':
 			case 'image/pjpeg':
-				imagejpeg($target, $options['target'], $options['quality']);
+				imagejpeg($targetImage, $targetPath, $options['quality']);
 			break;
 			default:
-				imagedestroy($source);
-				imagedestroy($target);
-				return false;
+				imagedestroy($sourceImage);
+				imagedestroy($targetImage);
+				return null;
 			break;
 		}
 
 		// Clear memory
-		imagedestroy($source);
-		imagedestroy($target);
+		imagedestroy($sourceImage);
+		imagedestroy($targetImage);
 
-		return $options['target'];
+		return $targetPath;
 	}
 
 }
