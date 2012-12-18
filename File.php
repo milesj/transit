@@ -88,6 +88,10 @@ class File {
 	 * @return string
 	 */
 	public function ext() {
+		if ($ext = pathinfo($this->_path, PATHINFO_EXTENSION)) {
+			return mb_strtolower($ext);
+		}
+
 		return mb_strtolower(trim(mb_strrchr($this->_path, '.'), '.'));
 	}
 
@@ -102,6 +106,16 @@ class File {
 	}
 
 	/**
+	 * Return the absolute path.
+	 *
+	 * @access public
+	 * @return string
+	 */
+	public function path() {
+		return $this->_path;
+	}
+
+	/**
 	 * Return the file size.
 	 *
 	 * @access public
@@ -109,6 +123,22 @@ class File {
 	 */
 	public function size() {
 		return filesize($this->_path);
+	}
+
+	/**
+	 * Return the mime type.
+	 *
+	 * @access public
+	 * @return string
+	 */
+	public function type() {
+		$f = finfo_open(FILEINFO_MIME);
+
+		list($type, $charset) = explode(';', finfo_file($f, $this->_path));
+
+		finfo_close($f);
+
+		return $type;
 	}
 
 }
