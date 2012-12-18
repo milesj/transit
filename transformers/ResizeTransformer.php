@@ -32,11 +32,11 @@ class ResizeTransformer extends TransformerAbstract {
 	 * @return string
 	 */
 	public function transform() {
-		$options = $this->_config;
+		$config = $this->_config;
 		$baseWidth = $this->_width;
 		$baseHeight = $this->_height;
-		$width = $options['width'];
-		$height = $options['height'];
+		$width = $config['width'];
+		$height = $config['height'];
 		$newWidth = null;
 		$newHeight = null;
 
@@ -51,15 +51,15 @@ class ResizeTransformer extends TransformerAbstract {
 		}
 
 		// Maintains the aspect ratio of the image
-		if ($options['aspect']) {
+		if ($config['aspect']) {
 			$widthScale = $width / $baseWidth;
 			$heightScale = $height / $baseHeight;
 
-			if (($options['mode'] == self::WIDTH && $widthScale < $heightScale) || ($options['mode'] == self::HEIGHT && $widthScale > $heightScale)) {
+			if (($config['mode'] == self::WIDTH && $widthScale < $heightScale) || ($config['mode'] == self::HEIGHT && $widthScale > $heightScale)) {
 				$newWidth = $width;
 				$newHeight = ($baseHeight * $newWidth) / $baseWidth;
 
-			} else if (($options['mode'] == self::WIDTH && $widthScale > $heightScale) || ($options['mode'] == self::HEIGHT && $widthScale < $heightScale)) {
+			} else if (($config['mode'] == self::WIDTH && $widthScale > $heightScale) || ($config['mode'] == self::HEIGHT && $widthScale < $heightScale)) {
 				$newHeight = $height;
 				$newWidth = ($newHeight * $baseWidth) / $baseHeight;
 
@@ -73,7 +73,7 @@ class ResizeTransformer extends TransformerAbstract {
 		}
 
 		// Don't expand if we don't want it too
-		if (!$options['expand']) {
+		if (!$config['expand']) {
 			if ($newWidth > $baseWidth) {
 				$newWidth = $baseWidth;
 			}
@@ -86,7 +86,7 @@ class ResizeTransformer extends TransformerAbstract {
 		return $this->process(array(
 			'dest_w'	=> $newWidth,
 			'dest_h'	=> $newHeight,
-			'quality'	=> $options['quality']
+			'quality'	=> $config['quality']
 		));
 	}
 

@@ -33,11 +33,11 @@ class CropTransformer extends TransformerAbstract {
 	 * @return string
 	 */
 	public function transform() {
-		$options = $this->_config;
+		$config = $this->_config;
 		$baseWidth = $this->_width;
 		$baseHeight = $this->_height;
-		$width = $options['width'];
-		$height = $options['height'];
+		$width = $config['width'];
+		$height = $config['height'];
 
 		if (is_numeric($width) && !$height) {
 			$height = round(($baseHeight / $baseWidth) * $width);
@@ -49,7 +49,7 @@ class CropTransformer extends TransformerAbstract {
 			return null;
 		}
 
-		$location = $options['location'];
+		$location = $config['location'];
 		$widthScale = $baseWidth / $width;
 		$heightScale = $baseHeight / $height;
 		$src_x = 0;
@@ -91,7 +91,7 @@ class CropTransformer extends TransformerAbstract {
 			'source_y'	=> $src_y,
 			'source_w'	=> $src_w,
 			'source_h'	=> $src_h,
-			'quality'	=> $options['quality']
+			'quality'	=> $config['quality']
 		));
 	}
 

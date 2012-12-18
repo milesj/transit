@@ -29,7 +29,7 @@ class FlipTransformer extends TransformerAbstract {
 	 * @return string
 	 */
 	public function transform() {
-		$options = $this->_config;
+		$config = $this->_config;
 		$width = $this->_width;
 		$height = $this->_height;
 		$src_x = 0;
@@ -37,7 +37,7 @@ class FlipTransformer extends TransformerAbstract {
 		$src_w = $width;
 		$src_h = $height;
 
-		switch ($options['direction']) {
+		switch ($config['direction']) {
 			case self::VERTICAL:
 				$src_y = --$height;
 				$src_h = -$height;
@@ -64,7 +64,7 @@ class FlipTransformer extends TransformerAbstract {
 			'source_y'	=> $src_y,
 			'source_w'	=> $src_w,
 			'source_h'	=> $src_h,
-			'quality'	=> $options['quality']
+			'quality'	=> $config['quality']
 		));
 	}
 
