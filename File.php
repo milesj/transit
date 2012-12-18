@@ -88,21 +88,17 @@ class File {
 	 * @return string
 	 */
 	public function ext() {
-		if ($ext = pathinfo($this->_path, PATHINFO_EXTENSION)) {
-			return mb_strtolower($ext);
-		}
-
-		return mb_strtolower(trim(mb_strrchr($this->_path, '.'), '.'));
+		return mb_strtolower(pathinfo($this->_path, PATHINFO_EXTENSION));
 	}
 
 	/**
-	 * Return the file name.
+	 * Return the file name without extension.
 	 *
 	 * @access public
 	 * @return string
 	 */
 	public function name() {
-		return basename($this->_path);
+		return pathinfo($this->_path, PATHINFO_FILENAME);
 	}
 
 	/**
