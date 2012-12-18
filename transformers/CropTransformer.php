@@ -23,8 +23,7 @@ class CropTransformer extends TransformerAbstract {
 		'location' => self::CENTER,
 		'quality' => 100,
 		'width' => null,
-		'height' => null,
-		'overwrite' => false
+		'height' => null
 	);
 
 	/**
