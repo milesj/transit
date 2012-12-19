@@ -28,7 +28,6 @@ class Uploader extends Transit {
 		$this->_data = $data;
 	}
 
-
 	/**
 	 * Upload the file to the target directory.
 	 *

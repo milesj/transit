@@ -7,6 +7,14 @@ use \Exception;
 class File {
 
 	/**
+	 * Cached values.
+	 *
+	 * @access protected
+	 * @var array
+	 */
+	protected $_cache = array();
+
+	/**
 	 * Absolute file path.
 	 *
 	 * @access protected
@@ -48,10 +56,15 @@ class File {
 	 * @return array
 	 */
 	public function dimensions() {
+		if (isset($this->_cache[__FUNCTION__])) {
+			return $this->_cache[__FUNCTION__];
+		}
+
 		$data = @getimagesize($this->_path);
+		$dims = null;
 
 		if ($data && is_array($data)) {
-			return array(
+			$dims = array(
 				'width' => $data[0],
 				'height' => $data[1]
 			);
@@ -59,14 +72,15 @@ class File {
 
 		if (!$data) {
 			$image = @imagecreatefromstring(file_get_contents($this->_path));
-
-			return array(
+			$dims = array(
 				'width' => @imagesx($image),
 				'height' => @imagesy($image)
 			);
 		}
 
-		return null;
+		$this->_cache[__FUNCTION__] = $dims;
+
+		return $dims;
 	}
 
 	/**
@@ -87,6 +101,28 @@ class File {
 	 */
 	public function ext() {
 		return mb_strtolower(pathinfo($this->_path, PATHINFO_EXTENSION));
+	}
+
+	/**
+	 * Return the image height.
+	 *
+	 * @access public
+	 * @return string
+	 */
+	public function height() {
+		if (isset($this->_cache[__FUNCTION__])) {
+			return $this->_cache[__FUNCTION__];
+		}
+
+		$height = 0;
+
+		if ($dims = $this->dimensions()) {
+			$height = $dims['height'];
+		}
+
+		$this->_cache[__FUNCTION__] = $height;
+
+		return $height;
 	}
 
 	/**
@@ -202,13 +238,41 @@ class File {
 	 * @return string
 	 */
 	public function type() {
+		if (isset($this->_cache[__FUNCTION__])) {
+			return $this->_cache[__FUNCTION__];
+		}
+
 		$f = finfo_open(FILEINFO_MIME);
 
 		list($type, $charset) = explode(';', finfo_file($f, $this->_path));
 
 		finfo_close($f);
 
+		$this->_cache[__FUNCTION__] = $type;
+
 		return $type;
+	}
+
+	/**
+	 * Return the image width.
+	 *
+	 * @access public
+	 * @return string
+	 */
+	public function width() {
+		if (isset($this->_cache[__FUNCTION__])) {
+			return $this->_cache[__FUNCTION__];
+		}
+
+		$width = 0;
+
+		if ($dims = $this->dimensions()) {
+			$width = $dims['width'];
+		}
+
+		$this->_cache[__FUNCTION__] = $width;
+
+		return $width;
 	}
 
 }
