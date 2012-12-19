@@ -134,10 +134,11 @@ class File {
 	 * Return the file name without extension.
 	 *
 	 * @access public
+	 * @param boolean $ext
 	 * @return string
 	 */
-	public function name() {
-		return pathinfo($this->_path, PATHINFO_FILENAME);
+	public function name($ext = false) {
+		return pathinfo($this->_path, $ext ? PATHINFO_BASENAME : PATHINFO_FILENAME);
 	}
 
 	/**
