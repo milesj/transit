@@ -67,7 +67,7 @@ class FlipTransformer extends TransformerAbstract {
 			'source_h'	=> $src_h,
 			'quality'	=> $config['quality'],
 			'overwrite'	=> $config['overwrite'],
-			'target'	=> sprintf('%s-%s', $this->getFile()->name(), $config['direction'])
+			'target'	=> sprintf('%s-%s', $this->_file->name(), $config['direction'])
 		));
 	}
 

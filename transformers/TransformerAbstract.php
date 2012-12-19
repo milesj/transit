@@ -64,16 +64,6 @@ abstract class TransformerAbstract implements Transformer {
 	}
 
 	/**
-	 * Return the file object.
-	 *
-	 * @access public
-	 * @return \mjohnson\transit\File
-	 */
-	public function getFile() {
-		return $this->_file;
-	}
-
-	/**
 	 * Transform the image using the defined options.
 	 *
 	 * @access public
@@ -95,7 +85,7 @@ abstract class TransformerAbstract implements Transformer {
 			'target' => ''
 		);
 
-		$file = $this->getFile();
+		$file = $this->_file;
 		$sourcePath = $file->path();
 		$mimeType = $file->type();
 

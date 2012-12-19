@@ -15,7 +15,8 @@ class Uploader {
 	protected $_data;
 
 	/**
-	 * Should we scan the file for viruses? Requires ClamAV module: http://clamav.net/
+	 * Should we scan the file for viruses?
+	 * Requires ClamAV module: http://clamav.net
 	 *
 	 * @access protected
 	 * @var boolean
