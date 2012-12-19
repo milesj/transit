@@ -53,6 +53,10 @@ abstract class TransformerAbstract implements Transformer {
 			throw new Exception(sprintf('%s is not a valid image.', $file->path()));
 		}
 
+		if (!extension_loaded('gd')) {
+			throw new Exception('GD image library is not installed.');
+		}
+
 		$this->_file = $file;
 		$this->_width = $dims['width'];
 		$this->_height = $dims['height'];
