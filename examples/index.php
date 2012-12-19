@@ -1,6 +1,7 @@
 <?php
 
 include_once '../File.php';
+include_once '../Transit.php';
 include_once '../Uploader.php';
 include_once '../transformers/Transformer.php';
 include_once '../transformers/TransformerAbstract.php';
@@ -15,7 +16,7 @@ function debug($v) {
 
 if ($_FILES) {
 	$upload = new \mjohnson\transit\Uploader($_FILES['file']);
-	$upload->setUploadDirectory(__DIR__ . '/tmp/');
+	$upload->setDirectory(__DIR__ . '/tmp/');
 
 	if ($file = $upload->upload()) {
 		$file->rename(function($name) {
@@ -27,6 +28,8 @@ if ($_FILES) {
 
 		$t2 = new \mjohnson\transit\transformers\ScaleTransformer($file, array('overwrite' => true));
 		$file = $t2->transform();
+
+		debug($file->path());
 	}
 } ?>
 

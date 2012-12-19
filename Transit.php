@@ -22,15 +22,21 @@ class Transit {
 	 * @return string
 	 */
 	public function findTarget($overwrite, $name) {
-		list($name, $ext) = explode('.', $name);
+		$ext = '';
 
-		$target = $this->_directory . $name . '.' . $ext;
+		if ($pos = mb_strrpos($name, '.')) {
+			$length = mb_strlen($name);
+			$ext = mb_substr($name, $pos, ($length - $pos));
+			$name = mb_substr($name, 0, $pos);
+		}
+
+		$target = $this->_directory . $name . $ext;
 
 		if (!$overwrite) {
 			$no = 1;
 
 			while (file_exists($target)) {
-				$target = sprintf('%s%s-%s.%s', $this->_directory, $name, $ext);
+				$target = sprintf('%s%s-%s%s', $this->_directory, $name, $no, $ext);
 				$no++;
 			}
 		}
