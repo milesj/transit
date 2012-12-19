@@ -53,8 +53,7 @@ class File {
 		if ($data && is_array($data)) {
 			return array(
 				'width' => $data[0],
-				'height' => $data[1],
-				'type' => $data['mime']
+				'height' => $data[1]
 			);
 		}
 
@@ -63,8 +62,7 @@ class File {
 
 			return array(
 				'width' => @imagesx($image),
-				'height' => @imagesy($image),
-				'type' => '' //self::mimeType($path)
+				'height' => @imagesy($image)
 			);
 		}
 
@@ -92,6 +90,47 @@ class File {
 	}
 
 	/**
+	 * Move the file to a new directory.
+	 * If a file with the same name already exists, either overwrite or increment file name.
+	 *
+	 * @access public
+	 * @param string $path
+	 * @param boolean $overwrite
+	 * @return boolean
+	 */
+	public function move($path, $overwrite = false) {
+		$path = str_replace('\\', '/', $path);
+
+		if (substr($path, -1) !== '/') {
+			$path .= '/';
+		}
+
+		// Determine name and overwrite
+		$name = $this->name();
+		$ext = $this->ext();
+
+		if (!$overwrite) {
+			$no = 1;
+
+			while (file_exists($path . $name . '.' . $ext)) {
+				$name = $this->name() . '-' . $no;
+				$no++;
+			}
+		}
+
+		// Move the file
+		$targetPath = $path . $name . '.' . $ext;
+
+		if (rename($this->path(), $targetPath)) {
+			$this->_path = $targetPath;
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Return the file name without extension.
 	 *
 	 * @access public
@@ -109,6 +148,40 @@ class File {
 	 */
 	public function path() {
 		return $this->_path;
+	}
+
+	/**
+	 * Rename the file within the current directory.
+	 *
+	 * @access public
+	 * @param string $name
+	 * @param string $append
+	 * @param string $prepend
+	 * @return boolean
+	 */
+	public function rename($name, $append = '', $prepend = '') {
+		if (is_callable($name)) {
+			$name = call_user_func_array($name, array($this->name(), $this));
+		} else {
+			$name = $name ?: $this->name();
+		}
+
+		// Add boundaries
+		$name = (string) $prepend . $name . (string) $append;
+
+		// Remove unwanted characters
+		$name = preg_replace('/[^_-\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}\p{Nd}]/imu', '-', $name);
+
+		// Rename file
+		$targetPath = $this->dir() . $name . '.' . $this->ext();
+
+		if (rename($this->path(), $targetPath)) {
+			$this->_path = $targetPath;
+
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
