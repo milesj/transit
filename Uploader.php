@@ -128,7 +128,7 @@ class Uploader {
 			return new File($target);
 		}
 
-		throw new Exception('An unknown error has occurred');
+		throw new Exception('An unknown error has occurred.');
 	}
 
 }

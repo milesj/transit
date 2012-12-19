@@ -19,7 +19,8 @@ class FlipTransformer extends TransformerAbstract {
 	 */
 	protected $_config = array(
 		'direction' => self::VERTICAL,
-		'quality' => 100
+		'quality' => 100,
+		'overwrite' => false
 	);
 
 	/**
@@ -64,7 +65,9 @@ class FlipTransformer extends TransformerAbstract {
 			'source_y'	=> $src_y,
 			'source_w'	=> $src_w,
 			'source_h'	=> $src_h,
-			'quality'	=> $config['quality']
+			'quality'	=> $config['quality'],
+			'overwrite'	=> $config['overwrite'],
+			'target'	=> sprintf('%s-%s', $this->getFile()->name(), $config['direction'])
 		));
 	}
 

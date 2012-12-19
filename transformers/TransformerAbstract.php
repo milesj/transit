@@ -78,7 +78,7 @@ abstract class TransformerAbstract implements Transformer {
 	 *
 	 * @access public
 	 * @param array $options
-	 * @return string
+	 * @return \mjohnson\transit\File
 	 */
 	public function process(array $options) {
 		$options = $options + array(
@@ -90,7 +90,9 @@ abstract class TransformerAbstract implements Transformer {
 			'source_y' => 0,
 			'source_w' => $this->_width,
 			'source_h' => $this->_height,
-			'quality' => 100
+			'quality' => 100,
+			'overwrite' => false,
+			'target' => ''
 		);
 
 		$file = $this->getFile();
@@ -128,7 +130,14 @@ abstract class TransformerAbstract implements Transformer {
 		imagecopyresampled($targetImage, $sourceImage, $options['dest_x'], $options['dest_y'], $options['source_x'], $options['source_y'], $options['dest_w'], $options['dest_h'], $options['source_w'], $options['source_h']);
 
 		// Now write the transformed image to the server
-		$targetPath = sprintf('%s%s.%s', $file->dir(), md5($file->name() . time()), $file->ext());
+		if ($options['overwrite']) {
+			$options['target'] = $file->name();
+
+		} else if (!$options['target']) {
+			$options['target'] = sprintf('%s-%sx%s', $file->name(), round($options['dest_w']), round($options['dest_h']));
+		}
+
+		$targetPath = sprintf('%s%s.%s', $file->dir(), $options['target'], $file->ext());
 
 		switch ($mimeType) {
 			case 'image/gif':
@@ -142,18 +151,13 @@ abstract class TransformerAbstract implements Transformer {
 			case 'image/pjpeg':
 				imagejpeg($targetImage, $targetPath, $options['quality']);
 			break;
-			default:
-				imagedestroy($sourceImage);
-				imagedestroy($targetImage);
-				return null;
-			break;
 		}
 
 		// Clear memory
 		imagedestroy($sourceImage);
 		imagedestroy($targetImage);
 
-		return $targetPath;
+		return new File($targetPath);
 	}
 
 }

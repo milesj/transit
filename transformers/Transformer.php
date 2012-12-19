@@ -9,7 +9,7 @@ interface Transformer {
 	 *
 	 * @access public
 	 * @param array $options
-	 * @return string
+	 * @return \mjohnson\transit\File
 	 */
 	public function process(array $options);
 

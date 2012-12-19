@@ -22,6 +22,7 @@ class CropTransformer extends TransformerAbstract {
 	protected $_config = array(
 		'location' => self::CENTER,
 		'quality' => 100,
+		'overwrite' => false,
 		'width' => null,
 		'height' => null
 	);
@@ -91,7 +92,8 @@ class CropTransformer extends TransformerAbstract {
 			'source_y'	=> $src_y,
 			'source_w'	=> $src_w,
 			'source_h'	=> $src_h,
-			'quality'	=> $config['quality']
+			'quality'	=> $config['quality'],
+			'overwrite'	=> $config['overwrite']
 		));
 	}
 

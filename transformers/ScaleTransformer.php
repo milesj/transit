@@ -15,7 +15,8 @@ class ScaleTransformer extends TransformerAbstract {
 	 */
 	protected $_config = array(
 		'percent' => .5,
-		'quality' => 100
+		'quality' => 100,
+		'overwrite' => false
 	);
 
 	/**
@@ -32,7 +33,8 @@ class ScaleTransformer extends TransformerAbstract {
 		return $this->process(array(
 			'dest_w'	=> $width,
 			'dest_h'	=> $height,
-			'quality'	=> $config['quality']
+			'quality'	=> $config['quality'],
+			'overwrite'	=> $config['overwrite']
 		));
 	}
 

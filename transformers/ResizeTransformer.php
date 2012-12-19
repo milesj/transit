@@ -21,6 +21,7 @@ class ResizeTransformer extends TransformerAbstract {
 		'width' => null,
 		'height' => null,
 		'quality' => 100,
+		'overwrite' => false,
 		'expand' => false,
 		'aspect' => true
 	);
@@ -86,7 +87,8 @@ class ResizeTransformer extends TransformerAbstract {
 		return $this->process(array(
 			'dest_w'	=> $newWidth,
 			'dest_h'	=> $newHeight,
-			'quality'	=> $config['quality']
+			'quality'	=> $config['quality'],
+			'overwrite'	=> $config['overwrite']
 		));
 	}
 
