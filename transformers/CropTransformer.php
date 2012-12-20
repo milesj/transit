@@ -29,7 +29,6 @@ class CropTransformer extends TransformerAbstract {
 	protected $_config = array(
 		'location' => self::CENTER,
 		'quality' => 100,
-		'overwrite' => false,
 		'width' => null,
 		'height' => null
 	);
@@ -38,12 +37,13 @@ class CropTransformer extends TransformerAbstract {
 	 * Calculate the transformation options and process.
 	 *
 	 * @access public
+	 * @param boolean $overwrite
 	 * @return string
 	 */
-	public function transform() {
+	public function transform($overwrite = false) {
 		$config = $this->_config;
-		$baseWidth = $this->_width;
-		$baseHeight = $this->_height;
+		$baseWidth = $this->_file->width();
+		$baseHeight = $this->_file->height();
 		$width = $config['width'];
 		$height = $config['height'];
 
@@ -100,7 +100,7 @@ class CropTransformer extends TransformerAbstract {
 			'source_w'	=> $src_w,
 			'source_h'	=> $src_h,
 			'quality'	=> $config['quality'],
-			'overwrite'	=> $config['overwrite']
+			'overwrite'	=> $overwrite
 		));
 	}
 

@@ -26,20 +26,20 @@ class FlipTransformer extends TransformerAbstract {
 	 */
 	protected $_config = array(
 		'direction' => self::VERTICAL,
-		'quality' => 100,
-		'overwrite' => false
+		'quality' => 100
 	);
 
 	/**
 	 * Calculate the transformation options and process.
 	 *
 	 * @access public
+	 * @param boolean $overwrite
 	 * @return string
 	 */
-	public function transform() {
+	public function transform($overwrite = false) {
 		$config = $this->_config;
-		$width = $this->_width;
-		$height = $this->_height;
+		$width = $this->_file->width();
+		$height = $this->_file->height();
 		$src_x = 0;
 		$src_y = 0;
 		$src_w = $width;
@@ -73,7 +73,7 @@ class FlipTransformer extends TransformerAbstract {
 			'source_w'	=> $src_w,
 			'source_h'	=> $src_h,
 			'quality'	=> $config['quality'],
-			'overwrite'	=> $config['overwrite'],
+			'overwrite'	=> $overwrite,
 			'target'	=> sprintf('%s-%s', $this->_file->name(), $config['direction'])
 		));
 	}

@@ -34,42 +34,23 @@ abstract class TransformerAbstract implements Transformer {
 	protected $_config = array();
 
 	/**
-	 * Base image width.
-	 *
-	 * @access protected
-	 * @var int
-	 */
-	protected $_width = 0;
-
-	/**
-	 * Base image height.
-	 *
-	 * @access protected
-	 * @var int
-	 */
-	protected $_height = 0;
-
-	/**
-	 * Store the file and gather image dimensions.
+	 * Store the file and config and gather image dimensions.
 	 *
 	 * @access public
 	 * @param \mjohnson\transit\File $file
 	 * @param array $config
+	 * @throws \Exception
 	 */
 	public function __construct(File $file, array $config = array()) {
-		$dims = $file->dimensions();
-
-		if (!$dims) {
-			throw new Exception(sprintf('%s is not a valid image.', $file->path()));
-		}
-
 		if (!extension_loaded('gd')) {
 			throw new Exception('GD image library is not installed.');
 		}
 
+		if (strpos($file->type(), 'image') !== 0) {
+			throw new Exception(sprintf('%s is not a valid image.', $file->name(true)));
+		}
+
 		$this->_file = $file;
-		$this->_width = $dims['width'];
-		$this->_height = $dims['height'];
 		$this->_config = $config + $this->_config;
 	}
 
@@ -81,6 +62,7 @@ abstract class TransformerAbstract implements Transformer {
 	 * @return \mjohnson\transit\File
 	 */
 	public function process(array $options) {
+		$file = $this->_file;
 		$options = $options + array(
 			'dest_x' => 0,
 			'dest_y' => 0,
@@ -88,14 +70,13 @@ abstract class TransformerAbstract implements Transformer {
 			'dest_h' => null,
 			'source_x' => 0,
 			'source_y' => 0,
-			'source_w' => $this->_width,
-			'source_h' => $this->_height,
+			'source_w' => $file->width(),
+			'source_h' => $file->height(),
 			'quality' => 100,
 			'overwrite' => false,
 			'target' => ''
 		);
 
-		$file = $this->_file;
 		$sourcePath = $file->path();
 		$mimeType = $file->type();
 
@@ -120,7 +101,7 @@ abstract class TransformerAbstract implements Transformer {
 		$targetImage = imagecreatetruecolor($options['dest_w'], $options['dest_h']);
 
 		// If gif/png allow transparencies
-		if ($mimeType == 'image/gif' || $mimeType == 'image/png') {
+		if ($mimeType === 'image/gif' || $mimeType === 'image/png') {
 			imagealphablending($targetImage, false);
 			imagesavealpha($targetImage, true);
 			imagefilledrectangle($targetImage, 0, 0, $options['dest_w'], $options['dest_h'], imagecolorallocatealpha($targetImage, 255, 255, 255, 127));

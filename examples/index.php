@@ -23,11 +23,11 @@ if ($_FILES) {
 			return md5($name);
 		});
 
-		$t1 = new \mjohnson\transit\transformers\CropTransformer($file, array('width' => 100, 'height' => 100, 'overwrite' => true));
-		$file = $t1->transform();
+		$t1 = new \mjohnson\transit\transformers\CropTransformer($file, array('width' => 100, 'height' => 100));
+		$file = $t1->transform(true);
 
-		$t2 = new \mjohnson\transit\transformers\ScaleTransformer($file, array('overwrite' => true));
-		$file = $t2->transform();
+		$t2 = new \mjohnson\transit\transformers\ScaleTransformer($file);
+		$file = $t2->transform(true);
 
 		debug($file->path());
 	}

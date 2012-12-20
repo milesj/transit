@@ -28,7 +28,6 @@ class ResizeTransformer extends TransformerAbstract {
 		'width' => null,
 		'height' => null,
 		'quality' => 100,
-		'overwrite' => false,
 		'expand' => false,
 		'aspect' => true
 	);
@@ -37,12 +36,13 @@ class ResizeTransformer extends TransformerAbstract {
 	 * Calculate the transformation options and process.
 	 *
 	 * @access public
+	 * @param boolean $overwrite
 	 * @return string
 	 */
-	public function transform() {
+	public function transform($overwrite = false) {
 		$config = $this->_config;
-		$baseWidth = $this->_width;
-		$baseHeight = $this->_height;
+		$baseWidth = $this->_file->width();
+		$baseHeight = $this->_file->height();
 		$width = $config['width'];
 		$height = $config['height'];
 		$newWidth = null;
@@ -95,7 +95,7 @@ class ResizeTransformer extends TransformerAbstract {
 			'dest_w'	=> $newWidth,
 			'dest_h'	=> $newHeight,
 			'quality'	=> $config['quality'],
-			'overwrite'	=> $config['overwrite']
+			'overwrite'	=> $overwrite
 		));
 	}
 

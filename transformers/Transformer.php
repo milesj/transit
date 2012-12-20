@@ -27,8 +27,9 @@ interface Transformer {
 	 * Calculate the transformation options and process.
 	 *
 	 * @access public
+	 * @param boolean $overwrite
 	 * @return string
 	 */
-	public function transform();
+	public function transform($overwrite = false);
 
 }
