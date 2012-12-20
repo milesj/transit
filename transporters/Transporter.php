@@ -7,6 +7,8 @@
 
 namespace mjohnson\transit\transporters;
 
+use mjohnson\transit\File;
+
 /**
  * Interface for all transporters to implement.
  *
@@ -18,16 +20,22 @@ interface Transporter {
 	 * Delete a file from the remote location.
 	 *
 	 * @access public
+	 * @param string $path
+	 * @param array $options
 	 * @return boolean
+	 * @throws \Exception
 	 */
-	public function delete();
+	public function delete($path, array $options = array());
 
 	/**
 	 * Transport the file to a remote location.
 	 *
 	 * @access public
+	 * @param \mjohnson\transit\File $file
+	 * @param array $options
 	 * @return string
+	 * @throws \Exception
 	 */
-	public function transport();
+	public function transport(File $file, array $options = array());
 
 }
