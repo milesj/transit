@@ -28,7 +28,7 @@ class Importer extends Transit {
 	 */
 	public function fromLocal($path, $overwrite = true, $delete = true) {
 		$file = new File($path);
-		$target = $this->findTarget($overwrite, $file->name(true));
+		$target = $this->findTarget($file, $overwrite);
 
 		if (copy($path, $target)) {
 			if ($delete) {
@@ -66,7 +66,7 @@ class Importer extends Transit {
 		curl_close($curl);
 
 		// Save the file locally
-		$target = $this->findTarget($overwrite, $name);
+		$target = $this->findTarget($name, $overwrite);
 
 		if (file_put_contents($target, $response)) {
 			return new File($target);
@@ -90,7 +90,7 @@ class Importer extends Transit {
 			throw new Exception(sprintf('%s was not found in the input stream.', $field));
 		}
 
-		$target = $this->findTarget($overwrite, $_GET[$field]);
+		$target = $this->findTarget($_GET[$field], $overwrite);
 		$input = fopen('php://input', 'r');
 		$output = fopen($target, 'w');
 

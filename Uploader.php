@@ -70,7 +70,7 @@ class Uploader extends Transit {
 		}
 
 		// Upload the file
-		$target = $this->findTarget(true, $data['name']);
+		$target = $this->findTarget($data['name'], true);
 
 		if (move_uploaded_file($data['tmp_name'], $target) || copy($data['tmp_name'], $target)) {
 			return new File($target);

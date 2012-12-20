@@ -26,17 +26,23 @@ class Transit {
 	 * Find a valid target path taking into account file existence and overwriting.
 	 *
 	 * @access public
+	 * @param \mjohnson\transit\File|string $file
 	 * @param boolean $overwrite
-	 * @param string $name
 	 * @return string
 	 */
-	public function findTarget($overwrite, $name) {
-		$ext = '';
+	public function findTarget($file, $overwrite = false) {
+		if ($file instanceof File) {
+			$name = $file->name();
+			$ext = '.' . $file->ext();
 
-		if ($pos = mb_strrpos($name, '.')) {
-			$length = mb_strlen($name);
-			$ext = mb_substr($name, $pos, ($length - $pos));
-			$name = mb_substr($name, 0, $pos);
+		} else {
+			$name = $file;
+			$ext = '';
+
+			if ($pos = mb_strrpos($name, '.')) {
+				$ext = mb_substr($name, $pos, (mb_strlen($name) - $pos));
+				$name = mb_substr($name, 0, $pos);
+			}
 		}
 
 		$target = $this->_directory . $name . $ext;
