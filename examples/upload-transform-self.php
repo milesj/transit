@@ -1,41 +1,25 @@
 <?php
 
-include_once '../File.php';
-include_once '../Transit.php';
-include_once '../Uploader.php';
-include_once '../transformers/Transformer.php';
-include_once '../transformers/TransformerAbstract.php';
-include_once '../transformers/CropTransformer.php';
-include_once '../transformers/FlipTransformer.php';
-include_once '../transformers/ResizeTransformer.php';
-include_once '../transformers/ScaleTransformer.php';
-
-function debug($v) {
-	echo '<pre>' . print_r($v, true) . '</pre>';
-}
+require_once 'include.php';
 
 if ($_FILES) {
 	$upload = new \mjohnson\transit\Uploader($_FILES['file']);
 	$upload->setDirectory(__DIR__ . '/tmp/');
 
 	if ($file = $upload->upload()) {
-		$file->rename(function($name) {
-			return md5($name);
-		});
-
 		$t1 = new \mjohnson\transit\transformers\CropTransformer($file, array('width' => 100, 'height' => 100));
 		$file = $t1->transform(true);
 
 		$t2 = new \mjohnson\transit\transformers\ScaleTransformer($file);
 		$file = $t2->transform(true);
 
-		debug($file->path());
+		debug($file);
 	}
 } ?>
 
 <!DOCTYPE html>
 <head>
-	<title>Upload Test</title>
+	<title>Transit - Upload + Self Transform</title>
 </head>
 <body>
 	<form action="" method="POST" enctype="multipart/form-data">

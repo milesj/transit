@@ -42,10 +42,11 @@ class Uploader extends Transit {
 	 * Upload the file to the target directory.
 	 *
 	 * @access public
+	 * @param boolean $overwrite
 	 * @return \mjohnson\transit\File
 	 * @throws \Exception
 	 */
-	public function upload() {
+	public function upload($overwrite = false) {
 		$data = $this->_data;
 
 		// Validate errors
@@ -70,7 +71,7 @@ class Uploader extends Transit {
 		}
 
 		// Upload the file
-		$target = $this->findTarget($data['name'], true);
+		$target = $this->findTarget($data['name'], $overwrite);
 
 		if (move_uploaded_file($data['tmp_name'], $target) || copy($data['tmp_name'], $target)) {
 			return new File($target);

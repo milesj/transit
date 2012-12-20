@@ -26,7 +26,7 @@ class Importer extends Transit {
 	 * @return \mjohnson\transit\File
 	 * @throws \Exception
 	 */
-	public function fromLocal($path, $overwrite = true, $delete = true) {
+	public function fromLocal($path, $overwrite = true, $delete = false) {
 		$file = new File($path);
 		$target = $this->findTarget($file, $overwrite);
 
