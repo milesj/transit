@@ -14,7 +14,7 @@ use \Exception;
  *
  * @package	mjohnson.transit
  */
-class Uploader extends Transit {
+class Uploader extends AbstractHandler {
 
 	/**
 	 * Form post data.

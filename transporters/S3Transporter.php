@@ -19,7 +19,7 @@ use \Exception;
  *
  * @package	mjohnson.transit.transporters
  */
-class S3Transporter extends TransporterAbstract {
+class S3Transporter extends AbstractTransporter {
 
 	/**
 	 * S3Client instance.

@@ -14,7 +14,7 @@ use \Exception;
  *
  * @package	mjohnson.transit
  */
-class Importer extends Transit {
+class Importer extends AbstractHandler {
 
 	/**
 	 * Copy a local file to the temp directory and return a File object.

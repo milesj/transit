@@ -12,7 +12,7 @@ namespace mjohnson\transit\transformers;
  *
  * @package	mjohnson.transit.transformers
  */
-class FlipTransformer extends TransformerAbstract {
+class FlipTransformer extends AbstractTransformer {
 
 	const VERTICAL = 'vertical';
 	const HORIZONTAL = 'horizontal';

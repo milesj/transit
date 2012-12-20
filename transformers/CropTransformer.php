@@ -12,7 +12,7 @@ namespace mjohnson\transit\transformers;
  *
  * @package	mjohnson.transit.transformers
  */
-class CropTransformer extends TransformerAbstract {
+class CropTransformer extends AbstractTransformer {
 
 	const TOP = 'top';
 	const BOTTOM = 'bottom';

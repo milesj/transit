@@ -12,7 +12,7 @@ namespace mjohnson\transit;
  *
  * @package	mjohnson.transit
  */
-class Transit {
+abstract class AbstractHandler {
 
 	/**
 	 * Temp directory.

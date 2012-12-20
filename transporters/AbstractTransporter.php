@@ -12,6 +12,6 @@ namespace mjohnson\transit\transporters;
  *
  * @package	mjohnson.transit.transporters
  */
-abstract class TransporterAbstract implements Transporter {
+abstract class AbstractTransporter implements Transporter {
 
 }

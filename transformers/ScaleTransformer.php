@@ -12,7 +12,7 @@ namespace mjohnson\transit\transformers;
  *
  * @package	mjohnson.transit.transformers
  */
-class ScaleTransformer extends TransformerAbstract {
+class ScaleTransformer extends AbstractTransformer {
 
 	/**
 	 * Configuration.

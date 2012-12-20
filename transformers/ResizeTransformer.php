@@ -12,7 +12,7 @@ namespace mjohnson\transit\transformers;
  *
  * @package	mjohnson.transit.transformers
  */
-class ResizeTransformer extends TransformerAbstract {
+class ResizeTransformer extends AbstractTransformer {
 
 	const WIDTH = 'width';
 	const HEIGHT = 'height';

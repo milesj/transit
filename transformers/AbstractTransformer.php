@@ -15,7 +15,7 @@ use \Exception;
  *
  * @package	mjohnson.transit.transformers
  */
-abstract class TransformerAbstract implements Transformer {
+abstract class AbstractTransformer implements Transformer {
 
 	/**
 	 * File object.
