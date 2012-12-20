@@ -21,6 +21,8 @@ use \Exception;
  */
 class S3Transporter extends AbstractTransporter {
 
+	const S3_URL = 'https://s3.amazonaws.com';
+
 	/**
 	 * S3Client instance.
 	 *
@@ -90,20 +92,24 @@ class S3Transporter extends AbstractTransporter {
 			throw new Exception('Please provide an S3 bucket.');
 		}
 
-		if ($this->_s3->putObject(array(
+		$args = array(
 			'Bucket' => $options['bucket'],
 			'ACL' => $options['acl'],
-			'Key' => $options['folder'] . $file->name(true),
+			'Key' => $options['folder'] . $file->basename(),
 			'Body' => fopen($file->path(), 'r'),
 			'ContentType' => $file->type(),
 			'ServerSideEncryption' => $options['encryption'],
 			'StorageClass' => $options['storage'],
 			'Metadata' => $options['meta']
-		))) {
-			return ''; // @todo FINAL URL
+		);
+
+		if ($response = $this->_s3->putObject($args)) {
+			if ($response->isSuccessful()) {
+				return sprintf('%s/%s/%s', self::S3_URL, $args['Bucket'], trim($args['Key'], '/'));
+			}
 		}
 
-		throw new Exception(sprintf('Failed to transport %s to Amazon S3.', $file->name(true)));
+		throw new Exception(sprintf('Failed to transport %s to Amazon S3.', $file->basename()));
 	}
 
 }

@@ -38,7 +38,7 @@ class Importer extends AbstractHandler {
 			return new File($target);
 		}
 
-		throw new Exception(sprintf('Failed to copy %s to new location.', $file->name(true)));
+		throw new Exception(sprintf('Failed to copy %s to new location.', $file->basename()));
 	}
 
 	/**

@@ -47,7 +47,7 @@ abstract class AbstractTransformer implements Transformer {
 		}
 
 		if (strpos($file->type(), 'image') !== 0) {
-			throw new Exception(sprintf('%s is not a valid image.', $file->name(true)));
+			throw new Exception(sprintf('%s is not a valid image.', $file->basename()));
 		}
 
 		$this->_file = $file;

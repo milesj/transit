@@ -19,7 +19,7 @@
 		"source": "https://github.com/milesj/php-transit"
 	},
 	"autoload": {
-		"psr-0": { "mjohnson\\transit": "" }
+		"psr-0": { "mjohnson\\transit": "src/" }
 	},
 	"target-dir": "mjohnson/transit"
 }

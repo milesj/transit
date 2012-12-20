@@ -29,6 +29,7 @@ class Uploader extends AbstractHandler {
 	 *
 	 * @access public
 	 * @param array $data
+	 * @throws \Exception
 	 */
 	public function __construct(array $data) {
 		if (empty($data['tmp_name'])) {
