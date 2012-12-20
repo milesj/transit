@@ -1,9 +1,20 @@
 <?php
+/**
+ * @copyright	Copyright 2006-2013, Miles Johnson - http://milesj.me
+ * @license		http://opensource.org/licenses/mit-license.php - Licensed under the MIT License
+ * @link		http://milesj.me/code/php/transit
+ */
 
 namespace mjohnson\transit;
 
 use \Exception;
 
+/**
+ * Handles the management of a single file on the file system.
+ * Can return detailed information on the file as well as moving and renaming.
+ *
+ * @package	mjohnson.transit
+ */
 class File {
 
 	/**
