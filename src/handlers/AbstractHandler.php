@@ -5,12 +5,14 @@
  * @link		http://milesj.me/code/php/transit
  */
 
-namespace mjohnson\transit;
+namespace mjohnson\transit\handlers;
+
+use mjohnson\transit\File;
 
 /**
  * Base class the handles shared functionality.
  *
- * @package	mjohnson.transit
+ * @package	mjohnson.transit.handlers
  */
 abstract class AbstractHandler {
 

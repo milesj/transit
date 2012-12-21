@@ -3,7 +3,7 @@
 require_once 'include.php';
 
 if ($_FILES) {
-	$upload = new \mjohnson\transit\Uploader($_FILES['file']);
+	$upload = new \mjohnson\transit\handlers\UploadHandler($_FILES['file']);
 	$upload->setDirectory(__DIR__ . '/tmp/');
 
 	if ($file = $upload->upload()) {
@@ -13,7 +13,7 @@ if ($_FILES) {
 
 		$file->move(__DIR__ . '/img/', false);
 
-		debug($file);
+		debug($file->toArray());
 	}
 } ?>
 

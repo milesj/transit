@@ -5,14 +5,15 @@
  * @link		http://milesj.me/code/php/transit
  */
 
-namespace mjohnson\transit;
+namespace mjohnson\transit\handlers;
 
+use mjohnson\transit\File;
 use \Exception;
 
 /**
  * Imports a file from a specific location. Either locally, remote or from a stream.
  *
- * @package	mjohnson.transit
+ * @package	mjohnson.transit.handlers
  */
 class ImportHandler extends AbstractHandler {
 

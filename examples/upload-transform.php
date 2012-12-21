@@ -3,17 +3,19 @@
 require_once 'include.php';
 
 if ($_FILES) {
-	$upload = new \mjohnson\transit\Uploader($_FILES['file']);
+	$upload = new \mjohnson\transit\handlers\UploadHandler($_FILES['file']);
 	$upload->setDirectory(__DIR__ . '/tmp/');
 
 	if ($file = $upload->upload()) {
-		debug($file);
+		debug($file->toArray());
 
 		$t1 = new \mjohnson\transit\transformers\ResizeTransformer($file, array('width' => 100, 'height' => 100));
-		debug($t1->transform());
+		$t1f = $t1->transform();
+		debug($t1f->toArray());
 
 		$t2 = new \mjohnson\transit\transformers\FlipTransformer($file);
-		debug($t2->transform());
+		$t2f = $t2->transform();
+		debug($t2f->toArray());
 	}
 } ?>
 

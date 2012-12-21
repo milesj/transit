@@ -5,14 +5,15 @@
  * @link		http://milesj.me/code/php/transit
  */
 
-namespace mjohnson\transit;
+namespace mjohnson\transit\handlers;
 
+use mjohnson\transit\File;
 use \Exception;
 
 /**
  * Handles the upload process for files.
  *
- * @package	mjohnson.transit
+ * @package	mjohnson.transit.handlers
  */
 class UploadHandler extends AbstractHandler {
 
