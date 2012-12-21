@@ -49,6 +49,16 @@ class File {
 	}
 
 	/**
+	 * Magic method for toString().
+	 *
+	 * @access public
+	 * @return string
+	 */
+	public function __toString() {
+		return $this->toString();
+	}
+
+	/**
 	 * Return the file name with extension.
 	 *
 	 * @access public
@@ -293,6 +303,36 @@ class File {
 		$this->_cache[__FUNCTION__] = $width;
 
 		return $width;
+	}
+
+	/**
+	 * Return all File information as an array.
+	 *
+	 * @access public
+	 * @return array
+	 */
+	public function toArray() {
+		return array(
+			'basename' => $this->basename(),
+			'directory' => $this->dir(),
+			'extension' => $this->ext(),
+			'name' => $this->name(),
+			'path' => $this->path(),
+			'size' => $this->size(),
+			'type' => $this->type(),
+			'height' => $this->height(),
+			'width' => $this->width()
+		);
+	}
+
+	/**
+	 * Return path when cast to string.
+	 *
+	 * @access public
+	 * @return string
+	 */
+	public function toString() {
+		return $this->path();
 	}
 
 }
