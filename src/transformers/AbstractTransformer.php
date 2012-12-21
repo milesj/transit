@@ -46,7 +46,7 @@ abstract class AbstractTransformer implements Transformer {
 			throw new Exception('GD image library is not installed.');
 		}
 
-		if (strpos($file->type(), 'image') !== 0) {
+		if (!$file->isImage()) {
 			throw new Exception(sprintf('%s is not a valid image.', $file->basename()));
 		}
 

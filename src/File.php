@@ -7,6 +7,7 @@
 
 namespace mjohnson\transit;
 
+use \Closure;
 use \Exception;
 
 /**
@@ -87,31 +88,32 @@ class File {
 	 * @return array
 	 */
 	public function dimensions() {
-		if (isset($this->_cache[__FUNCTION__])) {
-			return $this->_cache[__FUNCTION__];
-		}
+		return $this->_cache(__FUNCTION__, function() {
+			$dims = null;
 
-		$data = @getimagesize($this->_path);
-		$dims = null;
+			if (!$this->isImage()) {
+				return $dims;
+			}
 
-		if ($data && is_array($data)) {
-			$dims = array(
-				'width' => $data[0],
-				'height' => $data[1]
-			);
-		}
+			$data = @getimagesize($this->_path);
 
-		if (!$data) {
-			$image = @imagecreatefromstring(file_get_contents($this->_path));
-			$dims = array(
-				'width' => @imagesx($image),
-				'height' => @imagesy($image)
-			);
-		}
+			if ($data && is_array($data)) {
+				$dims = array(
+					'width' => $data[0],
+					'height' => $data[1]
+				);
+			}
 
-		$this->_cache[__FUNCTION__] = $dims;
+			if (!$data) {
+				$image = @imagecreatefromstring(file_get_contents($this->_path));
+				$dims = array(
+					'width' => @imagesx($image),
+					'height' => @imagesy($image)
+				);
+			}
 
-		return $dims;
+			return $dims;
+		});
 	}
 
 	/**
@@ -138,22 +140,82 @@ class File {
 	 * Return the image height.
 	 *
 	 * @access public
-	 * @return string
+	 * @return int
 	 */
 	public function height() {
-		if (isset($this->_cache[__FUNCTION__])) {
-			return $this->_cache[__FUNCTION__];
-		}
+		return $this->_cache(__FUNCTION__, function() {
+			if (!$this->isImage()) {
+				return null;
+			}
 
-		$height = 0;
+			$height = 0;
 
-		if ($dims = $this->dimensions()) {
-			$height = $dims['height'];
-		}
+			if ($dims = $this->dimensions()) {
+				$height = $dims['height'];
+			}
 
-		$this->_cache[__FUNCTION__] = $height;
+			return $height;
+		});
+	}
 
-		return $height;
+	/**
+	 * Return true if the file is an application.
+	 *
+	 * @access public
+	 * @return boolean
+	 */
+	public function isApp() {
+		return $this->_is('app');
+	}
+
+	/**
+	 * Return true if the file is an archive.
+	 *
+	 * @access public
+	 * @return boolean
+	 */
+	public function isArchive() {
+		return $this->_is('archive');
+	}
+
+	/**
+	 * Return true if the file is an audio.
+	 *
+	 * @access public
+	 * @return boolean
+	 */
+	public function isAudio() {
+		return $this->_is('audio');
+	}
+
+	/**
+	 * Return true if the file is an image.
+	 *
+	 * @access public
+	 * @return boolean
+	 */
+	public function isImage() {
+		return $this->_is('image');
+	}
+
+	/**
+	 * Return true if the file is a text.
+	 *
+	 * @access public
+	 * @return boolean
+	 */
+	public function isText() {
+		return $this->_is('text');
+	}
+
+	/**
+	 * Return true if the file is a video.
+	 *
+	 * @access public
+	 * @return boolean
+	 */
+	public function isVideo() {
+		return $this->_is('video');
 	}
 
 	/**
@@ -268,41 +330,35 @@ class File {
 	 * @return string
 	 */
 	public function type() {
-		if (isset($this->_cache[__FUNCTION__])) {
-			return $this->_cache[__FUNCTION__];
-		}
+		return $this->_cache(__FUNCTION__, function() {
+			$file = finfo_open(FILEINFO_MIME_TYPE);
+			$type = finfo_file($file, $this->_path);
+			finfo_close($file);
 
-		$f = finfo_open(FILEINFO_MIME);
-
-		list($type, $charset) = explode(';', finfo_file($f, $this->_path));
-
-		finfo_close($f);
-
-		$this->_cache[__FUNCTION__] = $type;
-
-		return $type;
+			return $type;
+		});
 	}
 
 	/**
 	 * Return the image width.
 	 *
 	 * @access public
-	 * @return string
+	 * @return int
 	 */
 	public function width() {
-		if (isset($this->_cache[__FUNCTION__])) {
-			return $this->_cache[__FUNCTION__];
-		}
+		return $this->_cache(__FUNCTION__, function() {
+			if (!$this->isImage()) {
+				return null;
+			}
 
-		$width = 0;
+			$width = 0;
 
-		if ($dims = $this->dimensions()) {
-			$width = $dims['width'];
-		}
+			if ($dims = $this->dimensions()) {
+				$width = $dims['width'];
+			}
 
-		$this->_cache[__FUNCTION__] = $width;
-
-		return $width;
+			return $width;
+		});
 	}
 
 	/**
@@ -333,6 +389,37 @@ class File {
 	 */
 	public function toString() {
 		return $this->path();
+	}
+
+	/**
+	 * Cache the results of a callback.
+	 *
+	 * @access protected
+	 * @param string $key
+	 * @param callable $callback
+	 * @return mixed
+	 */
+	protected function _cache($key, Closure $callback) {
+		if (isset($this->_cache[$key])) {
+			return $this->_cache[$key];
+		}
+
+		Closure::bind($callback, $this, __CLASS__);
+
+		$this->_cache[$key] = $callback();
+
+		return $this->_cache[$key];
+	}
+
+	/**
+	 * Return true if the grouping is found within the mime type.
+	 *
+	 * @access protected
+	 * @param string $type
+	 * @return boolean
+	 */
+	protected function _is($type) {
+		return (strpos($this->type(), $type) === 0);
 	}
 
 }
