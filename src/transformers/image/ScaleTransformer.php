@@ -5,14 +5,14 @@
  * @link		http://milesj.me/code/php/transit
  */
 
-namespace mjohnson\transit\transformers;
+namespace mjohnson\transit\transformers\image;
 
 /**
  * Scale the image based on a percentage.
  *
- * @package	mjohnson.transit.transformers
+ * @package	mjohnson.transit.transformers.image
  */
-class ScaleTransformer extends AbstractTransformer {
+class ScaleTransformer extends AbstractImageTransformer {
 
 	/**
 	 * Configuration.
@@ -29,19 +29,19 @@ class ScaleTransformer extends AbstractTransformer {
 	 * Calculate the transformation options and process.
 	 *
 	 * @access public
-	 * @param boolean $overwrite
-	 * @return string
+	 * @param boolean $self
+	 * @return \mjohnson\transit\File
 	 */
-	public function transform($overwrite = false) {
+	public function transform($self = false) {
 		$config = $this->_config;
-		$width = round($this->_file->width() * $config['percent']);
-		$height = round($this->_file->height() * $config['percent']);
+		$width = round($this->getFile()->width() * $config['percent']);
+		$height = round($this->getFile()->height() * $config['percent']);
 
 		return $this->process(array(
 			'dest_w'	=> $width,
 			'dest_h'	=> $height,
 			'quality'	=> $config['quality'],
-			'overwrite'	=> $overwrite
+			'overwrite'	=> $self
 		));
 	}
 

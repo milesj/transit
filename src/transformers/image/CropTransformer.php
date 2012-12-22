@@ -5,14 +5,16 @@
  * @link		http://milesj.me/code/php/transit
  */
 
-namespace mjohnson\transit\transformers;
+namespace mjohnson\transit\transformers\image;
+
+use \Exception;
 
 /**
  * Crops a photo, but resizes and keeps aspect ratio depending on which side is larger.
  *
- * @package	mjohnson.transit.transformers
+ * @package	mjohnson.transit.transformers.image
  */
-class CropTransformer extends AbstractTransformer {
+class CropTransformer extends AbstractImageTransformer {
 
 	const TOP = 'top';
 	const BOTTOM = 'bottom';
@@ -37,13 +39,14 @@ class CropTransformer extends AbstractTransformer {
 	 * Calculate the transformation options and process.
 	 *
 	 * @access public
-	 * @param boolean $overwrite
-	 * @return string
+	 * @param boolean $self
+	 * @return \mjohnson\transit\File
+	 * @throws \Exception
 	 */
-	public function transform($overwrite = false) {
+	public function transform($self = false) {
 		$config = $this->_config;
-		$baseWidth = $this->_file->width();
-		$baseHeight = $this->_file->height();
+		$baseWidth = $this->getFile()->width();
+		$baseHeight = $this->getFile()->height();
 		$width = $config['width'];
 		$height = $config['height'];
 
@@ -54,7 +57,7 @@ class CropTransformer extends AbstractTransformer {
 			$width = round(($baseWidth / $baseHeight) * $height);
 
 		} else if (!is_numeric($height) && !is_numeric($width)) {
-			return null;
+			throw new Exception('Invalid width and height for crop.');
 		}
 
 		$location = $config['location'];
@@ -100,7 +103,7 @@ class CropTransformer extends AbstractTransformer {
 			'source_w'	=> $src_w,
 			'source_h'	=> $src_h,
 			'quality'	=> $config['quality'],
-			'overwrite'	=> $overwrite
+			'overwrite'	=> $self
 		));
 	}
 

@@ -5,14 +5,16 @@
  * @link		http://milesj.me/code/php/transit
  */
 
-namespace mjohnson\transit\transformers;
+namespace mjohnson\transit\transformers\image;
+
+use \Exception;
 
 /**
  * Resizes an image to new dimensions.
  *
- * @package	mjohnson.transit.transformers
+ * @package	mjohnson.transit.transformers.image
  */
-class ResizeTransformer extends AbstractTransformer {
+class ResizeTransformer extends AbstractImageTransformer {
 
 	const WIDTH = 'width';
 	const HEIGHT = 'height';
@@ -36,13 +38,14 @@ class ResizeTransformer extends AbstractTransformer {
 	 * Calculate the transformation options and process.
 	 *
 	 * @access public
-	 * @param boolean $overwrite
-	 * @return string
+	 * @param boolean $self
+	 * @return \mjohnson\transit\File
+	 * @throws \Exception
 	 */
-	public function transform($overwrite = false) {
+	public function transform($self = false) {
 		$config = $this->_config;
-		$baseWidth = $this->_file->width();
-		$baseHeight = $this->_file->height();
+		$baseWidth = $this->getFile()->width();
+		$baseHeight = $this->getFile()->height();
 		$width = $config['width'];
 		$height = $config['height'];
 		$newWidth = null;
@@ -55,7 +58,7 @@ class ResizeTransformer extends AbstractTransformer {
 			$width = round(($baseWidth / $baseHeight) * $height);
 
 		} else if (!is_numeric($height) && !is_numeric($width)) {
-			return null;
+			throw new Exception('Invalid width and height for resize.');
 		}
 
 		// Maintains the aspect ratio of the image
@@ -95,7 +98,7 @@ class ResizeTransformer extends AbstractTransformer {
 			'dest_w'	=> $newWidth,
 			'dest_h'	=> $newHeight,
 			'quality'	=> $config['quality'],
-			'overwrite'	=> $overwrite
+			'overwrite'	=> $self
 		));
 	}
 

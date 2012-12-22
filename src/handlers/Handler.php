@@ -7,25 +7,13 @@
 
 namespace mjohnson\transit\handlers;
 
-use mjohnson\transit\File;
-
 /**
- * Base class the handles shared functionality.
+ * Interface for all handlers to implement.
  *
  * @package	mjohnson.transit.handlers
  */
-abstract class AbstractHandler {
+interface Handler {
 
-	/**
-	 * Temp directory.
-	 *
-	 * @access protected
-	 * @var string
-	 */
-	protected $_directory = __DIR__;
-
-
-
-
+	public function process();
 
 }

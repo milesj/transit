@@ -5,14 +5,16 @@
  * @link		http://milesj.me/code/php/transit
  */
 
-namespace mjohnson\transit\transformers;
+namespace mjohnson\transit\transformers\image;
+
+use \Exception;
 
 /**
  * Flips an image in 3 possible directions: vertical, horizontal, or both.
  *
- * @package	mjohnson.transit.transformers
+ * @package	mjohnson.transit.transformers.image
  */
-class FlipTransformer extends AbstractTransformer {
+class FlipTransformer extends AbstractImageTransformer {
 
 	const VERTICAL = 'vertical';
 	const HORIZONTAL = 'horizontal';
@@ -33,13 +35,14 @@ class FlipTransformer extends AbstractTransformer {
 	 * Calculate the transformation options and process.
 	 *
 	 * @access public
-	 * @param boolean $overwrite
-	 * @return string
+	 * @param boolean $self
+	 * @return \mjohnson\transit\File
+	 * @throws \Exception
 	 */
-	public function transform($overwrite = false) {
+	public function transform($self = false) {
 		$config = $this->_config;
-		$width = $this->_file->width();
-		$height = $this->_file->height();
+		$width = $this->getFile()->width();
+		$height = $this->getFile()->height();
 		$src_x = 0;
 		$src_y = 0;
 		$src_w = $width;
@@ -61,7 +64,7 @@ class FlipTransformer extends AbstractTransformer {
 				$src_h = -$height;
 			break;
 			default:
-				return null;
+				throw new Exception(sprintf('Invalid flip direction %s.', $config['direction']));
 			break;
 		}
 
@@ -73,8 +76,8 @@ class FlipTransformer extends AbstractTransformer {
 			'source_w'	=> $src_w,
 			'source_h'	=> $src_h,
 			'quality'	=> $config['quality'],
-			'overwrite'	=> $overwrite,
-			'target'	=> sprintf('%s-%s', $this->_file->name(), $config['direction'])
+			'overwrite'	=> $self,
+			'target'	=> sprintf('%s-%s', $this->getFile()->name(), $config['direction'])
 		));
 	}
 

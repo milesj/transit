@@ -7,12 +7,31 @@
 
 namespace mjohnson\transit\transformers;
 
+use mjohnson\transit\File;
+
 /**
  * Interface for all transformers to implement.
  *
  * @package	mjohnson.transit.transformers
  */
 interface Transformer {
+
+	/**
+	 * Return the File object.
+	 *
+	 * @access public
+	 * @return \mjohnson\transit\File
+	 */
+	public function getFile();
+
+	/**
+	 * Set the File object.
+	 *
+	 * @access public
+	 * @param \mjohnson\transit\File $file
+	 * @return \mjohnson\transit\transformers\Transformer
+	 */
+	public function setFile(File $file);
 
 	/**
 	 * Transform the image using the defined options.
@@ -27,9 +46,9 @@ interface Transformer {
 	 * Calculate the transformation options and process.
 	 *
 	 * @access public
-	 * @param boolean $overwrite
-	 * @return string
+	 * @param boolean $self
+	 * @return \mjohnson\transit\File
 	 */
-	public function transform($overwrite = false);
+	public function transform($self = false);
 
 }
