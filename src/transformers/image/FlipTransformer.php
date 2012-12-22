@@ -7,7 +7,7 @@
 
 namespace mjohnson\transit\transformers\image;
 
-use \Exception;
+use \InvalidArgumentException;
 
 /**
  * Flips an image in 3 possible directions: vertical, horizontal, or both.
@@ -37,7 +37,7 @@ class FlipTransformer extends AbstractImageTransformer {
 	 * @access public
 	 * @param boolean $self
 	 * @return \mjohnson\transit\File
-	 * @throws \Exception
+	 * @throws \InvalidArgumentException
 	 */
 	public function transform($self = false) {
 		$config = $this->_config;
@@ -64,7 +64,7 @@ class FlipTransformer extends AbstractImageTransformer {
 				$src_h = -$height;
 			break;
 			default:
-				throw new Exception(sprintf('Invalid flip direction %s', $config['direction']));
+				throw new InvalidArgumentException(sprintf('Invalid flip direction %s', $config['direction']));
 			break;
 		}
 

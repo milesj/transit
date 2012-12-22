@@ -2,10 +2,15 @@
 
 namespace mjohnson\transit;
 
+use mjohnson\transit\exceptions\IoException;
+use mjohnson\transit\exceptions\TransformationException;
+use mjohnson\transit\exceptions\ValidationException;
 use mjohnson\transit\transformers\Transformer;
 use mjohnson\transit\transporters\Transporter;
 use mjohnson\transit\validators\Validator;
 use \Exception;
+use \RuntimeException;
+use \InvalidArgumentException;
 
 class Transit {
 
@@ -183,7 +188,7 @@ class Transit {
 	 * @param boolean $overwrite
 	 * @param boolean $delete
 	 * @return boolean
-	 * @throws \Exception
+	 * @throws \mjohnson\transit\exceptions\IoException
 	 */
 	public function importFromLocal($overwrite = true, $delete = false) {
 		$path = $this->_data;
@@ -200,7 +205,7 @@ class Transit {
 			return true;
 		}
 
-		throw new Exception(sprintf('Failed to copy %s to new location', $file->basename()));
+		throw new IoException(sprintf('Failed to copy %s to new location', $file->basename()));
 	}
 
 	/**
@@ -209,11 +214,12 @@ class Transit {
 	 * @access public
 	 * @param boolean $overwrite
 	 * @return boolean
-	 * @throws \Exception
+	 * @throws \mjohnson\transit\exceptions\IoException
+	 * @throws \RuntimeException
 	 */
 	public function importFromRemote($overwrite = true) {
 		if (!function_exists('curl_init')) {
-			throw new Exception('The cURL module is required for remote file importing');
+			throw new RuntimeException('The cURL module is required for remote file importing');
 		}
 
 		$url = $this->_data;
@@ -235,7 +241,7 @@ class Transit {
 			return true;
 		}
 
-		throw new Exception(sprintf('Failed to import %s from remote location', basename($target)));
+		throw new IoException(sprintf('Failed to import %s from remote location', basename($target)));
 	}
 
 	/**
@@ -245,13 +251,13 @@ class Transit {
 	 * @access public
 	 * @param boolean $overwrite
 	 * @return boolean
-	 * @throws \Exception
+	 * @throws \mjohnson\transit\exceptions\IoException
 	 */
 	public function importFromStream($overwrite = true) {
 		$field = $this->_data;
 
 		if (empty($_GET[$field])) {
-			throw new Exception(sprintf('%s was not found in the input stream', $field));
+			throw new IoException(sprintf('%s was not found in the input stream', $field));
 		}
 
 		$target = $this->findDestination($_GET[$field], $overwrite);
@@ -324,7 +330,8 @@ class Transit {
 	 * @access public
 	 * @param boolean $rollback
 	 * @return boolean
-	 * @throws \Exception
+	 * @throws \mjohnson\transit\exceptions\IoException
+	 * @throws \mjohnson\transit\exceptions\TransformationException
 	 */
 	public function transform($rollback = true) {
 		$originalFile = $this->getOriginalFile();
@@ -332,7 +339,7 @@ class Transit {
 		$error = null;
 
 		if (!$originalFile) {
-			throw new Exception('No original file detected');
+			throw new IoException('No original file detected');
 		}
 
 		// Create transformed files based off original
@@ -375,7 +382,7 @@ class Transit {
 				$this->_file = null;
 			}
 
-			throw new Exception($error);
+			throw new TransformationException($error);
 		}
 
 		$this->_file = $originalFile;
@@ -389,11 +396,11 @@ class Transit {
 	 *
 	 * @access public
 	 * @param boolean $rollback
-	 * @throws \Exception
+	 * @throws \InvalidArgumentException
 	 */
 	public function transport($rollback = true) {
 		if (!$this->_transporter) {
-			throw new Exception('No Transporter has been defined');
+			throw new InvalidArgumentException('No Transporter has been defined');
 		}
 	}
 
@@ -403,13 +410,13 @@ class Transit {
 	 * @access public
 	 * @param boolean $overwrite
 	 * @return boolean
-	 * @throws \Exception
+	 * @throws \mjohnson\transit\exceptions\ValidationException
 	 */
 	public function upload($overwrite = false) {
 		$data = $this->_data;
 
 		if (empty($data['tmp_name'])) {
-			throw new Exception('Invalid file detected for upload');
+			throw new ValidationException('Invalid file detected for upload');
 		}
 
 		// Check upload errors
@@ -430,7 +437,7 @@ class Transit {
 				break;
 			}
 
-			throw new Exception($error);
+			throw new ValidationException($error);
 		}
 
 		// Validate rules
@@ -449,7 +456,7 @@ class Transit {
 			return true;
 		}
 
-		throw new Exception('An unknown error has occurred');
+		throw new ValidationException('An unknown error has occurred');
 	}
 
 }

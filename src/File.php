@@ -7,8 +7,8 @@
 
 namespace mjohnson\transit;
 
+use mjohnson\transit\exceptions\IoException;
 use \Closure;
-use \Exception;
 
 /**
  * Handles the management of a single file on the file system.
@@ -39,11 +39,11 @@ class File {
 	 *
 	 * @access public
 	 * @param string $path
-	 * @throws \Exception
+	 * @throws \mjohnson\transit\exceptions\IoException
 	 */
 	public function __construct($path) {
 		if (!file_exists($path)) {
-			throw new Exception(sprintf('%s does not exist', $path));
+			throw new IoException(sprintf('%s does not exist', $path));
 		}
 
 		$this->_path = $path;

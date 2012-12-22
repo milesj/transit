@@ -7,7 +7,7 @@
 
 namespace mjohnson\transit\transformers\image;
 
-use \Exception;
+use \InvalidArgumentException;
 
 /**
  * Resizes an image to new dimensions.
@@ -40,7 +40,7 @@ class ResizeTransformer extends AbstractImageTransformer {
 	 * @access public
 	 * @param boolean $self
 	 * @return \mjohnson\transit\File
-	 * @throws \Exception
+	 * @throws \InvalidArgumentException
 	 */
 	public function transform($self = false) {
 		$config = $this->_config;
@@ -58,7 +58,7 @@ class ResizeTransformer extends AbstractImageTransformer {
 			$width = round(($baseWidth / $baseHeight) * $height);
 
 		} else if (!is_numeric($height) && !is_numeric($width)) {
-			throw new Exception('Invalid width and height for resize');
+			throw new InvalidArgumentException('Invalid width and height for resize');
 		}
 
 		// Maintains the aspect ratio of the image

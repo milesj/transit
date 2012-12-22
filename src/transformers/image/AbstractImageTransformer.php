@@ -9,7 +9,8 @@ namespace mjohnson\transit\transformers\image;
 
 use mjohnson\transit\File;
 use mjohnson\transit\transformers\AbstractTransformer;
-use \Exception;
+use \DomainException;
+use \RuntimeException;
 
 /**
  * Provides shared functionality for transformers.
@@ -24,15 +25,16 @@ abstract class AbstractImageTransformer extends AbstractTransformer {
 	 * @access public
 	 * @param \mjohnson\transit\File $file
 	 * @return \mjohnson\transit\transformers\Transformer
-	 * @throws \Exception
+	 * @throws \RuntimeException
+	 * @throws \DomainException
 	 */
 	public function setFile(File $file) {
 		if (!extension_loaded('gd')) {
-			throw new Exception('GD image library is not installed');
+			throw new RuntimeException('GD image library is not installed');
 		}
 
 		if (!$file->isImage()) {
-			throw new Exception(sprintf('%s is not a valid image', $file->basename()));
+			throw new DomainException(sprintf('%s is not a valid image', $file->basename()));
 		}
 
 		return parent::setFile($file);
@@ -44,7 +46,7 @@ abstract class AbstractImageTransformer extends AbstractTransformer {
 	 * @access public
 	 * @param array $options
 	 * @return \mjohnson\transit\File
-	 * @throws \Exception
+	 * @throws \DomainException
 	 */
 	public function process(array $options) {
 		$file = $this->getFile();
@@ -79,7 +81,7 @@ abstract class AbstractImageTransformer extends AbstractTransformer {
 				$sourceImage = imagecreatefromjpeg($sourcePath);
 			break;
 			default:
-				throw new Exception(sprintf('%s can not be transformed', $mimeType));
+				throw new DomainException(sprintf('%s can not be transformed', $mimeType));
 			break;
 		}
 

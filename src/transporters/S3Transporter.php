@@ -8,11 +8,12 @@
 namespace mjohnson\transit\transporters;
 
 use mjohnson\transit\File;
+use mjohnson\transit\exceptions\TransportationException;
 use Aws\S3\S3Client;
 use Aws\S3\Enum\CannedAcl;
 use Aws\S3\Enum\Storage;
 use Aws\Common\Enum\Region;
-use \Exception;
+use \InvalidArgumentException;
 
 /**
  * @todo
@@ -54,13 +55,13 @@ class S3Transporter extends AbstractTransporter {
 	 * @param string $path
 	 * @param array $options
 	 * @return boolean
-	 * @throws \Exception
+	 * @throws \InvalidArgumentException
 	 */
 	public function delete($path, array $options = array()) {
 		$options = $options + array('bucket' => '');
 
 		if (!$options['bucket']) {
-			throw new Exception('Please provide an S3 bucket');
+			throw new InvalidArgumentException('Please provide an S3 bucket');
 		}
 
 		return (bool) $this->_s3->deleteObject(array(
@@ -76,7 +77,8 @@ class S3Transporter extends AbstractTransporter {
 	 * @param \mjohnson\transit\File $file
 	 * @param array $options
 	 * @return string
-	 * @throws \Exception
+	 * @throws \mjohnson\transit\exceptions\TransportationException
+	 * @throws \InvalidArgumentException
 	 */
 	public function transport(File $file, array $options = array()) {
 		$options = $options + array(
@@ -89,7 +91,7 @@ class S3Transporter extends AbstractTransporter {
 		);
 
 		if (!$options['bucket']) {
-			throw new Exception('Please provide an S3 bucket');
+			throw new InvalidArgumentException('Please provide an S3 bucket');
 		}
 
 		$args = array(
@@ -109,7 +111,7 @@ class S3Transporter extends AbstractTransporter {
 			}
 		}
 
-		throw new Exception(sprintf('Failed to transport %s to Amazon S3', $file->basename()));
+		throw new TransportationException(sprintf('Failed to transport %s to Amazon S3', $file->basename()));
 	}
 
 }

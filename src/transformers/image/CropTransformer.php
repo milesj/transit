@@ -7,7 +7,7 @@
 
 namespace mjohnson\transit\transformers\image;
 
-use \Exception;
+use \InvalidArgumentException;
 
 /**
  * Crops a photo, but resizes and keeps aspect ratio depending on which side is larger.
@@ -41,7 +41,7 @@ class CropTransformer extends AbstractImageTransformer {
 	 * @access public
 	 * @param boolean $self
 	 * @return \mjohnson\transit\File
-	 * @throws \Exception
+	 * @throws \InvalidArgumentException
 	 */
 	public function transform($self = false) {
 		$config = $this->_config;
@@ -57,7 +57,7 @@ class CropTransformer extends AbstractImageTransformer {
 			$width = round(($baseWidth / $baseHeight) * $height);
 
 		} else if (!is_numeric($height) && !is_numeric($width)) {
-			throw new Exception('Invalid width and height for crop');
+			throw new InvalidArgumentException('Invalid width and height for crop');
 		}
 
 		$location = $config['location'];

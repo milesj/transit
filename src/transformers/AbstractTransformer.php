@@ -8,7 +8,6 @@
 namespace mjohnson\transit\transformers;
 
 use mjohnson\transit\File;
-use \Exception;
 
 /**
  * Provides shared functionality for transformers.

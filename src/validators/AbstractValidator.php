@@ -8,7 +8,10 @@
 namespace mjohnson\transit\validators;
 
 use mjohnson\transit\File;
+use mjohnson\transit\exceptions\IoException;
+use mjohnson\transit\exceptions\ValidationException;
 use \Exception;
+use \BadMethodCallException;
 
 /**
  * Provides basic file validation functionality.
@@ -112,7 +115,9 @@ abstract class AbstractValidator implements Validator {
 	 *
 	 * @access public
 	 * @return boolean
-	 * @throws \Exception
+	 * @throws \mjohnson\transit\exceptions\IoException
+	 * @throws \mjohnson\transit\exceptions\ValidationException
+	 * @throws \BadMethodCallException
 	 */
 	public function validate() {
 		if (!$this->_rules) {
@@ -120,16 +125,16 @@ abstract class AbstractValidator implements Validator {
 		}
 
 		if (!$this->_file) {
-			throw new Exception('No file present for validation');
+			throw new IoException('No file present for validation');
 		}
 
 		foreach ($this->_rules as $method => $rule) {
 			if (!method_exists($this, $method)) {
-				throw new Exception(sprintf('Validation method %s does not exist', $method));
+				throw new BadMethodCallException(sprintf('Validation method %s does not exist', $method));
 			}
 
 			if (!call_user_func_array(array($this, $method), $rule['params'])) {
-				throw new Exception($rule['message']);
+				throw new ValidationException($rule['message']);
 			}
 		}
 
