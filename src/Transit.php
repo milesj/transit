@@ -175,8 +175,96 @@ class Transit {
 		return $this->_files;
 	}
 
-	public function import($overwrite = false) {
+	/**
+	 * Copy a local file to the temp directory and return a File object.
+	 *
+	 * @access public
+	 * @param boolean $overwrite
+	 * @param boolean $delete
+	 * @return boolean
+	 * @throws \Exception
+	 */
+	public function importFromLocal($overwrite = true, $delete = false) {
+		$path = $this->_data;
+		$file = new File($path);
+		$target = $this->findDestination($file, $overwrite);
 
+		if (copy($path, $target)) {
+			if ($delete) {
+				$file->delete();
+			}
+
+			$this->_data = new File($target);
+
+			return true;
+		}
+
+		throw new Exception(sprintf('Failed to copy %s to new location.', $file->basename()));
+	}
+
+	/**
+	 * Copy a remote file to the temp directory and return a File object.
+	 *
+	 * @access public
+	 * @param boolean $overwrite
+	 * @return boolean
+	 * @throws \Exception
+	 */
+	public function importFromRemote($overwrite = true) {
+		if (!function_exists('curl_init')) {
+			throw new Exception('The cURL module is required for remote file importing.');
+		}
+
+		$url = $this->_data;
+		$name = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_BASENAME);
+
+		// Fetch the remote file
+		$curl = curl_init($url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+		$response = curl_exec($curl);
+		curl_close($curl);
+
+		// Save the file locally
+		$target = $this->findDestination($name, $overwrite);
+
+		if (file_put_contents($target, $response)) {
+			$this->_file = new File($target);
+
+			return true;
+		}
+
+		throw new Exception(sprintf('Failed to import %s from remote location.', basename($target)));
+	}
+
+	/**
+	 * Copy a file from the input stream into the temp directory and return a File object.
+	 * Primarily used for Javascript AJAX file uploads.
+	 *
+	 * @access public
+	 * @param boolean $overwrite
+	 * @return boolean
+	 * @throws \Exception
+	 */
+	public function importFromStream($overwrite = true) {
+		$field = $this->_data;
+
+		if (empty($_GET[$field])) {
+			throw new Exception(sprintf('%s was not found in the input stream.', $field));
+		}
+
+		$target = $this->findDestination($_GET[$field], $overwrite);
+		$input = fopen('php://input', 'r');
+		$output = fopen($target, 'w');
+
+		stream_copy_to_stream($input, $output);
+
+		fclose($input);
+		fclose($output);
+
+		$this->_file = new File($target);
+
+		return true;
 	}
 
 	/**
