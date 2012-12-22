@@ -57,7 +57,7 @@ class CropTransformer extends AbstractImageTransformer {
 			$width = round(($baseWidth / $baseHeight) * $height);
 
 		} else if (!is_numeric($height) && !is_numeric($width)) {
-			throw new Exception('Invalid width and height for crop.');
+			throw new Exception('Invalid width and height for crop');
 		}
 
 		$location = $config['location'];

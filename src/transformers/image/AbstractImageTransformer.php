@@ -28,11 +28,11 @@ abstract class AbstractImageTransformer extends AbstractTransformer {
 	 */
 	public function setFile(File $file) {
 		if (!extension_loaded('gd')) {
-			throw new Exception('GD image library is not installed.');
+			throw new Exception('GD image library is not installed');
 		}
 
 		if (!$file->isImage()) {
-			throw new Exception(sprintf('%s is not a valid image.', $file->basename()));
+			throw new Exception(sprintf('%s is not a valid image', $file->basename()));
 		}
 
 		return parent::setFile($file);
@@ -79,7 +79,7 @@ abstract class AbstractImageTransformer extends AbstractTransformer {
 				$sourceImage = imagecreatefromjpeg($sourcePath);
 			break;
 			default:
-				throw new Exception(sprintf('%s can not be transformed.', $mimeType));
+				throw new Exception(sprintf('%s can not be transformed', $mimeType));
 			break;
 		}
 

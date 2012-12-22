@@ -64,7 +64,7 @@ class FlipTransformer extends AbstractImageTransformer {
 				$src_h = -$height;
 			break;
 			default:
-				throw new Exception(sprintf('Invalid flip direction %s.', $config['direction']));
+				throw new Exception(sprintf('Invalid flip direction %s', $config['direction']));
 			break;
 		}
 

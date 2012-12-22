@@ -60,7 +60,7 @@ class S3Transporter extends AbstractTransporter {
 		$options = $options + array('bucket' => '');
 
 		if (!$options['bucket']) {
-			throw new Exception('Please provide an S3 bucket.');
+			throw new Exception('Please provide an S3 bucket');
 		}
 
 		return (bool) $this->_s3->deleteObject(array(
@@ -89,7 +89,7 @@ class S3Transporter extends AbstractTransporter {
 		);
 
 		if (!$options['bucket']) {
-			throw new Exception('Please provide an S3 bucket.');
+			throw new Exception('Please provide an S3 bucket');
 		}
 
 		$args = array(
@@ -109,7 +109,7 @@ class S3Transporter extends AbstractTransporter {
 			}
 		}
 
-		throw new Exception(sprintf('Failed to transport %s to Amazon S3.', $file->basename()));
+		throw new Exception(sprintf('Failed to transport %s to Amazon S3', $file->basename()));
 	}
 
 }

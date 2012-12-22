@@ -4,6 +4,7 @@ namespace mjohnson\transit;
 
 use mjohnson\transit\transformers\Transformer;
 use mjohnson\transit\transporters\Transporter;
+use mjohnson\transit\validators\Validator;
 use \Exception;
 
 class Transit {
@@ -68,7 +69,7 @@ class Transit {
 	 * Validator instance.
 	 *
 	 * @access protected
-	 * @var \mjohnson\transit\Validator
+	 * @var \mjohnson\transit\validators\Validator
 	 */
 	protected $_validator;
 
@@ -199,7 +200,7 @@ class Transit {
 			return true;
 		}
 
-		throw new Exception(sprintf('Failed to copy %s to new location.', $file->basename()));
+		throw new Exception(sprintf('Failed to copy %s to new location', $file->basename()));
 	}
 
 	/**
@@ -212,7 +213,7 @@ class Transit {
 	 */
 	public function importFromRemote($overwrite = true) {
 		if (!function_exists('curl_init')) {
-			throw new Exception('The cURL module is required for remote file importing.');
+			throw new Exception('The cURL module is required for remote file importing');
 		}
 
 		$url = $this->_data;
@@ -234,7 +235,7 @@ class Transit {
 			return true;
 		}
 
-		throw new Exception(sprintf('Failed to import %s from remote location.', basename($target)));
+		throw new Exception(sprintf('Failed to import %s from remote location', basename($target)));
 	}
 
 	/**
@@ -250,7 +251,7 @@ class Transit {
 		$field = $this->_data;
 
 		if (empty($_GET[$field])) {
-			throw new Exception(sprintf('%s was not found in the input stream.', $field));
+			throw new Exception(sprintf('%s was not found in the input stream', $field));
 		}
 
 		$target = $this->findDestination($_GET[$field], $overwrite);
@@ -305,6 +306,19 @@ class Transit {
 	}
 
 	/**
+	 * Set the Validator.
+	 *
+	 * @access public
+	 * @param \mjohnson\transit\validators\Validator $validator
+	 * @return \mjohnson\transit\Transit
+	 */
+	public function setValidator(Validator $validator) {
+		$this->_validator = $validator;
+
+		return $this;
+	}
+
+	/**
 	 * Apply transformations to the original file and generate new transformed files.
 	 *
 	 * @access public
@@ -318,7 +332,7 @@ class Transit {
 		$error = null;
 
 		if (!$originalFile) {
-			throw new Exception('No original file detected.');
+			throw new Exception('No original file detected');
 		}
 
 		// Create transformed files based off original
@@ -379,7 +393,7 @@ class Transit {
 	 */
 	public function transport($rollback = true) {
 		if (!$this->_transporter) {
-			throw new Exception('No Transporter has been defined.');
+			throw new Exception('No Transporter has been defined');
 		}
 	}
 
@@ -395,28 +409,35 @@ class Transit {
 		$data = $this->_data;
 
 		if (empty($data['tmp_name'])) {
-			throw new Exception('Invalid file detected for upload.');
+			throw new Exception('Invalid file detected for upload');
 		}
 
-		// Validate errors
+		// Check upload errors
 		if ($data['error'] > 0 || !is_uploaded_file($data['tmp_name']) || !is_file($data['tmp_name'])) {
 			switch ($data['error']) {
 				case UPLOAD_ERR_INI_SIZE:
 				case UPLOAD_ERR_FORM_SIZE:
-					$error = 'File exceeds the maximum file size.';
+					$error = 'File exceeds the maximum file size';
 				break;
 				case UPLOAD_ERR_PARTIAL:
-					$error = 'File was only partially uploaded.';
+					$error = 'File was only partially uploaded';
 				break;
 				case UPLOAD_ERR_NO_FILE:
-					$error = 'No file was found for upload.';
+					$error = 'No file was found for upload';
 				break;
 				default:
-					$error = 'File failed to upload.';
+					$error = 'File failed to upload';
 				break;
 			}
 
 			throw new Exception($error);
+		}
+
+		// Validate rules
+		if ($this->_validator) {
+			$this->_validator
+				->setFile(new File($data['tmp_name']))
+				->validate();
 		}
 
 		// Upload the file
@@ -428,7 +449,7 @@ class Transit {
 			return true;
 		}
 
-		throw new Exception('An unknown error has occurred.');
+		throw new Exception('An unknown error has occurred');
 	}
 
 }

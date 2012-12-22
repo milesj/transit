@@ -43,7 +43,7 @@ class File {
 	 */
 	public function __construct($path) {
 		if (!file_exists($path)) {
-			throw new Exception(sprintf('%s does not exist.', $path));
+			throw new Exception(sprintf('%s does not exist', $path));
 		}
 
 		$this->_path = $path;
