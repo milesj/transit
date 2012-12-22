@@ -18,7 +18,7 @@ if ($_FILES) {
 	$transit
 		->setDirectory(__DIR__ . '/tmp/')
 		->setValidator($validator)
-		//->setTransporter(new S3Transporter())
+		->setTransporter(new S3Transporter('access', 'secret', 'bucket'))
 		->addTransformer(new CropTransformer(array('width' => 100)));
 
 	try {
@@ -29,6 +29,7 @@ if ($_FILES) {
 
 			if ($transit->transform()) {
 				debug($transit->getAllFiles());
+				debug($transit->transport());
 			}
 		}
 	} catch (Exception $e) {

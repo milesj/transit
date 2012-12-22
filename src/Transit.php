@@ -4,6 +4,7 @@ namespace mjohnson\transit;
 
 use mjohnson\transit\exceptions\IoException;
 use mjohnson\transit\exceptions\TransformationException;
+use mjohnson\transit\exceptions\TransportationException;
 use mjohnson\transit\exceptions\ValidationException;
 use mjohnson\transit\transformers\Transformer;
 use mjohnson\transit\transporters\Transporter;
@@ -328,12 +329,11 @@ class Transit {
 	 * Apply transformations to the original file and generate new transformed files.
 	 *
 	 * @access public
-	 * @param boolean $rollback
-	 * @return boolean
+	 * @return array
 	 * @throws \mjohnson\transit\exceptions\IoException
 	 * @throws \mjohnson\transit\exceptions\TransformationException
 	 */
-	public function transform($rollback = true) {
+	public function transform() {
 		$originalFile = $this->getOriginalFile();
 		$transformedFiles = array();
 		$error = null;
@@ -370,17 +370,15 @@ class Transit {
 			}
 		}
 
-		// Throw error and rollback if necessary
+		// Throw error and rollback
 		if ($error) {
-			if ($rollback) {
-				$originalFile->delete();
+			$originalFile->delete();
 
-				foreach ($transformedFiles as $file) {
-					$file->delete();
-				}
-
-				$this->_file = null;
+			foreach ($transformedFiles as $file) {
+				$file->delete();
 			}
+
+			$this->_file = null;
 
 			throw new TransformationException($error);
 		}
@@ -388,20 +386,51 @@ class Transit {
 		$this->_file = $originalFile;
 		$this->_files = $transformedFiles;
 
-		return true;
+		return $transformedFiles;
 	}
 
 	/**
 	 * Transport the file using the Transporter object.
 	 *
 	 * @access public
-	 * @param boolean $rollback
+	 * @return array
+	 * @throws \mjohnson\transit\exceptions\IoException
+	 * @throws \mjohnson\transit\exceptions\TransportationException
 	 * @throws \InvalidArgumentException
 	 */
-	public function transport($rollback = true) {
+	public function transport() {
 		if (!$this->_transporter) {
 			throw new InvalidArgumentException('No Transporter has been defined');
 		}
+
+		$localFiles = $this->getAllFiles();
+		$transportedFiles = array();
+		$error = null;
+
+		if (!$localFiles) {
+			throw new IoException('No files to transport');
+		}
+
+		foreach ($localFiles as $file) {
+			try {
+				$transportedFiles[] = $this->_transporter->transport($file);
+
+			} catch (Exception $e) {
+				$error = $e->getMessage();
+				break;
+			}
+		}
+
+		// Throw error and rollback
+		if ($error) {
+			foreach ($transportedFiles as $path) {
+				$this->_transporter->delete($path);
+			}
+
+			throw new TransportationException($error);
+		}
+
+		return $transportedFiles;
 	}
 
 	/**

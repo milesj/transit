@@ -8,10 +8,28 @@
 namespace mjohnson\transit\transporters;
 
 /**
- * @todo
+ * Provides shared functionality for transporters.
  *
  * @package	mjohnson.transit.transporters
  */
 abstract class AbstractTransporter implements Transporter {
+
+	/**
+	 * Configuration.
+	 *
+	 * @access protected
+	 * @var array
+	 */
+	protected $_config = array();
+
+	/**
+	 * Store configuration.
+	 *
+	 * @access public
+	 * @param array $config
+	 */
+	public function __construct(array $config = array()) {
+		$this->_config = $config + $this->_config;
+	}
 
 }

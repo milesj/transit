@@ -21,21 +21,17 @@ interface Transporter {
 	 *
 	 * @access public
 	 * @param string $path
-	 * @param array $options
 	 * @return boolean
-	 * @throws \Exception
 	 */
-	public function delete($path, array $options = array());
+	public function delete($path);
 
 	/**
 	 * Transport the file to a remote location.
 	 *
 	 * @access public
 	 * @param \mjohnson\transit\File $file
-	 * @param array $options
 	 * @return string
-	 * @throws \Exception
 	 */
-	public function transport(File $file, array $options = array());
+	public function transport(File $file);
 
 }

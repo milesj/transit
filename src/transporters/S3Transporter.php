@@ -12,17 +12,20 @@ use mjohnson\transit\exceptions\TransportationException;
 use Aws\S3\S3Client;
 use Aws\S3\Enum\CannedAcl;
 use Aws\S3\Enum\Storage;
+use Aws\S3\Exception\S3Exception;
 use Aws\Common\Enum\Region;
+use Guzzle\Http\EntityBody;
 use \InvalidArgumentException;
 
 /**
- * @todo
+ * Transport a local file to Amazon S3.
  *
  * @package	mjohnson.transit.transporters
  */
 class S3Transporter extends AbstractTransporter {
 
 	const S3_URL = 'https://s3.amazonaws.com';
+	const S3_DOMAIN = 's3.amazonaws.com';
 
 	/**
 	 * S3Client instance.
@@ -33,19 +36,46 @@ class S3Transporter extends AbstractTransporter {
 	protected $_s3;
 
 	/**
+	 * Configuration.
+	 *
+	 * @access protected
+	 * @var array
+	 */
+	protected $_config = array(
+		'bucket' => '',
+		'folder' => '',
+		'storage' => Storage::STANDARD,
+		'acl' => CannedAcl::PUBLIC_READ,
+		'encryption' => 'AES256',
+		'meta' => array()
+	);
+
+	/**
 	 * Instantiate an S3Client object.
 	 *
 	 * @access public
 	 * @param string $accessKey
 	 * @param string $secretKey
+	 * @param string|array $config
 	 * @param array $options
+	 * @throws \InvalidArgumentException
 	 */
-	public function __construct($accessKey, $secretKey, array $options = array()) {
+	public function __construct($accessKey, $secretKey, $config = array(), array $options = array()) {
+		if (is_string($config)) {
+			$config = array('bucket' => $config);
+		}
+
+		if (!$config['bucket']) {
+			throw new InvalidArgumentException('Please provide an S3 bucket');
+		}
+
 		$options = $options + array('region' => Region::US_WEST_1);
 		$options['key'] = $accessKey;
 		$options['secret'] = $secretKey;
 
 		$this->_s3 = S3Client::factory($options);
+
+		parent::__construct($config);
 	}
 
 	/**
@@ -53,20 +83,14 @@ class S3Transporter extends AbstractTransporter {
 	 *
 	 * @access public
 	 * @param string $path
-	 * @param array $options
 	 * @return boolean
-	 * @throws \InvalidArgumentException
 	 */
-	public function delete($path, array $options = array()) {
-		$options = $options + array('bucket' => '');
-
-		if (!$options['bucket']) {
-			throw new InvalidArgumentException('Please provide an S3 bucket');
-		}
+	public function delete($path) {
+		$path = $this->parseUrl($path);
 
 		return (bool) $this->_s3->deleteObject(array(
-			'Bucket' => $options['bucket'],
-			'Key' => $path
+			'Bucket' => $path['bucket'] ?: $this->_config['bucket'],
+			'Key' => $path['key']
 		));
 	}
 
@@ -75,43 +99,61 @@ class S3Transporter extends AbstractTransporter {
 	 *
 	 * @access public
 	 * @param \mjohnson\transit\File $file
-	 * @param array $options
 	 * @return string
 	 * @throws \mjohnson\transit\exceptions\TransportationException
 	 * @throws \InvalidArgumentException
 	 */
-	public function transport(File $file, array $options = array()) {
-		$options = $options + array(
-			'bucket' => '',
-			'folder' => '',
-			'storage' => Storage::STANDARD,
-			'acl' => CannedAcl::PUBLIC_READ,
-			'encryption' => 'AES256',
-			'meta' => array()
-		);
-
-		if (!$options['bucket']) {
-			throw new InvalidArgumentException('Please provide an S3 bucket');
-		}
-
-		$args = array(
-			'Bucket' => $options['bucket'],
-			'ACL' => $options['acl'],
-			'Key' => $options['folder'] . $file->basename(),
-			'Body' => fopen($file->path(), 'r'),
+	public function transport(File $file) {
+		$config = $this->_config;
+		$options = array(
+			'Bucket' => $config['bucket'],
+			'ACL' => $config['acl'],
+			'Key' => $config['folder'] . $file->basename(),
+			'Body' => EntityBody::factory(fopen($file->path(), 'r')),
 			'ContentType' => $file->type(),
-			'ServerSideEncryption' => $options['encryption'],
-			'StorageClass' => $options['storage'],
-			'Metadata' => $options['meta']
+			'ServerSideEncryption' => $config['encryption'],
+			'StorageClass' => $config['storage'],
+			'Metadata' => $config['meta']
 		);
 
-		if ($response = $this->_s3->putObject($args)) {
-			if ($response->isSuccessful()) {
-				return sprintf('%s/%s/%s', self::S3_URL, $args['Bucket'], trim($args['Key'], '/'));
-			}
+		if ($response = $this->_s3->putObject($options)) {
+			$file->delete();
+
+			return sprintf('%s/%s/%s', self::S3_URL, $options['Bucket'], trim($options['Key'], '/'));
 		}
 
 		throw new TransportationException(sprintf('Failed to transport %s to Amazon S3', $file->basename()));
+	}
+
+	/**
+	 * Parse an S3 URL and extract the bucket and key.
+	 *
+	 * @access public
+	 * @param string $url
+	 * @return array
+	 */
+	public function parseUrl($url) {
+		$bucket = '';
+		$key = $url;
+
+		if (strpos($url, self::S3_DOMAIN) !== false) {
+
+			// s3.amazonaws.com/<bucket>
+			if (preg_match('/^https?:\/\/s3\.amazonaws\.com\/(.+?)\/(.+?)$/i', $url, $matches)) {
+				$bucket = $matches[1];
+				$key = $matches[2];
+
+			// <bucket>.s3.amazonaws.com
+			} else if (preg_match('/^https?:\/\/(.+?)\.s3\.amazonaws\.com\/(.+?)$/i', $url, $matches)) {
+				$bucket = $matches[1];
+				$key = $matches[2];
+			}
+		}
+
+		return array(
+			'bucket' => $bucket,
+			'key' => trim($key, '/')
+		);
 	}
 
 }
