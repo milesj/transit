@@ -50,20 +50,6 @@ abstract class AbstractImageTransformer extends AbstractTransformer {
 	 */
 	public function process(array $options) {
 		$file = $this->getFile();
-		$options = $options + array(
-			'dest_x' => 0,
-			'dest_y' => 0,
-			'dest_w' => null,
-			'dest_h' => null,
-			'source_x' => 0,
-			'source_y' => 0,
-			'source_w' => $file->width(),
-			'source_h' => $file->height(),
-			'quality' => 100,
-			'overwrite' => false,
-			'target' => ''
-		);
-
 		$sourcePath = $file->path();
 		$mimeType = $file->type();
 
@@ -84,6 +70,21 @@ abstract class AbstractImageTransformer extends AbstractTransformer {
 				throw new DomainException(sprintf('%s can not be transformed', $mimeType));
 			break;
 		}
+
+		// Gather options
+		$options = $options + array(
+			'dest_x' => 0,
+			'dest_y' => 0,
+			'dest_w' => null,
+			'dest_h' => null,
+			'source_x' => 0,
+			'source_y' => 0,
+			'source_w' => $file->width(),
+			'source_h' => $file->height(),
+			'quality' => 100,
+			'overwrite' => false,
+			'target' => ''
+		);
 
 		$targetImage = imagecreatetruecolor($options['dest_w'], $options['dest_h']);
 

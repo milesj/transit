@@ -42,7 +42,10 @@ class S3Transporter extends AbstractTransporter {
 	 * @var array
 	 */
 	protected $_config = array(
+		'key' => '',
+		'secret' => '',
 		'bucket' => '',
+		'region' => Region::US_EAST_1,
 		'folder' => '',
 		'storage' => Storage::STANDARD,
 		'acl' => CannedAcl::PUBLIC_READ,
@@ -56,26 +59,24 @@ class S3Transporter extends AbstractTransporter {
 	 * @access public
 	 * @param string $accessKey
 	 * @param string $secretKey
-	 * @param string|array $config
-	 * @param array $options
+	 * @param array $config
 	 * @throws \InvalidArgumentException
 	 */
-	public function __construct($accessKey, $secretKey, $config = array(), array $options = array()) {
-		if (is_string($config)) {
-			$config = array('bucket' => $config);
-		}
-
-		if (!$config['bucket']) {
+	public function __construct($accessKey, $secretKey, array $config = array()) {
+		if (empty($config['bucket'])) {
 			throw new InvalidArgumentException('Please provide an S3 bucket');
 		}
 
-		$options = $options + array('region' => Region::US_WEST_1);
-		$options['key'] = $accessKey;
-		$options['secret'] = $secretKey;
+		if (empty($config['region'])) {
+			throw new InvalidArgumentException('Please provide an S3 region');
+		}
 
-		$this->_s3 = S3Client::factory($options);
+		$config['key'] = $accessKey;
+		$config['secret'] = $secretKey;
 
 		parent::__construct($config);
+
+		$this->_s3 = S3Client::factory($this->_config);
 	}
 
 	/**
@@ -88,10 +89,16 @@ class S3Transporter extends AbstractTransporter {
 	public function delete($path) {
 		$path = $this->parseUrl($path);
 
-		return (bool) $this->_s3->deleteObject(array(
-			'Bucket' => $path['bucket'] ?: $this->_config['bucket'],
-			'Key' => $path['key']
-		));
+		try {
+			$this->_s3->deleteObject(array(
+				'Bucket' => $path['bucket'] ?: $this->_config['bucket'],
+				'Key' => $path['key']
+			));
+		} catch (S3Exception $e) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**

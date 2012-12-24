@@ -76,7 +76,7 @@ class File {
 	 * @return boolean
 	 */
 	public function delete() {
-		clearstatcache();
+		$this->reset();
 
 		return @unlink($this->_path);
 	}
@@ -88,14 +88,14 @@ class File {
 	 * @return array
 	 */
 	public function dimensions() {
-		return $this->_cache(__FUNCTION__, function() {
+		return $this->_cache(__FUNCTION__, function($file) {
 			$dims = null;
 
-			if (!$this->isImage()) {
+			if (!$file->isImage()) {
 				return $dims;
 			}
 
-			$data = @getimagesize($this->_path);
+			$data = @getimagesize($file->path());
 
 			if ($data && is_array($data)) {
 				$dims = array(
@@ -105,7 +105,7 @@ class File {
 			}
 
 			if (!$data) {
-				$image = @imagecreatefromstring(file_get_contents($this->_path));
+				$image = @imagecreatefromstring(file_get_contents($file->path()));
 				$dims = array(
 					'width' => @imagesx($image),
 					'height' => @imagesy($image)
@@ -143,14 +143,14 @@ class File {
 	 * @return int
 	 */
 	public function height() {
-		return $this->_cache(__FUNCTION__, function() {
-			if (!$this->isImage()) {
+		return $this->_cache(__FUNCTION__, function($file) {
+			if (!$file->isImage()) {
 				return null;
 			}
 
 			$height = 0;
 
-			if ($dims = $this->dimensions()) {
+			if ($dims = $file->dimensions()) {
 				$height = $dims['height'];
 			}
 
@@ -288,7 +288,7 @@ class File {
 	 * @param string $prepend
 	 * @return boolean
 	 */
-	public function rename($name, $append = '', $prepend = '') {
+	public function rename($name = '', $append = '', $prepend = '') {
 		if (is_callable($name)) {
 			$name = call_user_func_array($name, array($this->name(), $this));
 		} else {
@@ -314,6 +314,20 @@ class File {
 	}
 
 	/**
+	 * Reset all cache.
+	 *
+	 * @access public
+	 * @return \mjohnson\transit\File
+	 */
+	public function reset() {
+		clearstatcache();
+
+		$this->_cache = array();
+
+		return $this;
+	}
+
+	/**
 	 * Return the file size.
 	 *
 	 * @access public
@@ -330,9 +344,9 @@ class File {
 	 * @return string
 	 */
 	public function type() {
-		return $this->_cache(__FUNCTION__, function() {
+		return $this->_cache(__FUNCTION__, function($file) {
 			$file = finfo_open(FILEINFO_MIME_TYPE);
-			$type = finfo_file($file, $this->_path);
+			$type = finfo_file($file, $file->path());
 			finfo_close($file);
 
 			return $type;
@@ -346,14 +360,14 @@ class File {
 	 * @return int
 	 */
 	public function width() {
-		return $this->_cache(__FUNCTION__, function() {
-			if (!$this->isImage()) {
+		return $this->_cache(__FUNCTION__, function($file) {
+			if (!$file->isImage()) {
 				return null;
 			}
 
 			$width = 0;
 
-			if ($dims = $this->dimensions()) {
+			if ($dims = $file->dimensions()) {
 				$width = $dims['width'];
 			}
 
@@ -404,9 +418,10 @@ class File {
 			return $this->_cache[$key];
 		}
 
-		Closure::bind($callback, $this, __CLASS__);
+		// Requires 5.4
+		// Closure::bind($callback, $this, __CLASS__);
 
-		$this->_cache[$key] = $callback();
+		$this->_cache[$key] = $callback($this);
 
 		return $this->_cache[$key];
 	}
