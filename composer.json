@@ -1,8 +1,11 @@
 {
 	"name": "mjohnson/transit",
 	"type": "library",
-	"description": "A file uploader, validator, importer and image transforming library.",
-	"keywords": ["transit", "file", "uploader", "validator", "importer", "image", "transformer"],
+	"description": "A file uploader, validator, importer and transformer library.",
+	"keywords": [
+		"transit", "file", "uploader", "validator", "importer", "transformer", "transporter",
+		"image", "audio", "video", "text", "application", "archive", "s3"
+	],
 	"homepage": "http://milesj.me/code/php/transit",
 	"license": "MIT",
 	"authors": [

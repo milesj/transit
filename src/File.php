@@ -345,9 +345,9 @@ class File {
 	 */
 	public function type() {
 		return $this->_cache(__FUNCTION__, function($file) {
-			$file = finfo_open(FILEINFO_MIME_TYPE);
-			$type = finfo_file($file, $file->path());
-			finfo_close($file);
+			$info = finfo_open(FILEINFO_MIME_TYPE);
+			$type = finfo_file($info, $file->path());
+			finfo_close($info);
 
 			return $type;
 		});

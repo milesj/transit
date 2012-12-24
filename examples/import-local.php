@@ -3,11 +3,15 @@
 require_once 'include.php';
 
 if ($_POST) {
-	$import = new \mjohnson\transit\handlers\ImportHandler();
-	$import->setDirectory(__DIR__ . '/tmp/');
+	$transit = new mjohnson\transit\Transit(__DIR__ . '/img/scott-pilgrim.jpg');
+	$transit->setDirectory(__DIR__ . '/tmp/');
 
-	if ($file = $import->fromLocal(__DIR__ . '/img/scott-pilgrim.jpg')) {
-		debug($file->toArray());
+	try {
+		if ($transit->importFromLocal()) {
+			debug($transit->getOriginalFile()->toArray());
+		}
+	} catch (Exception $e) {
+		debug($e->getMessage());
 	}
 } ?>
 

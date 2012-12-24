@@ -3,11 +3,15 @@
 require_once 'include.php';
 
 if (!empty($_POST['url'])) {
-	$import = new \mjohnson\transit\handlers\ImportHandler();
-	$import->setDirectory(__DIR__ . '/tmp/');
+	$transit = new mjohnson\transit\Transit($_POST['url']);
+	$transit->setDirectory(__DIR__ . '/tmp/');
 
-	if ($file = $import->fromRemote($_POST['url'])) {
-		debug($file->toArray());
+	try {
+		if ($transit->importFromRemote()) {
+			debug($transit->getOriginalFile()->toArray());
+		}
+	} catch (Exception $e) {
+		debug($e->getMessage());
 	}
 } ?>
 

@@ -201,7 +201,7 @@ class Transit {
 				$file->delete();
 			}
 
-			$this->_data = new File($target);
+			$this->_file = new File($target);
 
 			return true;
 		}
@@ -329,7 +329,7 @@ class Transit {
 	 * Apply transformations to the original file and generate new transformed files.
 	 *
 	 * @access public
-	 * @return array
+	 * @return boolean
 	 * @throws \mjohnson\transit\exceptions\IoException
 	 * @throws \mjohnson\transit\exceptions\TransformationException
 	 */
@@ -386,7 +386,7 @@ class Transit {
 		$this->_file = $originalFile;
 		$this->_files = $transformedFiles;
 
-		return $transformedFiles;
+		return true;
 	}
 
 	/**

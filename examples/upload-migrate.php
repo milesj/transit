@@ -3,17 +3,23 @@
 require_once 'include.php';
 
 if ($_FILES) {
-	$upload = new \mjohnson\transit\handlers\UploadHandler($_FILES['file']);
-	$upload->setDirectory(__DIR__ . '/tmp/');
+	$transit = new mjohnson\transit\Transit($_FILES['file']);
+	$transit->setDirectory(__DIR__ . '/tmp/');
 
-	if ($file = $upload->upload()) {
-		$file->rename(function($name) {
-			return md5($name);
-		});
+	try {
+		if ($transit->upload()) {
+			$file = $transit->getOriginalFile();
 
-		$file->move(__DIR__ . '/img/', false);
+			$file->rename(function($name) {
+				return md5($name);
+			});
 
-		debug($file->toArray());
+			$file->move(__DIR__ . '/img/', false);
+
+			debug($file->toArray());
+		}
+	} catch (Exception $e) {
+		debug($e->getMessage());
 	}
 } ?>
 
