@@ -76,7 +76,7 @@ class S3Transporter extends AbstractAwsTransporter {
 
 		try {
 			$this->_client->deleteObject(array(
-				'Bucket' => $path['bucket'] ?: $this->_config['bucket'],
+				'Bucket' => $path['bucket'],
 				'Key' => $path['key']
 			));
 		} catch (S3Exception $e) {
@@ -111,7 +111,7 @@ class S3Transporter extends AbstractAwsTransporter {
 		if ($response = $this->_client->putObject($options)) {
 			$file->delete();
 
-			return sprintf('%s/%s/%s', self::S3_URL, $options['Bucket'], trim($options['Key'], '/'));
+			return sprintf(self::S3_URL . '/%s/%s', $config['bucket'], trim($options['Key'], '/'));
 		}
 
 		throw new TransportationException(sprintf('Failed to transport %s to Amazon S3', $file->basename()));
@@ -125,7 +125,7 @@ class S3Transporter extends AbstractAwsTransporter {
 	 * @return array
 	 */
 	public function parseUrl($url) {
-		$bucket = '';
+		$bucket = $this->_config['bucket'];
 		$key = $url;
 
 		if (strpos($url, self::S3_HOST) !== false) {

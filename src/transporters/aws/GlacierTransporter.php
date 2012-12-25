@@ -10,6 +10,7 @@ namespace mjohnson\transit\transporters\aws;
 use mjohnson\transit\File;
 use mjohnson\transit\exceptions\TransportationException;
 use Aws\Glacier\GlacierClient;
+use Aws\Glacier\Exception\GlacierException;
 use Aws\Common\Enum\Region;
 use \InvalidArgumentException;
 
@@ -20,8 +21,8 @@ use \InvalidArgumentException;
  */
 class GlacierTransporter extends AbstractAwsTransporter {
 
-	const GLACIER_URL = '';
-	const GLACIER_HOST = '';
+	const GLACIER_URL = 'https://glacier.%s.amazonaws.com';
+	const GLACIER_HOST = 'amazonaws.com';
 
 	/**
 	 * Configuration.
@@ -32,7 +33,7 @@ class GlacierTransporter extends AbstractAwsTransporter {
 	protected $_config = array(
 		'key' => '',
 		'secret' => '',
-		'bucket' => '',
+		'vault' => '',
 		'region' => Region::US_EAST_1,
 		'folder' => ''
 	);
@@ -49,6 +50,10 @@ class GlacierTransporter extends AbstractAwsTransporter {
 	public function __construct($accessKey, $secretKey, array $config = array()) {
 		parent::__construct($accessKey, $secretKey, $config);
 
+		if (empty($config['vault'])) {
+			throw new InvalidArgumentException('Please provide a Glacier vault');
+		}
+
 		$this->_client = GlacierClient::factory($this->_config);
 	}
 
@@ -60,6 +65,17 @@ class GlacierTransporter extends AbstractAwsTransporter {
 	 * @return boolean
 	 */
 	public function delete($path) {
+		$path = $this->parseUrl($path);
+
+		try {
+			$this->_client->deleteArchive(array(
+				'Vault' => $path['vault'],
+				'Key' => $path['key']
+			));
+		} catch (GlacierException $e) {
+			return false;
+		}
+
 		return true;
 	}
 
@@ -74,26 +90,44 @@ class GlacierTransporter extends AbstractAwsTransporter {
 	 */
 	public function transport(File $file) {
 		$config = $this->_config;
-		$options = array();
+		$options = array(); // @todo
 
 		if ($response = $this->_client->uploadArchive($options)) {
 			$file->delete();
 
-			return ''; // @todo
+			return sprintf(self::GLACIER_URL . '/%s/%s', $config['region'], $config['vault'], trim($options['Key'], '/'));
 		}
 
 		throw new TransportationException(sprintf('Failed to transport %s to Amazon Glacier', $file->basename()));
 	}
 
 	/**
-	 * @todo
+	 * Parse a Glacier URL and extract the vault, region and key.
 	 *
 	 * @access public
 	 * @param string $url
 	 * @return array
 	 */
 	public function parseUrl($url) {
-		return array();
+		$vault = $this->_config['vault'];
+		$region = $this->_config['region'];
+		$key = $url;
+
+		if (strpos($url, self::GLACIER_HOST) !== false) {
+
+			// glacier.<region>.amazonaws.com/<vault>
+			if (preg_match('/^https?:\/\/glacier\.([-a-z0-9]+)\.amazonaws\.com\/(.+?)\/(.+?)$/i', $url, $matches)) {
+				$region = $matches[1];
+				$vault = $matches[2];
+				$key = $matches[3];
+			}
+		}
+
+		return array(
+			'vault' => $vault,
+			'region' => $region,
+			'key' => trim($key, '/')
+		);
 	}
 
 }

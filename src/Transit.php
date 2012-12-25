@@ -1,4 +1,9 @@
 <?php
+/**
+ * @copyright	Copyright 2006-2013, Miles Johnson - http://milesj.me
+ * @license		http://opensource.org/licenses/mit-license.php - Licensed under the MIT License
+ * @link		http://milesj.me/code/php/transit
+ */
 
 namespace mjohnson\transit;
 
@@ -13,6 +18,12 @@ use \Exception;
 use \RuntimeException;
 use \InvalidArgumentException;
 
+/**
+ * Primary class that handles all aspects of the uploading and importing process.
+ * Furthermore provides support for file transformation and transportation.
+ *
+ * @package	mjohnson.transit
+ */
 class Transit {
 
 	/**
