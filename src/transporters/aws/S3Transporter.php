@@ -5,7 +5,7 @@
  * @link		http://milesj.me/code/php/transit
  */
 
-namespace mjohnson\transit\transporters;
+namespace mjohnson\transit\transporters\aws;
 
 use mjohnson\transit\File;
 use mjohnson\transit\exceptions\TransportationException;
@@ -20,20 +20,12 @@ use \InvalidArgumentException;
 /**
  * Transport a local file to Amazon S3.
  *
- * @package	mjohnson.transit.transporters
+ * @package	mjohnson.transit.transporters.aws
  */
-class S3Transporter extends AbstractTransporter {
+class S3Transporter extends AbstractAwsTransporter {
 
 	const S3_URL = 'https://s3.amazonaws.com';
-	const S3_DOMAIN = 's3.amazonaws.com';
-
-	/**
-	 * S3Client instance.
-	 *
-	 * @access protected
-	 * @var \Aws\S3\S3Client
-	 */
-	protected $_s3;
+	const S3_HOST = 's3.amazonaws.com';
 
 	/**
 	 * Configuration.
@@ -63,20 +55,13 @@ class S3Transporter extends AbstractTransporter {
 	 * @throws \InvalidArgumentException
 	 */
 	public function __construct($accessKey, $secretKey, array $config = array()) {
+		parent::__construct($accessKey, $secretKey, $config);
+
 		if (empty($config['bucket'])) {
 			throw new InvalidArgumentException('Please provide an S3 bucket');
 		}
 
-		if (empty($config['region'])) {
-			throw new InvalidArgumentException('Please provide an S3 region');
-		}
-
-		$config['key'] = $accessKey;
-		$config['secret'] = $secretKey;
-
-		parent::__construct($config);
-
-		$this->_s3 = S3Client::factory($this->_config);
+		$this->_client = S3Client::factory($this->_config);
 	}
 
 	/**
@@ -90,7 +75,7 @@ class S3Transporter extends AbstractTransporter {
 		$path = $this->parseUrl($path);
 
 		try {
-			$this->_s3->deleteObject(array(
+			$this->_client->deleteObject(array(
 				'Bucket' => $path['bucket'] ?: $this->_config['bucket'],
 				'Key' => $path['key']
 			));
@@ -123,7 +108,7 @@ class S3Transporter extends AbstractTransporter {
 			'Metadata' => $config['meta']
 		);
 
-		if ($response = $this->_s3->putObject($options)) {
+		if ($response = $this->_client->putObject($options)) {
 			$file->delete();
 
 			return sprintf('%s/%s/%s', self::S3_URL, $options['Bucket'], trim($options['Key'], '/'));
@@ -143,7 +128,7 @@ class S3Transporter extends AbstractTransporter {
 		$bucket = '';
 		$key = $url;
 
-		if (strpos($url, self::S3_DOMAIN) !== false) {
+		if (strpos($url, self::S3_HOST) !== false) {
 
 			// s3.amazonaws.com/<bucket>
 			if (preg_match('/^https?:\/\/s3\.amazonaws\.com\/(.+?)\/(.+?)$/i', $url, $matches)) {
