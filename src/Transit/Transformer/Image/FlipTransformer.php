@@ -7,6 +7,7 @@
 
 namespace Transit\Transformer\Image;
 
+use Transit\File;
 use \InvalidArgumentException;
 
 /**
@@ -33,14 +34,15 @@ class FlipTransformer extends AbstractImageTransformer {
 	 * Calculate the transformation options and process.
 	 *
 	 * @access public
+	 * @param \Transit\File $file
 	 * @param boolean $self
 	 * @return \Transit\File
 	 * @throws \InvalidArgumentException
 	 */
-	public function transform($self = false) {
+	public function transform(File $file, $self = false) {
 		$config = $this->_config;
-		$width = $this->getFile()->width();
-		$height = $this->getFile()->height();
+		$width = $file->width();
+		$height = $file->height();
 		$src_x = 0;
 		$src_y = 0;
 		$src_w = $width;
@@ -66,7 +68,7 @@ class FlipTransformer extends AbstractImageTransformer {
 			break;
 		}
 
-		return $this->process(array(
+		return $this->_process($file, array(
 			'dest_w'	=> $width,
 			'dest_h'	=> $height,
 			'source_x'	=> $src_x,
@@ -75,7 +77,7 @@ class FlipTransformer extends AbstractImageTransformer {
 			'source_h'	=> $src_h,
 			'quality'	=> $config['quality'],
 			'overwrite'	=> $self,
-			'target'	=> sprintf('%s-%s', $this->getFile()->name(), $config['direction'])
+			'target'	=> sprintf('%s-%s', $file->name(), $config['direction'])
 		));
 	}
 

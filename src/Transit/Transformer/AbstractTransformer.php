@@ -7,20 +7,10 @@
 
 namespace Transit\Transformer;
 
-use Transit\File;
-
 /**
  * Provides shared functionality for transformers.
  */
 abstract class AbstractTransformer implements Transformer {
-
-	/**
-	 * File object.
-	 *
-	 * @access protected
-	 * @var \Transit\File
-	 */
-	protected $_file;
 
 	/**
 	 * Configuration.
@@ -38,29 +28,6 @@ abstract class AbstractTransformer implements Transformer {
 	 */
 	public function __construct(array $config = array()) {
 		$this->_config = $config + $this->_config;
-	}
-
-	/**
-	 * Return the File object.
-	 *
-	 * @access public
-	 * @return \Transit\File
-	 */
-	public function getFile() {
-		return $this->_file;
-	}
-
-	/**
-	 * Set the File object.
-	 *
-	 * @access public
-	 * @param \Transit\File $file
-	 * @return \Transit\Transformer\Transformer
-	 */
-	public function setFile(File $file) {
-		$this->_file = $file;
-
-		return $this;
 	}
 
 }

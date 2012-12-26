@@ -355,8 +355,7 @@ class Transit {
 		if ($this->_transformers) {
 			foreach ($this->_transformers as $transformer) {
 				try {
-					$transformer->setFile($originalFile);
-					$transformedFiles[] = $transformer->transform(false);
+					$transformedFiles[] = $transformer->transform($originalFile, false);
 
 				} catch (Exception $e) {
 					$error = $e->getMessage();
@@ -369,8 +368,7 @@ class Transit {
 		if ($this->_selfTransformers && !$error) {
 			foreach ($this->_selfTransformers as $transformer) {
 				try {
-					$transformer->setFile($originalFile);
-					$originalFile = $transformer->transform(true);
+					$originalFile = $transformer->transform($originalFile, true);
 
 				} catch (Exception $e) {
 					$error = $e->getMessage();

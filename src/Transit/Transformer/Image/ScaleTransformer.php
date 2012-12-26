@@ -7,6 +7,8 @@
 
 namespace Transit\Transformer\Image;
 
+use Transit\File;
+
 /**
  * Scale the image based on a percentage.
  */
@@ -27,15 +29,16 @@ class ScaleTransformer extends AbstractImageTransformer {
 	 * Calculate the transformation options and process.
 	 *
 	 * @access public
+	 * @param \Transit\File $file
 	 * @param boolean $self
 	 * @return \Transit\File
 	 */
-	public function transform($self = false) {
+	public function transform(File $file, $self = false) {
 		$config = $this->_config;
-		$width = round($this->getFile()->width() * $config['percent']);
-		$height = round($this->getFile()->height() * $config['percent']);
+		$width = round($file->width() * $config['percent']);
+		$height = round($file->height() * $config['percent']);
 
-		return $this->process(array(
+		return $this->_process($file, array(
 			'dest_w'	=> $width,
 			'dest_h'	=> $height,
 			'quality'	=> $config['quality'],

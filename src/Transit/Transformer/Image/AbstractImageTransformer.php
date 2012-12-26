@@ -18,36 +18,34 @@ use \RuntimeException;
 abstract class AbstractImageTransformer extends AbstractTransformer {
 
 	/**
-	 * Set the File object.
+	 * Store configuration.
 	 *
 	 * @access public
-	 * @param \Transit\File $file
-	 * @return \Transit\Transformer\Transformer
+	 * @param array $config
 	 * @throws \RuntimeException
-	 * @throws \DomainException
 	 */
-	public function setFile(File $file) {
+	public function __construct(array $config = array()) {
 		if (!extension_loaded('gd')) {
 			throw new RuntimeException('GD image library is not installed');
 		}
 
-		if (!$file->isImage()) {
-			throw new DomainException(sprintf('%s is not a valid image', $file->basename()));
-		}
-
-		return parent::setFile($file);
+		return parent::__construct($config);
 	}
 
 	/**
 	 * Transform the image using the defined options.
 	 *
-	 * @access public
+	 * @access protected
+	 * @param \Transit\File $file
 	 * @param array $options
 	 * @return \Transit\File
 	 * @throws \DomainException
 	 */
-	public function process(array $options) {
-		$file = $this->getFile();
+	protected function _process(File $file, array $options) {
+		if (!$file->isImage()) {
+			throw new DomainException(sprintf('%s is not a valid image', $file->basename()));
+		}
+
 		$sourcePath = $file->path();
 		$mimeType = $file->type();
 

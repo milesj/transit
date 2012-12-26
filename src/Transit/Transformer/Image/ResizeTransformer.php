@@ -7,6 +7,7 @@
 
 namespace Transit\Transformer\Image;
 
+use Transit\File;
 use \InvalidArgumentException;
 
 /**
@@ -36,14 +37,15 @@ class ResizeTransformer extends AbstractImageTransformer {
 	 * Calculate the transformation options and process.
 	 *
 	 * @access public
+	 * @param \Transit\File $file
 	 * @param boolean $self
 	 * @return \Transit\File
 	 * @throws \InvalidArgumentException
 	 */
-	public function transform($self = false) {
+	public function transform(File $file, $self = false) {
 		$config = $this->_config;
-		$baseWidth = $this->getFile()->width();
-		$baseHeight = $this->getFile()->height();
+		$baseWidth = $file->width();
+		$baseHeight = $file->height();
 		$width = $config['width'];
 		$height = $config['height'];
 		$newWidth = null;
@@ -92,7 +94,7 @@ class ResizeTransformer extends AbstractImageTransformer {
 			}
 		}
 
-		return $this->process(array(
+		return $this->_process($file, array(
 			'dest_w'	=> $newWidth,
 			'dest_h'	=> $newHeight,
 			'quality'	=> $config['quality'],
