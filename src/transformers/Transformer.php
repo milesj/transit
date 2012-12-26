@@ -34,7 +34,7 @@ interface Transformer {
 	public function setFile(File $file);
 
 	/**
-	 * Transform the image using the defined options.
+	 * Transform the file using the defined options.
 	 *
 	 * @access public
 	 * @param array $options

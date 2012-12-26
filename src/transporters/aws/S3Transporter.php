@@ -13,7 +13,10 @@ use Aws\S3\S3Client;
 use Aws\S3\Enum\CannedAcl;
 use Aws\S3\Enum\Storage;
 use Aws\S3\Exception\S3Exception;
+use Aws\S3\Model\MultipartUpload\UploadBuilder;
 use Aws\Common\Enum\Region;
+use Aws\Common\Enum\Size;
+use Aws\Common\Exception\MultipartUploadException;
 use Guzzle\Http\EntityBody;
 use \InvalidArgumentException;
 
@@ -97,21 +100,44 @@ class S3Transporter extends AbstractAwsTransporter {
 	 */
 	public function transport(File $file) {
 		$config = $this->_config;
-		$options = array(
-			'Bucket' => $config['bucket'],
-			'ACL' => $config['acl'],
-			'Key' => $config['folder'] . $file->basename(),
-			'Body' => EntityBody::factory(fopen($file->path(), 'r')),
-			'ContentType' => $file->type(),
-			'ServerSideEncryption' => $config['encryption'],
-			'StorageClass' => $config['storage'],
-			'Metadata' => $config['meta']
-		);
+		$key = ltrim($config['folder'], '/') . $file->basename();
+		$maxSize = (100 * Size::MB);
+		$response = null;
 
-		if ($response = $this->_client->putObject(array_filter($options))) {
+		// If larger then 100MB, split upload into parts
+		if ($file->size() >= $maxSize) {
+			$uploader = UploadBuilder::newInstance()
+				->setClient($this->_client)
+				->setSource($file->path())
+				->setBucket($config['bucket'])
+				->setKey($key)
+				->setMinPartSize($maxSize)
+				->build();
+
+			try {
+				$response = $uploader->upload();
+			} catch (MultipartUploadException $e) {
+				$uploader->abort();
+			}
+
+		} else {
+			$response = $this->_client->putObject(array_filter(array(
+				'Key' => $key,
+				'Bucket' => $config['bucket'],
+				'Body' => EntityBody::factory(fopen($file->path(), 'r')),
+				'ACL' => $config['acl'],
+				'ContentType' => $file->type(),
+				'ServerSideEncryption' => $config['encryption'],
+				'StorageClass' => $config['storage'],
+				'Metadata' => $config['meta']
+			)));
+		}
+
+		// Return S3 URL if successful
+		if ($response) {
 			$file->delete();
 
-			return sprintf(self::S3_URL . '/%s/%s', $config['bucket'], trim($options['Key'], '/'));
+			return sprintf(self::S3_URL . '/%s/%s', $config['bucket'], $key);
 		}
 
 		throw new TransportationException(sprintf('Failed to transport %s to Amazon S3', $file->basename()));
