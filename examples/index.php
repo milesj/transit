@@ -2,17 +2,16 @@
 
 require_once 'include.php';
 
-use mjohnson\transit\Transit;
-use mjohnson\transit\transformers\image\CropTransformer;
-use mjohnson\transit\transporters\S3Transporter;
-use mjohnson\transit\validators\ImageValidator;
+use Transit\Transit;
+use Transit\Transformer\Image\CropTransformer;
+use Transit\Transporter\Aws\S3Transporter;
+use Transit\Validator\ImageValidator;
 use \Exception;
 
+$validator = new ImageValidator();
+$validator->addRule('size', 'File size is too large', 2003000);
+
 if ($_FILES) {
-	$validator = new ImageValidator();
-	$validator
-		->addRule('size', 'File size is too large', 2003000);
-		//->addRule('height', 'Invalid height', 100);
 
 	$transit = new Transit($_FILES['file']);
 	$transit

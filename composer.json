@@ -23,6 +23,5 @@
 	},
 	"autoload": {
 		"psr-0": { "Transit": "src/" }
-	},
-	"target-dir": "Transit"
+	}
 }

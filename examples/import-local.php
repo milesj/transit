@@ -3,7 +3,7 @@
 require_once 'include.php';
 
 if ($_POST) {
-	$transit = new mjohnson\transit\Transit(__DIR__ . '/img/scott-pilgrim.jpg');
+	$transit = new Transit\Transit(__DIR__ . '/img/scott-pilgrim.jpg');
 	$transit->setDirectory(__DIR__ . '/tmp/');
 
 	try {

@@ -3,11 +3,11 @@
 require_once 'include.php';
 
 if ($_FILES) {
-	$transit = new mjohnson\transit\Transit($_FILES['file']);
+	$transit = new Transit\Transit($_FILES['file']);
 	$transit
 		->setDirectory(__DIR__ . '/tmp/')
-		->addTransformer(new mjohnson\transit\transformers\image\ResizeTransformer(array('width' => 100, 'height' => 100)))
-		->addTransformer(new mjohnson\transit\transformers\image\FlipTransformer());
+		->addTransformer(new Transit\Transformer\Image\ResizeTransformer(array('width' => 100, 'height' => 100)))
+		->addTransformer(new Transit\Transformer\Image\FlipTransformer());
 
 	try {
 		if ($transit->upload()) {

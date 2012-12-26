@@ -3,7 +3,7 @@
 require_once 'include.php';
 
 if ($_FILES) {
-	$transit = new mjohnson\transit\Transit($_FILES['file']);
+	$transit = new Transit\Transit($_FILES['file']);
 	$transit->setDirectory(__DIR__ . '/tmp/');
 
 	try {

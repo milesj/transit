@@ -3,7 +3,7 @@
 require_once 'include.php';
 
 if (!empty($_POST['url'])) {
-	$transit = new mjohnson\transit\Transit($_POST['url']);
+	$transit = new Transit\Transit($_POST['url']);
 	$transit->setDirectory(__DIR__ . '/tmp/');
 
 	try {

@@ -3,12 +3,12 @@
 require_once 'include.php';
 
 if ($_FILES && !empty($_POST['accessKey']) && !empty($_POST['secretKey']) && !empty($_POST['bucket'])) {
-	$transporter = new mjohnson\transit\transporters\aws\S3Transporter($_POST['accessKey'], $_POST['secretKey'], array(
+	$transporter = new Transit\Transporter\Aws\S3Transporter($_POST['accessKey'], $_POST['secretKey'], array(
 		'bucket' => $_POST['bucket'],
 		'region' => Aws\Common\Enum\Region::US_EAST_1
 	));
 
-	$transit = new mjohnson\transit\Transit($_FILES['file']);
+	$transit = new Transit\Transit($_FILES['file']);
 	$transit
 		->setDirectory(__DIR__ . '/tmp/')
 		->setTransporter($transporter);

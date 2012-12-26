@@ -3,12 +3,12 @@
 require_once 'include.php';
 
 if ($_FILES && !empty($_POST['accessKey']) && !empty($_POST['secretKey']) && !empty($_POST['vault'])) {
-	$transporter = new mjohnson\transit\transporters\aws\GlacierTransporter($_POST['accessKey'], $_POST['secretKey'], array(
+	$transporter = new Transit\Transporter\Aws\GlacierTransporter($_POST['accessKey'], $_POST['secretKey'], array(
 		'vault' => $_POST['vault'],
 		'region' => Aws\Common\Enum\Region::US_EAST_1
 	));
 
-	$transit = new mjohnson\transit\Transit($_FILES['file']);
+	$transit = new Transit\Transit($_FILES['file']);
 	$transit
 		->setDirectory(__DIR__ . '/tmp/')
 		->setTransporter($transporter);
