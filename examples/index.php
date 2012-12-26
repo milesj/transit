@@ -8,16 +8,15 @@ use Transit\Transporter\Aws\S3Transporter;
 use Transit\Validator\ImageValidator;
 use \Exception;
 
-$validator = new ImageValidator();
-$validator->addRule('size', 'File size is too large', 2003000);
-
 if ($_FILES) {
+	$validator = new ImageValidator();
+	$validator->addRule('size', 'File size is too large', 2003000);
 
 	$transit = new Transit($_FILES['file']);
 	$transit
 		->setDirectory(__DIR__ . '/tmp/')
 		->setValidator($validator)
-		->setTransporter(new S3Transporter('access', 'secret', 'bucket'))
+		->setTransporter(new S3Transporter('access', 'secret', array('bucket' => '', 'region' => '')))
 		->addTransformer(new CropTransformer(array('width' => 100)));
 
 	try {
