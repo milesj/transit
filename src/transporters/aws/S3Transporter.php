@@ -37,11 +37,11 @@ class S3Transporter extends AbstractAwsTransporter {
 		'key' => '',
 		'secret' => '',
 		'bucket' => '',
-		'region' => Region::US_EAST_1,
 		'folder' => '',
+		'region' => Region::US_EAST_1,
 		'storage' => Storage::STANDARD,
 		'acl' => CannedAcl::PUBLIC_READ,
-		'encryption' => 'AES256',
+		'encryption' => '',
 		'meta' => array()
 	);
 
@@ -55,29 +55,29 @@ class S3Transporter extends AbstractAwsTransporter {
 	 * @throws \InvalidArgumentException
 	 */
 	public function __construct($accessKey, $secretKey, array $config = array()) {
-		parent::__construct($accessKey, $secretKey, $config);
-
 		if (empty($config['bucket'])) {
 			throw new InvalidArgumentException('Please provide an S3 bucket');
 		}
+
+		parent::__construct($accessKey, $secretKey, $config);
 
 		$this->_client = S3Client::factory($this->_config);
 	}
 
 	/**
-	 * Delete a file from the remote location.
+	 * Delete a file from Amazon S3 by parsing a URL or using a direct key.
 	 *
 	 * @access public
-	 * @param string $path
+	 * @param string $id
 	 * @return boolean
 	 */
-	public function delete($path) {
-		$path = $this->parseUrl($path);
+	public function delete($id) {
+		$params = $this->parseUrl($id);
 
 		try {
 			$this->_client->deleteObject(array(
-				'Bucket' => $path['bucket'],
-				'Key' => $path['key']
+				'Bucket' => $params['bucket'],
+				'Key' => $params['key']
 			));
 		} catch (S3Exception $e) {
 			return false;
@@ -108,7 +108,7 @@ class S3Transporter extends AbstractAwsTransporter {
 			'Metadata' => $config['meta']
 		);
 
-		if ($response = $this->_client->putObject($options)) {
+		if ($response = $this->_client->putObject(array_filter($options))) {
 			$file->delete();
 
 			return sprintf(self::S3_URL . '/%s/%s', $config['bucket'], trim($options['Key'], '/'));

@@ -20,10 +20,10 @@ interface Transporter {
 	 * Delete a file from the remote location.
 	 *
 	 * @access public
-	 * @param string $path
+	 * @param string $id
 	 * @return boolean
 	 */
-	public function delete($path);
+	public function delete($id);
 
 	/**
 	 * Transport the file to a remote location.

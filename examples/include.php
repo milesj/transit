@@ -17,7 +17,9 @@ include_once '../src/transformers/image/ResizeTransformer.php';
 include_once '../src/transformers/image/ScaleTransformer.php';
 include_once '../src/transporters/Transporter.php';
 include_once '../src/transporters/AbstractTransporter.php';
-include_once '../src/transporters/S3Transporter.php';
+include_once '../src/transporters/aws/AbstractAwsTransporter.php';
+include_once '../src/transporters/aws/S3Transporter.php';
+include_once '../src/transporters/aws/GlacierTransporter.php';
 include_once '../src/exceptions/TransformationException.php';
 include_once '../src/exceptions/TransportationException.php';
 
