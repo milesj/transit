@@ -5,18 +5,15 @@
  * @link		http://milesj.me/code/php/transit
  */
 
-namespace mjohnson\transit\validators;
+namespace Transit\Validator;
 
-use mjohnson\transit\File;
-use mjohnson\transit\exceptions\IoException;
-use mjohnson\transit\exceptions\ValidationException;
-use \Exception;
+use Transit\File;
+use Transit\Exception\IoException;
+use Transit\Exception\ValidationException;
 use \BadMethodCallException;
 
 /**
  * Provides basic file validation functionality.
- *
- * @package	mjohnson.transit.validators
  */
 abstract class AbstractValidator implements Validator {
 
@@ -24,7 +21,7 @@ abstract class AbstractValidator implements Validator {
 	 * File object.
 	 *
 	 * @access protected
-	 * @var \mjohnson\transit\File
+	 * @var \Transit\File
 	 */
 	protected $_file;
 
@@ -43,7 +40,7 @@ abstract class AbstractValidator implements Validator {
 	 * @param string $method
 	 * @param string $message
 	 * @param mixed $params
-	 * @return \mjohnson\transit\validators\Validator
+	 * @return \Transit\Validator\Validator
 	 */
 	public function addRule($method, $message, $params = array()) {
 		$this->_rules[$method] = array(
@@ -58,7 +55,7 @@ abstract class AbstractValidator implements Validator {
 	 * Return the File object.
 	 *
 	 * @access public
-	 * @return \mjohnson\transit\File
+	 * @return \Transit\File
 	 */
 	public function getFile() {
 		return $this->_file;
@@ -68,8 +65,8 @@ abstract class AbstractValidator implements Validator {
 	 * Set the File object.
 	 *
 	 * @access public
-	 * @param \mjohnson\transit\File $file
-	 * @return \mjohnson\transit\validators\Validator
+	 * @param \Transit\File $file
+	 * @return \Transit\Validator\Validator
 	 */
 	public function setFile(File $file) {
 		$this->_file = $file;
@@ -115,8 +112,8 @@ abstract class AbstractValidator implements Validator {
 	 *
 	 * @access public
 	 * @return boolean
-	 * @throws \mjohnson\transit\exceptions\IoException
-	 * @throws \mjohnson\transit\exceptions\ValidationException
+	 * @throws \Transit\Exception\IoException
+	 * @throws \Transit\Exception\ValidationException
 	 * @throws \BadMethodCallException
 	 */
 	public function validate() {

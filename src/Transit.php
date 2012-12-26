@@ -5,15 +5,15 @@
  * @link		http://milesj.me/code/php/transit
  */
 
-namespace mjohnson\transit;
+namespace Transit;
 
-use mjohnson\transit\exceptions\IoException;
-use mjohnson\transit\exceptions\TransformationException;
-use mjohnson\transit\exceptions\TransportationException;
-use mjohnson\transit\exceptions\ValidationException;
-use mjohnson\transit\transformers\Transformer;
-use mjohnson\transit\transporters\Transporter;
-use mjohnson\transit\validators\Validator;
+use Transit\Exception\IoException;
+use Transit\Exception\TransformationException;
+use Transit\Exception\TransportationException;
+use Transit\Exception\ValidationException;
+use Transit\Transformer\Transformer;
+use Transit\Transporter\Transporter;
+use Transit\Validator\Validator;
 use \Exception;
 use \RuntimeException;
 use \InvalidArgumentException;
@@ -21,8 +21,6 @@ use \InvalidArgumentException;
 /**
  * Primary class that handles all aspects of the uploading and importing process.
  * Furthermore provides support for file transformation and transportation.
- *
- * @package	mjohnson.transit
  */
 class Transit {
 
@@ -46,7 +44,7 @@ class Transit {
 	 * File instance after successful upload or import.
 	 *
 	 * @access protected
-	 * @var \mjohnson\transit\File
+	 * @var \Transit\File
 	 */
 	protected $_file;
 
@@ -78,7 +76,7 @@ class Transit {
 	 * Transporter instance.
 	 *
 	 * @access protected
-	 * @var \mjohnson\transit\transporters\Transporter
+	 * @var \Transit\Transporter\Transporter
 	 */
 	protected $_transporter;
 
@@ -86,7 +84,7 @@ class Transit {
 	 * Validator instance.
 	 *
 	 * @access protected
-	 * @var \mjohnson\transit\validators\Validator
+	 * @var \Transit\Validator\Validator
 	 */
 	protected $_validator;
 
@@ -104,8 +102,8 @@ class Transit {
 	 * Add a Transformer to generate new images with.
 	 *
 	 * @access public
-	 * @param \mjohnson\transit\transformers\Transformer $transformer
-	 * @return \mjohnson\transit\Transit
+	 * @param \Transit\Transformer\Transformer $transformer
+	 * @return \Transit\Transit
 	 */
 	public function addTransformer(Transformer $transformer) {
 		$this->_transformers[] = $transformer;
@@ -117,8 +115,8 @@ class Transit {
 	 * Add a Transformer to apply to the original file.
 	 *
 	 * @access public
-	 * @param \mjohnson\transit\transformers\Transformer $transformer
-	 * @return \mjohnson\transit\Transit
+	 * @param \Transit\Transformer\Transformer $transformer
+	 * @return \Transit\Transit
 	 */
 	public function addSelfTransformer(Transformer $transformer) {
 		$this->_selfTransformers[] = $transformer;
@@ -130,7 +128,7 @@ class Transit {
 	 * Find a valid target path taking into account file existence and overwriting.
 	 *
 	 * @access public
-	 * @param \mjohnson\transit\File|string $file
+	 * @param \Transit\File|string $file
 	 * @param boolean $overwrite
 	 * @return string
 	 */
@@ -177,7 +175,7 @@ class Transit {
 	 * Return the File that was uploaded or imported.
 	 *
 	 * @access public
-	 * @return \mjohnson\transit\File
+	 * @return \Transit\File
 	 */
 	public function getOriginalFile() {
 		return $this->_file;
@@ -200,7 +198,7 @@ class Transit {
 	 * @param boolean $overwrite
 	 * @param boolean $delete
 	 * @return boolean
-	 * @throws \mjohnson\transit\exceptions\IoException
+	 * @throws \Transit\Exception\IoException
 	 */
 	public function importFromLocal($overwrite = true, $delete = false) {
 		$path = $this->_data;
@@ -226,7 +224,7 @@ class Transit {
 	 * @access public
 	 * @param boolean $overwrite
 	 * @return boolean
-	 * @throws \mjohnson\transit\exceptions\IoException
+	 * @throws \Transit\Exception\IoException
 	 * @throws \RuntimeException
 	 */
 	public function importFromRemote($overwrite = true) {
@@ -263,7 +261,7 @@ class Transit {
 	 * @access public
 	 * @param boolean $overwrite
 	 * @return boolean
-	 * @throws \mjohnson\transit\exceptions\IoException
+	 * @throws \Transit\Exception\IoException
 	 */
 	public function importFromStream($overwrite = true) {
 		$field = $this->_data;
@@ -291,7 +289,7 @@ class Transit {
 	 *
 	 * @access public
 	 * @param string $path
-	 * @return \mjohnson\transit\Transit
+	 * @return \Transit\Transit
 	 */
 	public function setDirectory($path) {
 		if (substr($path, -1) !== '/') {
@@ -314,8 +312,8 @@ class Transit {
 	 * Set the Transporter.
 	 *
 	 * @access public
-	 * @param \mjohnson\transit\transporters\Transporter $transporter
-	 * @return \mjohnson\transit\Transit
+	 * @param \Transit\Transporter\Transporter $transporter
+	 * @return \Transit\Transit
 	 */
 	public function setTransporter(Transporter $transporter) {
 		$this->_transporter = $transporter;
@@ -327,8 +325,8 @@ class Transit {
 	 * Set the Validator.
 	 *
 	 * @access public
-	 * @param \mjohnson\transit\validators\Validator $validator
-	 * @return \mjohnson\transit\Transit
+	 * @param \Transit\Validator\Validator $validator
+	 * @return \Transit\Transit
 	 */
 	public function setValidator(Validator $validator) {
 		$this->_validator = $validator;
@@ -341,8 +339,8 @@ class Transit {
 	 *
 	 * @access public
 	 * @return boolean
-	 * @throws \mjohnson\transit\exceptions\IoException
-	 * @throws \mjohnson\transit\exceptions\TransformationException
+	 * @throws \Transit\Exception\IoException
+	 * @throws \Transit\Exception\TransformationException
 	 */
 	public function transform() {
 		$originalFile = $this->getOriginalFile();
@@ -405,8 +403,8 @@ class Transit {
 	 *
 	 * @access public
 	 * @return array
-	 * @throws \mjohnson\transit\exceptions\IoException
-	 * @throws \mjohnson\transit\exceptions\TransportationException
+	 * @throws \Transit\Exception\IoException
+	 * @throws \Transit\Exception\TransportationException
 	 * @throws \InvalidArgumentException
 	 */
 	public function transport() {
@@ -450,7 +448,7 @@ class Transit {
 	 * @access public
 	 * @param boolean $overwrite
 	 * @return boolean
-	 * @throws \mjohnson\transit\exceptions\ValidationException
+	 * @throws \Transit\Exception\ValidationException
 	 */
 	public function upload($overwrite = false) {
 		$data = $this->_data;

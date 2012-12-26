@@ -5,14 +5,10 @@
  * @link		http://milesj.me/code/php/transit
  */
 
-namespace mjohnson\transit\validators;
-
-use mjohnson\transit\File;
+namespace Transit\Validator;
 
 /**
  * Provides file validation functionality.
- *
- * @package	mjohnson.transit.validators
  */
 class ImageValidator extends AbstractValidator {
 

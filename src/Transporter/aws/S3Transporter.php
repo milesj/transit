@@ -5,25 +5,23 @@
  * @link		http://milesj.me/code/php/transit
  */
 
-namespace mjohnson\transit\transporters\aws;
+namespace Transit\Transporter\Aws;
 
-use mjohnson\transit\File;
-use mjohnson\transit\exceptions\TransportationException;
+use Transit\File;
+use Transit\Exception\TransportationException;
+use Aws\Common\Enum\Region;
+use Aws\Common\Enum\Size;
+use Aws\Common\Exception\MultipartUploadException;
 use Aws\S3\S3Client;
 use Aws\S3\Enum\CannedAcl;
 use Aws\S3\Enum\Storage;
 use Aws\S3\Exception\S3Exception;
 use Aws\S3\Model\MultipartUpload\UploadBuilder;
-use Aws\Common\Enum\Region;
-use Aws\Common\Enum\Size;
-use Aws\Common\Exception\MultipartUploadException;
 use Guzzle\Http\EntityBody;
 use \InvalidArgumentException;
 
 /**
  * Transport a local file to Amazon S3.
- *
- * @package	mjohnson.transit.transporters.aws
  */
 class S3Transporter extends AbstractAwsTransporter {
 
@@ -93,9 +91,9 @@ class S3Transporter extends AbstractAwsTransporter {
 	 * Transport the file to a remote location.
 	 *
 	 * @access public
-	 * @param \mjohnson\transit\File $file
+	 * @param \Transit\File $file
 	 * @return string
-	 * @throws \mjohnson\transit\exceptions\TransportationException
+	 * @throws \Transit\Exception\TransportationException
 	 */
 	public function transport(File $file) {
 		$config = $this->_config;

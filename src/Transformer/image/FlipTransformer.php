@@ -5,14 +5,12 @@
  * @link		http://milesj.me/code/php/transit
  */
 
-namespace mjohnson\transit\transformers\image;
+namespace Transit\Transformer\Image;
 
 use \InvalidArgumentException;
 
 /**
  * Flips an image in 3 possible directions: vertical, horizontal, or both.
- *
- * @package	mjohnson.transit.transformers.image
  */
 class FlipTransformer extends AbstractImageTransformer {
 
@@ -36,7 +34,7 @@ class FlipTransformer extends AbstractImageTransformer {
 	 *
 	 * @access public
 	 * @param boolean $self
-	 * @return \mjohnson\transit\File
+	 * @return \Transit\File
 	 * @throws \InvalidArgumentException
 	 */
 	public function transform($self = false) {

@@ -5,16 +5,14 @@
  * @link		http://milesj.me/code/php/transit
  */
 
-namespace mjohnson\transit;
+namespace Transit;
 
-use mjohnson\transit\exceptions\IoException;
+use Transit\Exception\IoException;
 use \Closure;
 
 /**
  * Handles the management of a single file on the file system.
  * Can return detailed information on the file as well as moving and renaming.
- *
- * @package	mjohnson.transit
  */
 class File {
 
@@ -39,7 +37,7 @@ class File {
 	 *
 	 * @access public
 	 * @param string $path
-	 * @throws \mjohnson\transit\exceptions\IoException
+	 * @throws \Transit\Exception\IoException
 	 */
 	public function __construct($path) {
 		if (!file_exists($path)) {
@@ -317,7 +315,7 @@ class File {
 	 * Reset all cache.
 	 *
 	 * @access public
-	 * @return \mjohnson\transit\File
+	 * @return \Transit\File
 	 */
 	public function reset() {
 		clearstatcache();

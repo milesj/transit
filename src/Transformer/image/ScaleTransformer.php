@@ -5,12 +5,10 @@
  * @link		http://milesj.me/code/php/transit
  */
 
-namespace mjohnson\transit\transformers\image;
+namespace Transit\Transformer\Image;
 
 /**
  * Scale the image based on a percentage.
- *
- * @package	mjohnson.transit.transformers.image
  */
 class ScaleTransformer extends AbstractImageTransformer {
 
@@ -30,7 +28,7 @@ class ScaleTransformer extends AbstractImageTransformer {
 	 *
 	 * @access public
 	 * @param boolean $self
-	 * @return \mjohnson\transit\File
+	 * @return \Transit\File
 	 */
 	public function transform($self = false) {
 		$config = $this->_config;

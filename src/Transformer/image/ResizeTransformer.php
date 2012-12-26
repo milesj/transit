@@ -5,14 +5,12 @@
  * @link		http://milesj.me/code/php/transit
  */
 
-namespace mjohnson\transit\transformers\image;
+namespace Transit\Transformer\Image;
 
 use \InvalidArgumentException;
 
 /**
  * Resizes an image to new dimensions.
- *
- * @package	mjohnson.transit.transformers.image
  */
 class ResizeTransformer extends AbstractImageTransformer {
 
@@ -39,7 +37,7 @@ class ResizeTransformer extends AbstractImageTransformer {
 	 *
 	 * @access public
 	 * @param boolean $self
-	 * @return \mjohnson\transit\File
+	 * @return \Transit\File
 	 * @throws \InvalidArgumentException
 	 */
 	public function transform($self = false) {

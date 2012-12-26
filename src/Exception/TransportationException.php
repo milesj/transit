@@ -5,13 +5,11 @@
  * @link		http://milesj.me/code/php/transit
  */
 
-namespace mjohnson\transit\exceptions;
+namespace Transit\Exception;
 
 /**
- * Exception used when a validation rule fails.
- *
- * @package	mjohnson.transit.exceptions
+ * Exception used when a file transportation error occurs.
  */
-class ValidationException extends \Exception {
+class TransportationException extends \Exception {
 
 }

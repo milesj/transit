@@ -5,14 +5,12 @@
  * @link		http://milesj.me/code/php/transit
  */
 
-namespace mjohnson\transit\transformers;
+namespace Transit\Transformer;
 
-use mjohnson\transit\File;
+use Transit\File;
 
 /**
  * Interface for all transformers to implement.
- *
- * @package	mjohnson.transit.transformers
  */
 interface Transformer {
 
@@ -20,7 +18,7 @@ interface Transformer {
 	 * Return the File object.
 	 *
 	 * @access public
-	 * @return \mjohnson\transit\File
+	 * @return \Transit\File
 	 */
 	public function getFile();
 
@@ -28,8 +26,8 @@ interface Transformer {
 	 * Set the File object.
 	 *
 	 * @access public
-	 * @param \mjohnson\transit\File $file
-	 * @return \mjohnson\transit\transformers\Transformer
+	 * @param \Transit\File $file
+	 * @return \Transit\Transformer\Transformer
 	 */
 	public function setFile(File $file);
 
@@ -38,7 +36,7 @@ interface Transformer {
 	 *
 	 * @access public
 	 * @param array $options
-	 * @return \mjohnson\transit\File
+	 * @return \Transit\File
 	 */
 	public function process(array $options);
 
@@ -47,7 +45,7 @@ interface Transformer {
 	 *
 	 * @access public
 	 * @param boolean $self
-	 * @return \mjohnson\transit\File
+	 * @return \Transit\File
 	 */
 	public function transform($self = false);
 

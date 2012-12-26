@@ -29,8 +29,8 @@ if ($_FILES && !empty($_POST['accessKey']) && !empty($_POST['secretKey']) && !em
 <body>
 	<form action="" method="POST" enctype="multipart/form-data">
 		<input type="text" name="accessKey" placeholder="Access Key"><br>
-        <input type="text" name="secretKey" placeholder="Secret Key"><br>
-        <input type="text" name="bucket" placeholder="Bucket"><br>
+		<input type="text" name="secretKey" placeholder="Secret Key"><br>
+		<input type="text" name="bucket" placeholder="Bucket"><br>
 		<input type="file" name="file"><br>
 		<button type="submit">Upload</button>
 	</form>

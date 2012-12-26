@@ -5,14 +5,12 @@
  * @link		http://milesj.me/code/php/transit
  */
 
-namespace mjohnson\transit\validators;
+namespace Transit\Validator;
 
-use mjohnson\transit\File;
+use Transit\File;
 
 /**
  * Interface for all validators to implement.
- *
- * @package	mjohnson.transit.validators
  */
 interface Validator {
 
@@ -23,7 +21,7 @@ interface Validator {
 	 * @param string $method
 	 * @param string $message
 	 * @param mixed $params
-	 * @return \mjohnson\transit\validators\Validator
+	 * @return \Transit\Validator\Validator
 	 */
 	public function addRule($method, $message, $params = array());
 
@@ -31,7 +29,7 @@ interface Validator {
 	 * Return the File object.
 	 *
 	 * @access public
-	 * @return \mjohnson\transit\File
+	 * @return \Transit\File
 	 */
 	public function getFile();
 
@@ -39,8 +37,8 @@ interface Validator {
 	 * Set the File object.
 	 *
 	 * @access public
-	 * @param \mjohnson\transit\File $file
-	 * @return \mjohnson\transit\validators\Validator
+	 * @param \Transit\File $file
+	 * @return \Transit\Validator\Validator
 	 */
 	public function setFile(File $file);
 

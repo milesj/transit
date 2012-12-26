@@ -5,17 +5,15 @@
  * @link		http://milesj.me/code/php/transit
  */
 
-namespace mjohnson\transit\transformers\image;
+namespace Transit\Transformer\Image;
 
-use mjohnson\transit\File;
-use mjohnson\transit\transformers\AbstractTransformer;
+use Transit\File;
+use Transit\Transformer\AbstractTransformer;
 use \DomainException;
 use \RuntimeException;
 
 /**
  * Provides shared functionality for transformers.
- *
- * @package	mjohnson.transit.transformers.image
  */
 abstract class AbstractImageTransformer extends AbstractTransformer {
 
@@ -23,8 +21,8 @@ abstract class AbstractImageTransformer extends AbstractTransformer {
 	 * Set the File object.
 	 *
 	 * @access public
-	 * @param \mjohnson\transit\File $file
-	 * @return \mjohnson\transit\transformers\Transformer
+	 * @param \Transit\File $file
+	 * @return \Transit\Transformer\Transformer
 	 * @throws \RuntimeException
 	 * @throws \DomainException
 	 */
@@ -45,7 +43,7 @@ abstract class AbstractImageTransformer extends AbstractTransformer {
 	 *
 	 * @access public
 	 * @param array $options
-	 * @return \mjohnson\transit\File
+	 * @return \Transit\File
 	 * @throws \DomainException
 	 */
 	public function process(array $options) {

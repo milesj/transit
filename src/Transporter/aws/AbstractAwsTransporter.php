@@ -5,15 +5,13 @@
  * @link		http://milesj.me/code/php/transit
  */
 
-namespace mjohnson\transit\transporters\aws;
+namespace Transit\Transporter\Aws;
 
-use mjohnson\transit\transporters\AbstractTransporter;
+use Transit\Transporter\AbstractTransporter;
 use \InvalidArgumentException;
 
 /**
  * Base class for all AWS transporters to extend.
- *
- * @package	mjohnson.transit.transporters.aws
  */
 abstract class AbstractAwsTransporter extends AbstractTransporter {
 

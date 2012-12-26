@@ -5,13 +5,11 @@
  * @link		http://milesj.me/code/php/transit
  */
 
-namespace mjohnson\transit\exceptions;
+namespace Transit\Exception;
 
 /**
- * Exception used when a file transportation error occurs.
- *
- * @package	mjohnson.transit.exceptions
+ * Exception used when a file transformation error occurs.
  */
-class TransportationException extends \Exception {
+class TransformationException extends \Exception {
 
 }

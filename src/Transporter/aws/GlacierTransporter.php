@@ -5,23 +5,21 @@
  * @link		http://milesj.me/code/php/transit
  */
 
-namespace mjohnson\transit\transporters\aws;
+namespace Transit\Transporter\Aws;
 
-use mjohnson\transit\File;
-use mjohnson\transit\exceptions\TransportationException;
-use Aws\Glacier\GlacierClient;
-use Aws\Glacier\Exception\GlacierException;
-use Aws\Glacier\Model\MultipartUpload\UploadBuilder;
+use Transit\File;
+use Transit\Exception\TransportationException;
 use Aws\Common\Enum\Region;
 use Aws\Common\Enum\Size;
 use Aws\Common\Exception\MultipartUploadException;
+use Aws\Glacier\GlacierClient;
+use Aws\Glacier\Exception\GlacierException;
+use Aws\Glacier\Model\MultipartUpload\UploadBuilder;
 use Guzzle\Http\EntityBody;
 use \InvalidArgumentException;
 
 /**
  * Transport a local file to Amazon Glacier.
- *
- * @package	mjohnson.transit.transporters.aws
  */
 class GlacierTransporter extends AbstractAwsTransporter {
 
@@ -85,9 +83,9 @@ class GlacierTransporter extends AbstractAwsTransporter {
 	 * Transport the file to Amazon Glacier and return the archive ID.
 	 *
 	 * @access public
-	 * @param \mjohnson\transit\File $file
+	 * @param \Transit\File $file
 	 * @return string
-	 * @throws \mjohnson\transit\exceptions\TransportationException
+	 * @throws \Transit\Exception\TransportationException
 	 */
 	public function transport(File $file) {
 		$config = $this->_config;

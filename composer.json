@@ -4,7 +4,7 @@
 	"description": "A file uploader, validator, importer and transformer library.",
 	"keywords": [
 		"transit", "file", "uploader", "validator", "importer", "transformer", "transporter",
-		"image", "audio", "video", "text", "application", "archive", "s3"
+		"image", "audio", "video", "text", "application", "archive", "s3", "glacier"
 	],
 	"homepage": "http://milesj.me/code/php/transit",
 	"license": "MIT",
@@ -22,7 +22,7 @@
 		"source": "https://github.com/milesj/php-transit"
 	},
 	"autoload": {
-		"psr-0": { "mjohnson\\transit": "src/" }
+		"psr-0": { "Transit": "src/" }
 	},
-	"target-dir": "mjohnson/transit"
+	"target-dir": "Transit"
 }

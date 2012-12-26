@@ -5,14 +5,12 @@
  * @link		http://milesj.me/code/php/transit
  */
 
-namespace mjohnson\transit\transporters;
+namespace Transit\Transporter;
 
-use mjohnson\transit\File;
+use Transit\File;
 
 /**
  * Interface for all transporters to implement.
- *
- * @package	mjohnson.transit.transporters
  */
 interface Transporter {
 
@@ -29,7 +27,7 @@ interface Transporter {
 	 * Transport the file to a remote location.
 	 *
 	 * @access public
-	 * @param \mjohnson\transit\File $file
+	 * @param \Transit\File $file
 	 * @return string
 	 */
 	public function transport(File $file);

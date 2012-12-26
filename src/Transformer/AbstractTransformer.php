@@ -5,14 +5,12 @@
  * @link		http://milesj.me/code/php/transit
  */
 
-namespace mjohnson\transit\transformers;
+namespace Transit\Transformer;
 
-use mjohnson\transit\File;
+use Transit\File;
 
 /**
  * Provides shared functionality for transformers.
- *
- * @package	mjohnson.transit.transformers
  */
 abstract class AbstractTransformer implements Transformer {
 
@@ -20,7 +18,7 @@ abstract class AbstractTransformer implements Transformer {
 	 * File object.
 	 *
 	 * @access protected
-	 * @var \mjohnson\transit\File
+	 * @var \Transit\File
 	 */
 	protected $_file;
 
@@ -46,7 +44,7 @@ abstract class AbstractTransformer implements Transformer {
 	 * Return the File object.
 	 *
 	 * @access public
-	 * @return \mjohnson\transit\File
+	 * @return \Transit\File
 	 */
 	public function getFile() {
 		return $this->_file;
@@ -56,8 +54,8 @@ abstract class AbstractTransformer implements Transformer {
 	 * Set the File object.
 	 *
 	 * @access public
-	 * @param \mjohnson\transit\File $file
-	 * @return \mjohnson\transit\transformers\Transformer
+	 * @param \Transit\File $file
+	 * @return \Transit\Transformer\Transformer
 	 */
 	public function setFile(File $file) {
 		$this->_file = $file;

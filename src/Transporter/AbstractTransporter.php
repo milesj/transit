@@ -5,12 +5,10 @@
  * @link		http://milesj.me/code/php/transit
  */
 
-namespace mjohnson\transit\transporters;
+namespace Transit\Transporter;
 
 /**
  * Provides shared functionality for transporters.
- *
- * @package	mjohnson.transit.transporters
  */
 abstract class AbstractTransporter implements Transporter {
 

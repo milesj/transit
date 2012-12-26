@@ -5,14 +5,12 @@
  * @link		http://milesj.me/code/php/transit
  */
 
-namespace mjohnson\transit\transformers\image;
+namespace Transit\Transformer\Image;
 
 use \InvalidArgumentException;
 
 /**
  * Crops a photo, but resizes and keeps aspect ratio depending on which side is larger.
- *
- * @package	mjohnson.transit.transformers.image
  */
 class CropTransformer extends AbstractImageTransformer {
 
@@ -40,7 +38,7 @@ class CropTransformer extends AbstractImageTransformer {
 	 *
 	 * @access public
 	 * @param boolean $self
-	 * @return \mjohnson\transit\File
+	 * @return \Transit\File
 	 * @throws \InvalidArgumentException
 	 */
 	public function transform($self = false) {
