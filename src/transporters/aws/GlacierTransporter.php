@@ -11,7 +11,10 @@ use mjohnson\transit\File;
 use mjohnson\transit\exceptions\TransportationException;
 use Aws\Glacier\GlacierClient;
 use Aws\Glacier\Exception\GlacierException;
+use Aws\Glacier\Model\MultipartUpload\UploadBuilder;
 use Aws\Common\Enum\Region;
+use Aws\Common\Enum\Size;
+use Aws\Common\Exception\MultipartUploadException;
 use Guzzle\Http\EntityBody;
 use \InvalidArgumentException;
 
@@ -85,17 +88,37 @@ class GlacierTransporter extends AbstractAwsTransporter {
 	 * @param \mjohnson\transit\File $file
 	 * @return string
 	 * @throws \mjohnson\transit\exceptions\TransportationException
-	 * @throws \InvalidArgumentException
 	 */
 	public function transport(File $file) {
 		$config = $this->_config;
-		$options = array(
-			'vaultName' => $config['vault'],
-			'accountId' => $config['accountId'],
-			'body' => EntityBody::factory(fopen($file->path(), 'r')),
-		);
+		$response = null;
 
-		if ($response = $this->_client->uploadArchive(array_filter($options))) {
+		// If larger then 100MB, split upload into parts
+		if ($file->size() >= (100 * Size::MB)) {
+			$uploader = UploadBuilder::newInstance()
+				->setClient($this->_client)
+				->setSource($file->path())
+				->setVaultName($config['vault'])
+				->setAccountId($config['accountId'] ?: '-')
+				->setPartSize(10 * Size::MB)
+				->build();
+
+			try {
+				$response = $uploader->upload();
+			} catch (MultipartUploadException $e) {
+				$uploader->abort();
+			}
+
+		} else {
+			$response = $this->_client->uploadArchive(array_filter(array(
+				'vaultName' => $config['vault'],
+				'accountId' => $config['accountId'],
+				'body' => EntityBody::factory(fopen($file->path(), 'r')),
+			)));
+		}
+
+		// Return archive ID if successful
+		if ($response) {
 			$file->delete();
 
 			return $response->getPath('archiveId');

@@ -96,22 +96,20 @@ class S3Transporter extends AbstractAwsTransporter {
 	 * @param \mjohnson\transit\File $file
 	 * @return string
 	 * @throws \mjohnson\transit\exceptions\TransportationException
-	 * @throws \InvalidArgumentException
 	 */
 	public function transport(File $file) {
 		$config = $this->_config;
 		$key = ltrim($config['folder'], '/') . $file->basename();
-		$maxSize = (100 * Size::MB);
 		$response = null;
 
 		// If larger then 100MB, split upload into parts
-		if ($file->size() >= $maxSize) {
+		if ($file->size() >= (100 * Size::MB)) {
 			$uploader = UploadBuilder::newInstance()
 				->setClient($this->_client)
 				->setSource($file->path())
 				->setBucket($config['bucket'])
 				->setKey($key)
-				->setMinPartSize($maxSize)
+				->setMinPartSize(10 * Size::MB)
 				->build();
 
 			try {
