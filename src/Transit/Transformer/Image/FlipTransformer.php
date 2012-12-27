@@ -50,16 +50,16 @@ class FlipTransformer extends AbstractImageTransformer {
 
 		switch ($config['direction']) {
 			case self::VERTICAL:
-				$src_y = --$height;
+				$src_y = $height;
 				$src_h = -$height;
 			break;
 			case self::HORIZONTAL:
-				$src_x = --$width;
+				$src_x = $width;
 				$src_w = -$width;
 			break;
 			case self::BOTH:
-				$src_x = --$width;
-				$src_y = --$height;
+				$src_x = $width;
+				$src_y = $height;
 				$src_w = -$width;
 				$src_h = -$height;
 			break;
