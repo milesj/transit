@@ -8,6 +8,7 @@
 namespace Transit\Transformer\Image;
 
 use Transit\File;
+use \InvalidArgumentException;
 
 /**
  * Scale the image based on a percentage.
@@ -32,9 +33,15 @@ class ScaleTransformer extends AbstractImageTransformer {
 	 * @param \Transit\File $file
 	 * @param boolean $self
 	 * @return \Transit\File
+	 * @throws \InvalidArgumentException
 	 */
 	public function transform(File $file, $self = false) {
 		$config = $this->_config;
+
+		if (empty($config['percent']) || !is_numeric($config['percent'])) {
+			throw new InvalidArgumentException('Invalid percent for scaling');
+		}
+
 		$width = round($file->width() * $config['percent']);
 		$height = round($file->height() * $config['percent']);
 
