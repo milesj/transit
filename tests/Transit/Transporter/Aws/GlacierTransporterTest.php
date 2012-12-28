@@ -42,7 +42,7 @@ class GlacierTransporterTest extends TestCase {
 	 */
 	public function testExceptionHandling() {
 		try {
-			$object = new GlacierTransporter(AWS_ACCESS, AWS_SECRET, array(
+			new GlacierTransporter(AWS_ACCESS, AWS_SECRET, array(
 				'vault' => GLACIER_VAULT
 			));
 
@@ -53,7 +53,7 @@ class GlacierTransporterTest extends TestCase {
 		}
 
 		try {
-			$object = new GlacierTransporter(AWS_ACCESS, AWS_SECRET, array(
+			new GlacierTransporter(AWS_ACCESS, AWS_SECRET, array(
 				'region' => GLACIER_REGION
 			));
 

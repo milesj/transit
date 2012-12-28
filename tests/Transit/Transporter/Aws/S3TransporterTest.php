@@ -77,7 +77,7 @@ class S3TransporterTest extends TestCase {
 	 */
 	public function testExceptionHandling() {
 		try {
-			$object = new S3Transporter(AWS_ACCESS, AWS_SECRET, array(
+			new S3Transporter(AWS_ACCESS, AWS_SECRET, array(
 				'bucket' => S3_BUCKET
 			));
 
@@ -88,7 +88,7 @@ class S3TransporterTest extends TestCase {
 		}
 
 		try {
-			$object = new S3Transporter(AWS_ACCESS, AWS_SECRET, array(
+			new S3Transporter(AWS_ACCESS, AWS_SECRET, array(
 				'region' => S3_REGION
 			));
 
