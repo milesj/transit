@@ -77,7 +77,7 @@ class FlipTransformer extends AbstractImageTransformer {
 			'source_h'	=> $src_h,
 			'quality'	=> $config['quality'],
 			'overwrite'	=> $self,
-			'target'	=> sprintf('%s-%s', $file->name(), $config['direction'])
+			'target'	=> sprintf('%s-flip-%s', $file->name(), $config['direction'])
 		));
 	}
 

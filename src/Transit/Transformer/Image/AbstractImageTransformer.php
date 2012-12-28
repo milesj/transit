@@ -99,7 +99,10 @@ abstract class AbstractImageTransformer extends AbstractTransformer {
 			$options['target'] = $file->name();
 
 		} else if (!$options['target']) {
-			$options['target'] = sprintf('%s-%sx%s', $file->name(), round($options['dest_w']), round($options['dest_h']));
+			$class = explode('\\', get_class($this));
+			$class = str_replace('transformer', '', strtolower(end($class)));
+
+			$options['target'] = sprintf('%s-%s-%sx%s', $file->name(), $class, round($options['dest_w']), round($options['dest_h']));
 		}
 
 		$targetPath = sprintf('%s%s.%s', $file->dir(), $options['target'], $file->ext());
