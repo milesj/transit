@@ -382,8 +382,8 @@ class File {
 	public function toArray() {
 		return array(
 			'basename' => $this->basename(),
-			'directory' => $this->dir(),
-			'extension' => $this->ext(),
+			'dir' => $this->dir(),
+			'ext' => $this->ext(),
 			'name' => $this->name(),
 			'path' => $this->path(),
 			'size' => $this->size(),

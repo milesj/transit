@@ -5,6 +5,14 @@ namespace Transit\Test;
 class TestCase extends \PHPUnit_Framework_TestCase {
 
 	/**
+	 * Class instance.
+	 *
+	 * @access protected
+	 * @var object
+	 */
+	protected $object;
+
+	/**
 	 * Mock $_FILES data.
 	 *
 	 * @access protected
@@ -33,7 +41,7 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 	 */
 	protected function setUp() {
 		$baseFile = TEST_DIR . '/tmp/scott-pilgrim.jpg';
-		$tempFile = TEST_DIR . '/tmp/test.tmp';
+		$tempFile = TEST_DIR . '/tmp/test.jpg';
 
 		copy($baseFile, $tempFile);
 
