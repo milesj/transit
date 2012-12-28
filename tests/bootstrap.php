@@ -7,8 +7,16 @@
 
 error_reporting(E_ALL | E_STRICT);
 
+// Test constants
 define('TEST_DIR', __DIR__);
 define('VENDOR_DIR', dirname(TEST_DIR) . '/vendor');
+
+define('AWS_ACCESS', '');
+define('AWS_SECRET', '');
+define('S3_BUCKET', '');
+define('S3_REGION', 'us-east-1');
+define('GLACIER_VAULT', '');
+define('GLACIER_REGION', 'us-east-1');
 
 // Ensure that composer has installed all dependencies
 if (!file_exists(dirname(TEST_DIR) . '/composer.lock')) {
