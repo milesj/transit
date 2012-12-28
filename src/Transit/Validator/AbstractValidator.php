@@ -92,7 +92,7 @@ abstract class AbstractValidator implements Validator {
 	 * @param array $whitelist
 	 * @return boolean
 	 */
-	public function extension($whitelist = array()) {
+	public function ext($whitelist = array()) {
 		return in_array($this->getFile()->ext(), (array) $whitelist);
 	}
 
