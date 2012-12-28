@@ -40,8 +40,8 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 	 * Create temporary test files to mimic file uploading.
 	 */
 	protected function setUp() {
-		$baseFile = TEST_DIR . '/tmp/scott-pilgrim.jpg';
-		$tempFile = TEST_DIR . '/tmp/test.jpg';
+		$baseFile = TEMP_DIR . '/scott-pilgrim.jpg';
+		$tempFile = TEMP_DIR . '/test.jpg';
 
 		copy($baseFile, $tempFile);
 

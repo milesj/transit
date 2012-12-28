@@ -47,7 +47,7 @@ class FileTest extends TestCase {
 	 * Test that dir() returns the parent folder.
 	 */
 	public function testDir() {
-		$this->assertEquals(TEST_DIR . '/tmp/', $this->object->dir());
+		$this->assertEquals(TEMP_DIR . '/', $this->object->dir());
 	}
 
 	/**
@@ -128,14 +128,14 @@ class FileTest extends TestCase {
 	 */
 	public function testMoveNoOverwrite() {
 		$testPath = TEST_DIR . '/test.jpg';
-		$movePath = TEST_DIR . '/tmp/test-1.jpg';
+		$movePath = TEMP_DIR . '/test-1.jpg';
 
 		copy($this->baseFile, $testPath);
 
 		$this->assertFalse(file_exists($movePath));
 
 		$file = new File($testPath);
-		$file->move(TEST_DIR . '/tmp');
+		$file->move(TEMP_DIR);
 
 		$this->assertTrue(file_exists($movePath));
 

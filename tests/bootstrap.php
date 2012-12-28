@@ -9,6 +9,7 @@ error_reporting(E_ALL | E_STRICT);
 
 // Test constants
 define('TEST_DIR', __DIR__);
+define('TEMP_DIR', TEST_DIR . '/tmp');
 define('VENDOR_DIR', dirname(TEST_DIR) . '/vendor');
 
 define('AWS_ACCESS', '');

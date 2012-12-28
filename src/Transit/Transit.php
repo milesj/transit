@@ -162,6 +162,26 @@ class Transit {
 	}
 
 	/**
+	 * Return the file that was uploaded or imported.
+	 *
+	 * @access public
+	 * @return \Transit\File
+	 */
+	public function getOriginalFile() {
+		return $this->_file;
+	}
+
+	/**
+	 * Return a list of all transformed files.
+	 *
+	 * @access public
+	 * @return array
+	 */
+	public function getTransformedFiles() {
+		return $this->_files;
+	}
+
+	/**
 	 * Return the original file and all transformed files.
 	 *
 	 * @access public
@@ -172,23 +192,23 @@ class Transit {
 	}
 
 	/**
-	 * Return the File that was uploaded or imported.
+	 * Return the Transporter object.
 	 *
 	 * @access public
-	 * @return \Transit\File
+	 * @return \Transit\Transporter\Transporter
 	 */
-	public function getOriginalFile() {
-		return $this->_file;
+	public function getTransporter() {
+		return $this->_transporter;
 	}
 
 	/**
-	 * Return a list of all transformed Files.
+	 * Return the Validator object.
 	 *
 	 * @access public
-	 * @return array
+	 * @return \Transit\Validator\Validator
 	 */
-	public function getTransformedFiles() {
-		return $this->_files;
+	public function getValidator() {
+		return $this->_validator;
 	}
 
 	/**
@@ -239,19 +259,25 @@ class Transit {
 		$curl = curl_init($url);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($curl, CURLOPT_FAILONERROR, true);
 		$response = curl_exec($curl);
-		curl_close($curl);
 
 		// Save the file locally
-		$target = $this->findDestination($name, $overwrite);
+		if (!curl_error($curl)) {
+			curl_close($curl);
 
-		if (file_put_contents($target, $response)) {
-			$this->_file = new File($target);
+			$target = $this->findDestination($name, $overwrite);
 
-			return true;
+			if (file_put_contents($target, $response)) {
+				$this->_file = new File($target);
+
+				return true;
+			}
+		} else {
+			curl_close($curl);
 		}
 
-		throw new IoException(sprintf('Failed to import %s from remote location', basename($target)));
+		throw new IoException(sprintf('Failed to import %s from remote location', $name));
 	}
 
 	/**
@@ -420,7 +446,7 @@ class Transit {
 
 		foreach ($localFiles as $file) {
 			try {
-				$transportedFiles[] = $this->_transporter->transport($file);
+				$transportedFiles[] = $this->getTransporter()->transport($file);
 
 			} catch (Exception $e) {
 				$error = $e->getMessage();
@@ -431,7 +457,7 @@ class Transit {
 		// Throw error and rollback
 		if ($error) {
 			foreach ($transportedFiles as $path) {
-				$this->_transporter->delete($path);
+				$this->getTransporter()->delete($path);
 			}
 
 			throw new TransportationException($error);
@@ -477,8 +503,8 @@ class Transit {
 		}
 
 		// Validate rules
-		if ($this->_validator) {
-			$this->_validator
+		if ($validator = $this->getValidator()) {
+			$validator
 				->setFile(new File($data['tmp_name']))
 				->validate();
 		}
