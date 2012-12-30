@@ -311,6 +311,25 @@ class Transit {
 	}
 
 	/**
+	 * Rollback and delete all uploaded and transformed files.
+	 *
+	 * @access public
+	 * @return \Transit\Transit
+	 */
+	public function rollback() {
+		if ($files = $this->getAllFiles()) {
+			foreach ($files as $file) {
+				$file->delete();
+			}
+		}
+
+		$this->_file = null;
+		$this->_files = array();
+
+		return $this;
+	}
+
+	/**
 	 * Set the temporary directory and create it if it does not exist.
 	 *
 	 * @access public
@@ -403,21 +422,15 @@ class Transit {
 			}
 		}
 
+		$this->_file = $originalFile;
+		$this->_files = $transformedFiles;
+
 		// Throw error and rollback
 		if ($error) {
-			$originalFile->delete();
-
-			foreach ($transformedFiles as $file) {
-				$file->delete();
-			}
-
-			$this->_file = null;
+			$this->rollback();
 
 			throw new TransformationException($error);
 		}
-
-		$this->_file = $originalFile;
-		$this->_files = $transformedFiles;
 
 		return true;
 	}
