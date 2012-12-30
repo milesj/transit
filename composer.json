@@ -16,7 +16,7 @@
 	],
 	"require": {
 		"php": ">=5.3",
-		"aws/aws-sdk-php": "2.0.2"
+		"aws/aws-sdk-php": "2.0.3"
 	},
 	"support": {
 		"source": "https://github.com/milesj/php-transit"

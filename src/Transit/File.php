@@ -232,6 +232,13 @@ class File {
 			$path .= '/';
 		}
 
+		if (!file_exists($path)) {
+			mkdir($path, 0777, true);
+
+		} else if (!is_writable($path)) {
+			chmod($path, 0777);
+		}
+
 		// Determine name and overwrite
 		$name = $this->name();
 		$ext = $this->ext();
@@ -249,6 +256,7 @@ class File {
 		$targetPath = $path . $name . '.' . $ext;
 
 		if (rename($this->path(), $targetPath)) {
+			$this->reset();
 			$this->_path = $targetPath;
 
 			return true;
@@ -303,6 +311,7 @@ class File {
 		$targetPath = $this->dir() . $name . '.' . $this->ext();
 
 		if (rename($this->path(), $targetPath)) {
+			$this->reset();
 			$this->_path = $targetPath;
 
 			return true;
