@@ -420,6 +420,8 @@ class Transit {
 					break;
 				}
 			}
+
+			$originalFile->reset();
 		}
 
 		$this->_file = $originalFile;
@@ -495,7 +497,7 @@ class Transit {
 		}
 
 		// Check upload errors
-		if ($data['error'] > 0 || !is_uploaded_file($data['tmp_name']) || !is_file($data['tmp_name'])) {
+		if ($data['error'] > 0 || !$this->_isUploadedFile($data['tmp_name'])) {
 			switch ($data['error']) {
 				case UPLOAD_ERR_INI_SIZE:
 				case UPLOAD_ERR_FORM_SIZE:
@@ -525,13 +527,36 @@ class Transit {
 		// Upload the file
 		$target = $this->findDestination($data['name'], $overwrite);
 
-		if (move_uploaded_file($data['tmp_name'], $target) || copy($data['tmp_name'], $target)) {
+		if ($this->_moveUploadedFile($data['tmp_name'], $target)) {
 			$this->_file = new File($target);
 
 			return true;
 		}
 
 		throw new ValidationException('An unknown error has occurred');
+	}
+
+	/**
+	 * Return true if the file was uploaded via HTTP and is a valid file.
+	 *
+	 * @access protected
+	 * @param string $tempFile
+	 * @return boolean
+	 */
+	protected function _isUploadedFile($tempFile) {
+		return (is_uploaded_file($tempFile) || is_file($tempFile));
+	}
+
+	/**
+	 * Attempt to copy/move the uploaded file to the target destination.
+	 *
+	 * @access protected
+	 * @param string $tempFile
+	 * @param string $target
+	 * @return boolean
+	 */
+	protected function _moveUploadedFile($tempFile, $target) {
+		return (move_uploaded_file($tempFile, $target) || copy($tempFile, $target));
 	}
 
 }

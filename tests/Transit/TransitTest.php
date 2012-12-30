@@ -104,16 +104,13 @@ class TransitTest extends TestCase {
 
 		try {
 			if ($this->object->upload()) {
+				$this->object->transform();
+
 				$files = $this->object->getTransformedFiles();
 
 				$this->assertEquals(2, count($files));
 
-				// Cleanup
-				$this->object->getOriginalFile()->delete();
-
-				foreach ($files as $file) {
-					$file->delete();
-				}
+				$this->object->rollback();
 			}
 
 			$this->assertTrue(true);
@@ -131,6 +128,8 @@ class TransitTest extends TestCase {
 
 		try {
 			if ($this->object->upload()) {
+				$this->object->transform();
+
 				$files = $this->object->getTransformedFiles();
 				$file = $this->object->getOriginalFile();
 
@@ -165,6 +164,8 @@ class TransitTest extends TestCase {
 					foreach ($files as $file) {
 						$this->object->getTransporter()->delete($file);
 					}
+
+					$this->object->getOriginalFile()->delete();
 				}
 			}
 		} catch (Exception $e) {
