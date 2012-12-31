@@ -162,18 +162,8 @@ class File {
 	 * @access public
 	 * @return boolean
 	 */
-	public function isApp() {
-		return $this->_is('app');
-	}
-
-	/**
-	 * Return true if the file is an archive.
-	 *
-	 * @access public
-	 * @return boolean
-	 */
-	public function isArchive() {
-		return $this->_is('archive');
+	public function isApplication() {
+		return MimeType::isApplication($this);
 	}
 
 	/**
@@ -183,7 +173,7 @@ class File {
 	 * @return boolean
 	 */
 	public function isAudio() {
-		return $this->_is('audio');
+		return MimeType::isAudio($this);
 	}
 
 	/**
@@ -193,7 +183,7 @@ class File {
 	 * @return boolean
 	 */
 	public function isImage() {
-		return $this->_is('image');
+		return MimeType::isImage($this);
 	}
 
 	/**
@@ -203,7 +193,7 @@ class File {
 	 * @return boolean
 	 */
 	public function isText() {
-		return $this->_is('text');
+		return MimeType::isText($this);
 	}
 
 	/**
@@ -213,7 +203,18 @@ class File {
 	 * @return boolean
 	 */
 	public function isVideo() {
-		return $this->_is('video');
+		return MimeType::isVideo($this);
+	}
+
+	/**
+	 * Return true if the file is part of a sub-type.
+	 *
+	 * @access public
+	 * @param string $subType
+	 * @return boolean
+	 */
+	public function isSubType($subType) {
+		return MimeType::isSubType($subType, $this);
 	}
 
 	/**
@@ -431,17 +432,6 @@ class File {
 		$this->_cache[$key] = $callback($this);
 
 		return $this->_cache[$key];
-	}
-
-	/**
-	 * Return true if the grouping is found within the mime type.
-	 *
-	 * @access protected
-	 * @param string $type
-	 * @return boolean
-	 */
-	protected function _is($type) {
-		return (strpos($this->type(), $type) === 0);
 	}
 
 }
