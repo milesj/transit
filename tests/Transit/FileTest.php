@@ -70,17 +70,10 @@ class FileTest extends TestCase {
 	}
 
 	/**
-	 * Test that isApp() returns true if the mime type is application.
+	 * Test that isApplication() returns true if the mime type is application.
 	 */
-	public function testIsApp() {
-		$this->assertFalse($this->object->isApp());
-	}
-
-	/**
-	 * Test that isArchive() returns true if the mime type is an archive.
-	 */
-	public function testIsArchive() {
-		$this->assertFalse($this->object->isArchive());
+	public function testIsApplication() {
+		$this->assertFalse($this->object->isApplication());
 	}
 
 	/**
