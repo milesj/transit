@@ -218,4 +218,5 @@ class TransitTest extends TestCase {
 			$this->assertTrue(true);
 		}
 	}
+
 }

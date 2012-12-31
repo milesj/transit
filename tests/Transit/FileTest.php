@@ -234,4 +234,5 @@ class FileTest extends TestCase {
 	public function testToString() {
 		$this->assertEquals($this->tempFile, $this->object->path());
 	}
+
 }

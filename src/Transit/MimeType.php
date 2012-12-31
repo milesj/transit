@@ -338,6 +338,7 @@ class MimeType {
 		'gtm' => 'application/vnd.groove-tool-message',
 		'gtw' => 'model/vnd.gtw',
 		'gv' => 'text/vnd.graphviz',
+		'gz' => 'application/x-gzip',
 		'gxt' => 'application/vnd.geonext',
 		'h' => 'text/x-c',
 		'h261' => 'video/h261',
@@ -671,6 +672,7 @@ class MimeType {
 		'rep' => 'application/vnd.businessobjects',
 		'res' => 'application/x-dtbresource+xml',
 		'resx' => 'text/xml',
+		'rev' => 'application/x-rar-compressed',
 		'rgb' => 'image/x-rgb',
 		'rif' => 'application/reginfo+xml',
 		'rip' => 'audio/vnd.rip',
@@ -798,6 +800,7 @@ class MimeType {
 		'text' => 'text/plain',
 		'tfi' => 'application/thraud+xml',
 		'tfm' => 'application/x-tex-tfm',
+		'tgz' => 'application/x-compressed',
 		'thmx' => 'application/vnd.ms-officetheme',
 		'tif' => 'image/tiff',
 		'tiff' => 'image/tiff',
@@ -966,6 +969,7 @@ class MimeType {
 		'yin' => 'application/yin+xml',
 		'yml' => 'text/yaml',
 		'zaz' => 'application/vnd.zzazz.deck+xml',
+		'z'	=> 'application/x-compress',
 		'zip' => 'application/zip',
 		'zir' => 'application/vnd.zul',
 		'zirz' => 'application/vnd.zul',
@@ -1151,7 +1155,7 @@ class MimeType {
 	 * @static
 	 */
 	public static function isApplication($mimeType) {
-		return self::_isType($mimeType, 'application');
+		return self::_isMimeType($mimeType, 'application');
 	}
 
 	/**
@@ -1163,7 +1167,7 @@ class MimeType {
 	 * @static
 	 */
 	public static function isAudio($mimeType) {
-		return self::_isType($mimeType, 'audio');
+		return self::_isMimeType($mimeType, 'audio');
 	}
 
 	/**
@@ -1175,7 +1179,7 @@ class MimeType {
 	 * @static
 	 */
 	public static function isImage($mimeType) {
-		return self::_isType($mimeType, 'image');
+		return self::_isMimeType($mimeType, 'image');
 	}
 
 	/**
@@ -1187,7 +1191,7 @@ class MimeType {
 	 * @static
 	 */
 	public static function isText($mimeType) {
-		return self::_isType($mimeType, 'text');
+		return self::_isMimeType($mimeType, 'text');
 	}
 
 	/**
@@ -1199,7 +1203,7 @@ class MimeType {
 	 * @static
 	 */
 	public static function isVideo($mimeType) {
-		return self::_isType($mimeType, 'video');
+		return self::_isMimeType($mimeType, 'video');
 	}
 
 	/**
@@ -1244,7 +1248,7 @@ class MimeType {
 	 * @return boolean
 	 * @static
 	 */
-	protected static function _isType($mimeType, $type) {
+	protected static function _isMimeType($mimeType, $type) {
 		return (strpos(self::_findMimeType($mimeType), $type) === 0);
 	}
 
