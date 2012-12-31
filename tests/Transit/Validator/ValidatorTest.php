@@ -48,6 +48,14 @@ class ValidatorTest extends TestCase {
 	}
 
 	/**
+	 * Test that the file mime type is in the list.
+	 */
+	public function testMimeType() {
+		$this->assertTrue($this->object->mimeType('image'));
+		$this->assertFalse($this->object->mimeType('archive'));
+	}
+
+	/**
 	 * Test that addRule() sets rules and validate() validates them.
 	 */
 	public function testAddRuleAndValidate() {

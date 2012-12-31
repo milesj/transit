@@ -8,6 +8,7 @@
 namespace Transit\Validator;
 
 use Transit\File;
+use Transit\MimeType;
 use Transit\Exception\IoException;
 use Transit\Exception\ValidationException;
 use \BadMethodCallException;
@@ -43,7 +44,8 @@ abstract class AbstractValidator implements Validator {
 	 * @return \Transit\Validator\Validator
 	 */
 	public function addRule($method, $message, $params = array()) {
-		$this->_rules[$method] = array(
+		$this->_rules[] = array(
+			'method' => $method,
 			'message' => (string) $message,
 			'params' => (array) $params
 		);
@@ -108,6 +110,30 @@ abstract class AbstractValidator implements Validator {
 	}
 
 	/**
+	 * Validate the mime type is in the list of all mime types.
+	 *
+	 * @access public
+	 * @param string|array $mimeTypes
+	 * @return boolean
+	 */
+	public function mimeType($mimeTypes) {
+		$types = array();
+
+		foreach ((array) $mimeTypes as $mimeType) {
+			switch ($mimeType) {
+				case 'application': $types += MimeType::getApplicationList(); break;
+				case 'audio': 		$types += MimeType::getAudioList(); break;
+				case 'image': 		$types += MimeType::getImageList(); break;
+				case 'text': 		$types += MimeType::getTextList(); break;
+				case 'video': 		$types += MimeType::getVideoList(); break;
+				default: 			$types += MimeType::getSubTypeList($mimeType); break;
+			}
+		}
+
+		return in_array($this->getFile()->type(), $types);
+	}
+
+	/**
 	 * Validate that all the rules pass.
 	 *
 	 * @access public
@@ -125,7 +151,9 @@ abstract class AbstractValidator implements Validator {
 			throw new IoException('No file present for validation');
 		}
 
-		foreach ($this->_rules as $method => $rule) {
+		foreach ($this->_rules as $rule) {
+			$method = $rule['method'];
+
 			if (!method_exists($this, $method)) {
 				throw new BadMethodCallException(sprintf('Validation method %s does not exist', $method));
 			}
