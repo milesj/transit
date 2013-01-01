@@ -233,6 +233,11 @@ class File {
 			$path .= '/';
 		}
 
+		// Don't move to the same folder
+		if (realpath($path) === realpath($this->dir())) {
+			return true;
+		}
+
 		if (!file_exists($path)) {
 			mkdir($path, 0777, true);
 
