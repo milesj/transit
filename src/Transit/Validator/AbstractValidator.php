@@ -9,6 +9,7 @@ namespace Transit\Validator;
 
 use Transit\File;
 use Transit\MimeType;
+use Transit\Validator;
 use Transit\Exception\IoException;
 use Transit\Exception\ValidationException;
 use \BadMethodCallException;
@@ -41,7 +42,7 @@ abstract class AbstractValidator implements Validator {
 	 * @param string $method
 	 * @param string $message
 	 * @param mixed $params
-	 * @return \Transit\Validator\Validator
+	 * @return \Transit\Validator
 	 */
 	public function addRule($method, $message, $params = array()) {
 		$this->_rules[] = array(
@@ -68,7 +69,7 @@ abstract class AbstractValidator implements Validator {
 	 *
 	 * @access public
 	 * @param \Transit\File $file
-	 * @return \Transit\Validator\Validator
+	 * @return \Transit\Validator
 	 */
 	public function setFile(File $file) {
 		$this->_file = $file;

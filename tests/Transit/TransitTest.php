@@ -76,6 +76,23 @@ class TransitTest extends TestCase {
 	}
 
 	/**
+	 * Test that importFromStream() downloads a file from the input stream.
+	 */
+	public function testImportFromStream() {
+		$transit = new Transit('stream.jpg');
+		$transit->setDirectory(TEMP_DIR);
+
+		// Nothing in stream
+		try {
+			$transit->importFromStream();
+			$this->assertTrue(false);
+
+		} catch (Exception $e) {
+			$this->assertTrue(true);
+		}
+	}
+
+	/**
 	 * Test that validation is triggered during upload.
 	 * Validation should fail since the file is jpg, not png.
 	 */
@@ -164,8 +181,6 @@ class TransitTest extends TestCase {
 					foreach ($files as $file) {
 						$this->object->getTransporter()->delete($file);
 					}
-
-					$this->object->getOriginalFile()->delete();
 				}
 			}
 		} catch (Exception $e) {
@@ -187,6 +202,18 @@ class TransitTest extends TestCase {
 		} catch (Exception $e) {
 			$this->assertTrue(false, $e->getMessage());
 		}
+	}
+
+	/**
+	 * Test that setTransporter() and getTransporter() do as they are told.
+	 */
+	public function testSetGetTransport() {
+		$this->object->setTransporter(new S3Transporter(AWS_ACCESS, AWS_SECRET, array(
+			'bucket' => S3_BUCKET,
+			'region' => S3_REGION
+		)));
+
+		$this->assertInstanceOf('\Transit\Transporter\Aws\S3Transporter', $this->object->getTransporter());
 	}
 
 	/**

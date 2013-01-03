@@ -105,6 +105,13 @@ class FileTest extends TestCase {
 	}
 
 	/**
+	 * Test that isSubType() returns true if the mime type is a sub-type.
+	 */
+	public function testIsSubType() {
+		$this->assertFalse($this->object->isSubType('archive'));
+	}
+
+	/**
 	 * Test that move() moves the file to another directory.
 	 */
 	public function testMove() {
@@ -117,6 +124,8 @@ class FileTest extends TestCase {
 
 		$this->assertFalse(file_exists($this->tempFile));
 		$this->assertTrue(file_exists($newPath));
+
+		$this->assertTrue($this->object->move(TEST_DIR));
 
 		$this->object->delete();
 	}
@@ -225,7 +234,8 @@ class FileTest extends TestCase {
 	 * Test that toString() returns the file path.
 	 */
 	public function testToString() {
-		$this->assertEquals($this->tempFile, $this->object->path());
+		$this->assertEquals($this->tempFile, $this->object->toString());
+		$this->assertEquals($this->tempFile, (string) $this->object);
 	}
 
 }

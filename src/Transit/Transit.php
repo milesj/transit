@@ -7,13 +7,13 @@
 
 namespace Transit;
 
+use Transit\Transformer;
+use Transit\Transporter;
+use Transit\Validator;
 use Transit\Exception\IoException;
 use Transit\Exception\TransformationException;
 use Transit\Exception\TransportationException;
 use Transit\Exception\ValidationException;
-use Transit\Transformer\Transformer;
-use Transit\Transporter\Transporter;
-use Transit\Validator\Validator;
 use \Exception;
 use \RuntimeException;
 use \InvalidArgumentException;
@@ -76,7 +76,7 @@ class Transit {
 	 * Transporter instance.
 	 *
 	 * @access protected
-	 * @var \Transit\Transporter\Transporter
+	 * @var \Transit\Transporter
 	 */
 	protected $_transporter;
 
@@ -84,7 +84,7 @@ class Transit {
 	 * Validator instance.
 	 *
 	 * @access protected
-	 * @var \Transit\Validator\Validator
+	 * @var \Transit\Validator
 	 */
 	protected $_validator;
 
@@ -102,7 +102,7 @@ class Transit {
 	 * Add a Transformer to generate new images with.
 	 *
 	 * @access public
-	 * @param \Transit\Transformer\Transformer $transformer
+	 * @param \Transit\Transformer $transformer
 	 * @return \Transit\Transit
 	 */
 	public function addTransformer(Transformer $transformer) {
@@ -115,7 +115,7 @@ class Transit {
 	 * Add a Transformer to apply to the original file.
 	 *
 	 * @access public
-	 * @param \Transit\Transformer\Transformer $transformer
+	 * @param \Transit\Transformer $transformer
 	 * @return \Transit\Transit
 	 */
 	public function addSelfTransformer(Transformer $transformer) {
@@ -195,7 +195,7 @@ class Transit {
 	 * Return the Transporter object.
 	 *
 	 * @access public
-	 * @return \Transit\Transporter\Transporter
+	 * @return \Transit\Transporter
 	 */
 	public function getTransporter() {
 		return $this->_transporter;
@@ -205,7 +205,7 @@ class Transit {
 	 * Return the Validator object.
 	 *
 	 * @access public
-	 * @return \Transit\Validator\Validator
+	 * @return \Transit\Validator
 	 */
 	public function getValidator() {
 		return $this->_validator;
@@ -290,24 +290,24 @@ class Transit {
 	 * @throws \Transit\Exception\IoException
 	 */
 	public function importFromStream($overwrite = true) {
-		$field = $this->_data;
-
-		if (empty($_GET[$field])) {
-			throw new IoException(sprintf('%s was not found in the input stream', $field));
-		}
-
-		$target = $this->findDestination($_GET[$field], $overwrite);
+		$target = $this->findDestination($this->_data, $overwrite);
 		$input = fopen('php://input', 'r');
 		$output = fopen($target, 'w');
 
-		stream_copy_to_stream($input, $output);
+		$size = stream_copy_to_stream($input, $output);
 
 		fclose($input);
 		fclose($output);
 
+		if ($size <= 0) {
+			@unlink($target);
+
+			throw new IoException('No file detected in input stream');
+		}
+
 		$this->_file = new File($target);
 
-		return true;
+		return $size;
 	}
 
 	/**
@@ -357,7 +357,7 @@ class Transit {
 	 * Set the Transporter.
 	 *
 	 * @access public
-	 * @param \Transit\Transporter\Transporter $transporter
+	 * @param \Transit\Transporter $transporter
 	 * @return \Transit\Transit
 	 */
 	public function setTransporter(Transporter $transporter) {
@@ -370,7 +370,7 @@ class Transit {
 	 * Set the Validator.
 	 *
 	 * @access public
-	 * @param \Transit\Validator\Validator $validator
+	 * @param \Transit\Validator $validator
 	 * @return \Transit\Transit
 	 */
 	public function setValidator(Validator $validator) {

@@ -5,7 +5,7 @@
  * @link		http://milesj.me/code/php/transit
  */
 
-namespace Transit\Transformer;
+namespace Transit;
 
 use Transit\File;
 

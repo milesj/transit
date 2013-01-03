@@ -5,7 +5,7 @@
  * @link		http://milesj.me/code/php/transit
  */
 
-namespace Transit\Validator;
+namespace Transit;
 
 use Transit\File;
 
@@ -21,7 +21,7 @@ interface Validator {
 	 * @param string $method
 	 * @param string $message
 	 * @param mixed $params
-	 * @return \Transit\Validator\Validator
+	 * @return \Transit\Validator
 	 */
 	public function addRule($method, $message, $params = array());
 
@@ -38,7 +38,7 @@ interface Validator {
 	 *
 	 * @access public
 	 * @param \Transit\File $file
-	 * @return \Transit\Validator\Validator
+	 * @return \Transit\Validator
 	 */
 	public function setFile(File $file);
 

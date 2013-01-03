@@ -13,6 +13,15 @@ use \Exception;
 class MimeTypeTest extends TestCase {
 
 	/**
+	 * Test that addSubType() creates sub-types.
+	 */
+	public function testAddSubType() {
+		MimeType::addSubType('img', array('gif', 'png', 'jpg', 'jpeg'));
+
+		$this->assertTrue(MimeType::isSubType('img', 'image/gif'));
+	}
+
+	/**
 	 * Test that getExtFromType() returns a list of ext from the mime type.
 	 */
 	public function testGetExtFromType() {

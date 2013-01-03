@@ -7,6 +7,8 @@
 
 namespace Transit\Transformer;
 
+use Transit\Transformer;
+
 /**
  * Provides shared functionality for transformers.
  */

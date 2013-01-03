@@ -7,6 +7,8 @@
 
 namespace Transit\Transporter;
 
+use Transit\Transporter;
+
 /**
  * Provides shared functionality for transporters.
  */
