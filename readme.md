@@ -1,4 +1,4 @@
-# Transit v1.0.0-rc2 #
+# Transit v1.0.0 #
 
 A lightweight file uploader that also provides extended support for file validation,
 file transformation (image resizing, cropping, etc) and file transportation (moving
@@ -21,6 +21,6 @@ files to Amazon S3 or another external storage system).
 * Validate files and images using a defined set of rules
 * Support for extending built in Transporters, Transformers and Validators
 
-## Documentation (Coming Soon) ##
+## Documentation ##
 
 Thorough documentation can be found here: http://milesj.me/code/php/transit
