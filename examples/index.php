@@ -6,7 +6,6 @@ use Transit\Transit;
 use Transit\Transformer\Image\CropTransformer;
 use Transit\Transporter\Aws\S3Transporter;
 use Transit\Validator\ImageValidator;
-use \Exception;
 
 if ($_FILES) {
 	$validator = new ImageValidator();
