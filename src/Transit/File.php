@@ -423,7 +423,7 @@ class File {
 	 *
 	 * @access protected
 	 * @param string $key
-	 * @param callable $callback
+	 * @param \Closure $callback
 	 * @return mixed
 	 */
 	protected function _cache($key, Closure $callback) {

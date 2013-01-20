@@ -15,7 +15,9 @@
 		}
 	],
 	"require": {
-		"php": ">=5.3",
+		"php": ">=5.3.0",
+		"ext-curl": "*",
+		"ext-mbstring": "*",
 		"aws/aws-sdk-php": "2.0.*"
 	},
 	"support": {

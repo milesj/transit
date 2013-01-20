@@ -8,6 +8,8 @@ files to Amazon S3 or another external storage system).
 
 * PHP 5.3
 * Composer
+* Multibyte
+* Curl
 
 ## Features ##
 
