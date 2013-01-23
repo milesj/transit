@@ -6,7 +6,7 @@ files to Amazon S3 or another external storage system).
 
 ## Requirements ##
 
-* PHP 5.3
+* PHP 5.3.3
 * Composer
 * Multibyte
 * Curl
