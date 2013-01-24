@@ -48,27 +48,44 @@ class S3TransporterTest extends TestCase {
 
 		$this->assertEquals($object->parseUrl('filename.jpg'), array(
 			'bucket' => S3_BUCKET,
-			'key' => 'filename.jpg'
+			'key' => 'filename.jpg',
+			'region' => 'us-east-1'
 		));
 
 		$this->assertEquals($object->parseUrl('https://s3.amazonaws.com/bucket1/filename.jpg'), array(
 			'bucket' => 'bucket1',
-			'key' => 'filename.jpg'
+			'key' => 'filename.jpg',
+			'region' => 'us-east-1'
 		));
 
 		$this->assertEquals($object->parseUrl('https://bucket2.s3.amazonaws.com/filename.jpg'), array(
 			'bucket' => 'bucket2',
-			'key' => 'filename.jpg'
+			'key' => 'filename.jpg',
+			'region' => 'us-east-1'
 		));
 
 		$this->assertEquals($object->parseUrl('https://s3.amazonaws.com/bucket1/test/filename.jpg'), array(
 			'bucket' => 'bucket1',
-			'key' => 'test/filename.jpg'
+			'key' => 'test/filename.jpg',
+			'region' => 'us-east-1'
 		));
 
 		$this->assertEquals($object->parseUrl('https://bucket2.s3.amazonaws.com/some/folder/filename.jpg'), array(
 			'bucket' => 'bucket2',
-			'key' => 'some/folder/filename.jpg'
+			'key' => 'some/folder/filename.jpg',
+			'region' => 'us-east-1'
+		));
+
+		$this->assertEquals($object->parseUrl('https://s3-sa-east-1.amazonaws.com/bucket1/filename.jpg'), array(
+			'bucket' => 'bucket1',
+			'key' => 'filename.jpg',
+			'region' => 'sa-east-1'
+		));
+
+		$this->assertEquals($object->parseUrl('https://bucket2.s3-sa-east-1.amazonaws.com/filename.jpg'), array(
+			'bucket' => 'bucket2',
+			'key' => 'filename.jpg',
+			'region' => 'sa-east-1'
 		));
 	}
 

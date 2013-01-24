@@ -67,7 +67,7 @@ class GlacierTransporter extends AbstractAwsTransporter {
 		$config = $this->_config;
 
 		try {
-			$this->_client->deleteArchive(array_filter(array(
+			$this->getClient()->deleteArchive(array_filter(array(
 				'vaultName' => $config['vault'],
 				'accountId' => $config['accountId'],
 				'archiveId' => $id
@@ -94,7 +94,7 @@ class GlacierTransporter extends AbstractAwsTransporter {
 		// If larger then 100MB, split upload into parts
 		if ($file->size() >= (100 * Size::MB)) {
 			$uploader = UploadBuilder::newInstance()
-				->setClient($this->_client)
+				->setClient($this->getClient())
 				->setSource($file->path())
 				->setVaultName($config['vault'])
 				->setAccountId($config['accountId'] ?: '-')
@@ -108,7 +108,7 @@ class GlacierTransporter extends AbstractAwsTransporter {
 			}
 
 		} else {
-			$response = $this->_client->uploadArchive(array_filter(array(
+			$response = $this->getClient()->uploadArchive(array_filter(array(
 				'vaultName' => $config['vault'],
 				'accountId' => $config['accountId'],
 				'body' => EntityBody::factory(fopen($file->path(), 'r')),

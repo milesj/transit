@@ -25,9 +25,6 @@ use \InvalidArgumentException;
  */
 class S3Transporter extends AbstractAwsTransporter {
 
-	const S3_URL = 'https://s3.amazonaws.com';
-	const S3_HOST = 's3.amazonaws.com';
-
 	/**
 	 * Configuration.
 	 *
@@ -39,6 +36,7 @@ class S3Transporter extends AbstractAwsTransporter {
 		'secret' => '',
 		'bucket' => '',
 		'folder' => '',
+		'scheme' => 'https',
 		'region' => Region::US_EAST_1,
 		'storage' => Storage::STANDARD,
 		'acl' => CannedAcl::PUBLIC_READ,
@@ -76,7 +74,7 @@ class S3Transporter extends AbstractAwsTransporter {
 		$params = $this->parseUrl($id);
 
 		try {
-			$this->_client->deleteObject(array(
+			$this->getClient()->deleteObject(array(
 				'Bucket' => $params['bucket'],
 				'Key' => $params['key']
 			));
@@ -103,7 +101,7 @@ class S3Transporter extends AbstractAwsTransporter {
 		// If larger then 100MB, split upload into parts
 		if ($file->size() >= (100 * Size::MB)) {
 			$uploader = UploadBuilder::newInstance()
-				->setClient($this->_client)
+				->setClient($this->getClient())
 				->setSource($file->path())
 				->setBucket($config['bucket'])
 				->setKey($key)
@@ -117,7 +115,7 @@ class S3Transporter extends AbstractAwsTransporter {
 			}
 
 		} else {
-			$response = $this->_client->putObject(array_filter(array(
+			$response = $this->getClient()->putObject(array_filter(array(
 				'Key' => $key,
 				'Bucket' => $config['bucket'],
 				'Body' => EntityBody::factory(fopen($file->path(), 'r')),
@@ -133,7 +131,10 @@ class S3Transporter extends AbstractAwsTransporter {
 		if ($response) {
 			$file->delete();
 
-			return sprintf(self::S3_URL . '/%s/%s', $config['bucket'], $key);
+			return sprintf('%s/%s/%s',
+				$this->getClient()->getEndpointProvider()->getEndpoint('s3', $config['region'])->getBaseUrl($config['scheme']),
+				$config['bucket'],
+				$key);
 		}
 
 		throw new TransportationException(sprintf('Failed to transport %s to Amazon S3', $file->basename()));
@@ -147,26 +148,30 @@ class S3Transporter extends AbstractAwsTransporter {
 	 * @return array
 	 */
 	public function parseUrl($url) {
+		$region = $this->_config['region'];
 		$bucket = $this->_config['bucket'];
 		$key = $url;
 
-		if (strpos($url, self::S3_HOST) !== false) {
+		if (strpos($url, 'amazonaws.com') !== false) {
 
-			// s3.amazonaws.com/<bucket>
-			if (preg_match('/^https?:\/\/s3\.amazonaws\.com\/(.+?)\/(.+?)$/i', $url, $matches)) {
-				$bucket = $matches[1];
-				$key = $matches[2];
+			// s3<region>.amazonaws.com/<bucket>
+			if (preg_match('/^https?:\/\/s3(.+?)?\.amazonaws\.com\/(.+?)\/(.+?)$/i', $url, $matches)) {
+				$region = $matches[1] ?: $region;
+				$bucket = $matches[2];
+				$key = $matches[3];
 
-			// <bucket>.s3.amazonaws.com
-			} else if (preg_match('/^https?:\/\/(.+?)\.s3\.amazonaws\.com\/(.+?)$/i', $url, $matches)) {
+			// <bucket>.s3<region>.amazonaws.com
+			} else if (preg_match('/^https?:\/\/(.+?)\.s3(.+?)?\.amazonaws\.com\/(.+?)$/i', $url, $matches)) {
 				$bucket = $matches[1];
-				$key = $matches[2];
+				$region = $matches[2] ?: $region;
+				$key = $matches[3];
 			}
 		}
 
 		return array(
 			'bucket' => $bucket,
-			'key' => trim($key, '/')
+			'key' => trim($key, '/'),
+			'region' => trim($region, '-')
 		);
 	}
 

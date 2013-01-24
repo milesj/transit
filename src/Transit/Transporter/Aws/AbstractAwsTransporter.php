@@ -43,4 +43,13 @@ abstract class AbstractAwsTransporter extends AbstractTransporter {
 		parent::__construct($config);
 	}
 
+	/**
+	 * Return the client.
+	 *
+	 * @return \Aws\Common\Client\AbstractClient
+	 */
+	public function getClient() {
+		return $this->_client;
+	}
+
 }
