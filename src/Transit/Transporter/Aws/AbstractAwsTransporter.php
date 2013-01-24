@@ -18,7 +18,6 @@ abstract class AbstractAwsTransporter extends AbstractTransporter {
 	/**
 	 * Client instance.
 	 *
-	 * @access protected
 	 * @var object
 	 */
 	protected $_client;
@@ -26,7 +25,6 @@ abstract class AbstractAwsTransporter extends AbstractTransporter {
 	/**
 	 * Instantiate an AWS client object.
 	 *
-	 * @access public
 	 * @param string $accessKey
 	 * @param string $secretKey
 	 * @param array $config

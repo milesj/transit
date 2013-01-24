@@ -17,7 +17,6 @@ abstract class AbstractTransformer implements Transformer {
 	/**
 	 * Configuration.
 	 *
-	 * @access protected
 	 * @var array
 	 */
 	protected $_config = array();
@@ -25,7 +24,6 @@ abstract class AbstractTransformer implements Transformer {
 	/**
 	 * Store configuration.
 	 *
-	 * @access public
 	 * @param array $config
 	 */
 	public function __construct(array $config = array()) {

@@ -28,7 +28,6 @@ class S3Transporter extends AbstractAwsTransporter {
 	/**
 	 * Configuration.
 	 *
-	 * @access protected
 	 * @var array
 	 */
 	protected $_config = array(
@@ -47,7 +46,6 @@ class S3Transporter extends AbstractAwsTransporter {
 	/**
 	 * Instantiate an S3Client object.
 	 *
-	 * @access public
 	 * @param string $accessKey
 	 * @param string $secretKey
 	 * @param array $config
@@ -66,9 +64,8 @@ class S3Transporter extends AbstractAwsTransporter {
 	/**
 	 * Delete a file from Amazon S3 by parsing a URL or using a direct key.
 	 *
-	 * @access public
 	 * @param string $id
-	 * @return boolean
+	 * @return bool
 	 */
 	public function delete($id) {
 		$params = $this->parseUrl($id);
@@ -88,7 +85,6 @@ class S3Transporter extends AbstractAwsTransporter {
 	/**
 	 * Transport the file to a remote location.
 	 *
-	 * @access public
 	 * @param \Transit\File $file
 	 * @return string
 	 * @throws \Transit\Exception\TransportationException
@@ -143,7 +139,6 @@ class S3Transporter extends AbstractAwsTransporter {
 	/**
 	 * Parse an S3 URL and extract the bucket and key.
 	 *
-	 * @access public
 	 * @param string $url
 	 * @return array
 	 */

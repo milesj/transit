@@ -17,9 +17,8 @@ interface Transformer {
 	/**
 	 * Transform a file by running filters and returning a new File object.
 	 *
-	 * @access public
 	 * @param \Transit\File $file
-	 * @param boolean $self
+	 * @param bool $self
 	 * @return \Transit\File
 	 */
 	public function transform(File $file, $self = false);

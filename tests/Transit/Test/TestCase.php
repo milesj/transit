@@ -12,7 +12,6 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Class instance.
 	 *
-	 * @access protected
 	 * @var object
 	 */
 	protected $object;
@@ -20,7 +19,6 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Mock $_FILES data.
 	 *
-	 * @access protected
 	 * @var array
 	 */
 	protected $data = array();
@@ -28,7 +26,6 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Base file for testing.
 	 *
-	 * @access protected
 	 * @var string
 	 */
 	protected $baseFile;
@@ -36,7 +33,6 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Temporary file for uploading.
 	 *
-	 * @access protected
 	 * @var string
 	 */
 	protected $tempFile;

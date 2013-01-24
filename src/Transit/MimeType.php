@@ -17,7 +17,6 @@ class MimeType {
 	/**
 	 * List of application mime types.
 	 *
-	 * @access protected
 	 * @var array
 	 * @static
 	 */
@@ -26,7 +25,6 @@ class MimeType {
 	/**
 	 * List of audio mime types.
 	 *
-	 * @access protected
 	 * @var array
 	 * @static
 	 */
@@ -35,7 +33,6 @@ class MimeType {
 	/**
 	 * List of image mime types.
 	 *
-	 * @access protected
 	 * @var array
 	 * @static
 	 */
@@ -44,7 +41,6 @@ class MimeType {
 	/**
 	 * List of text mime types.
 	 *
-	 * @access protected
 	 * @var array
 	 * @static
 	 */
@@ -53,7 +49,6 @@ class MimeType {
 	/**
 	 * List of video mime types.
 	 *
-	 * @access protected
 	 * @var array
 	 * @static
 	 */
@@ -62,7 +57,6 @@ class MimeType {
 	/**
 	 * List of all mime types.
 	 *
-	 * @access protected
 	 * @var array
 	 * @static
 	 */
@@ -979,7 +973,6 @@ class MimeType {
 	/**
 	 * List of sub-types.
 	 *
-	 * @access protected
 	 * @var array
 	 * @static
 	 */
@@ -992,7 +985,6 @@ class MimeType {
 	/**
 	 * Add a sub-type of mime type that matches a list of extensions.
 	 *
-	 * @access protected
 	 * @param string $type
 	 * @param array $exts
 	 * @static
@@ -1004,7 +996,6 @@ class MimeType {
 	/**
 	 * Return all extensions that have the same mime type.
 	 *
-	 * @access public
 	 * @param string $type
 	 * @return array
 	 * static
@@ -1024,7 +1015,6 @@ class MimeType {
 	/**
 	 * Return a mime type based on extension.
 	 *
-	 * @access public
 	 * @param string $ext
 	 * @return string
 	 * @throws InvalidArgumentException
@@ -1041,7 +1031,6 @@ class MimeType {
 	/**
 	 * Return a list of all application mime types.
 	 *
-	 * @access public
 	 * @return array
 	 * @static
 	 */
@@ -1058,7 +1047,6 @@ class MimeType {
 	/**
 	 * Return a list of all audio mime types.
 	 *
-	 * @access public
 	 * @return array
 	 * @static
 	 */
@@ -1075,7 +1063,6 @@ class MimeType {
 	/**
 	 * Return a list of all image mime types.
 	 *
-	 * @access public
 	 * @return array
 	 * @static
 	 */
@@ -1092,7 +1079,6 @@ class MimeType {
 	/**
 	 * Return a list of all text mime types.
 	 *
-	 * @access public
 	 * @return array
 	 * @static
 	 */
@@ -1109,7 +1095,6 @@ class MimeType {
 	/**
 	 * Return a list of all video mime types.
 	 *
-	 * @access public
 	 * @return array
 	 * @static
 	 */
@@ -1126,7 +1111,6 @@ class MimeType {
 	/**
 	 * Return a list of all sub-type mime types.
 	 *
-	 * @access public
 	 * @param string $type
 	 * @return array
 	 * @throws \InvalidArgumentException
@@ -1149,9 +1133,8 @@ class MimeType {
 	/**
 	 * Return true if the mime type is an application.
 	 *
-	 * @access public
 	 * @param string $mimeType
-	 * @return boolean
+	 * @return bool
 	 * @static
 	 */
 	public static function isApplication($mimeType) {
@@ -1161,9 +1144,8 @@ class MimeType {
 	/**
 	 * Return true if the mime type is an audio.
 	 *
-	 * @access public
 	 * @param string $mimeType
-	 * @return boolean
+	 * @return bool
 	 * @static
 	 */
 	public static function isAudio($mimeType) {
@@ -1173,9 +1155,8 @@ class MimeType {
 	/**
 	 * Return true if the mime type is an image.
 	 *
-	 * @access public
 	 * @param string $mimeType
-	 * @return boolean
+	 * @return bool
 	 * @static
 	 */
 	public static function isImage($mimeType) {
@@ -1185,9 +1166,8 @@ class MimeType {
 	/**
 	 * Return true if the mime type is a text.
 	 *
-	 * @access public
 	 * @param string $mimeType
-	 * @return boolean
+	 * @return bool
 	 * @static
 	 */
 	public static function isText($mimeType) {
@@ -1197,9 +1177,8 @@ class MimeType {
 	/**
 	 * Return true if the mime type is a video.
 	 *
-	 * @access public
 	 * @param string $mimeType
-	 * @return boolean
+	 * @return bool
 	 * @static
 	 */
 	public static function isVideo($mimeType) {
@@ -1209,10 +1188,9 @@ class MimeType {
 	/**
 	 * Return true if the mime type is part of a sub-type.
 	 *
-	 * @access public
 	 * @param string $subType
 	 * @param string $mimeType
-	 * @return boolean
+	 * @return bool
 	 * @static
 	 */
 	public static function isSubType($subType, $mimeType) {
@@ -1222,7 +1200,6 @@ class MimeType {
 	/**
 	 * Generate a list of mime types that start with the defined type.
 	 *
-	 * @access protected
 	 * @param string $type
 	 * @return array
 	 * @static
@@ -1242,10 +1219,9 @@ class MimeType {
 	/**
 	 * Return true if the grouping is found within the mime type.
 	 *
-	 * @access protected
 	 * @param string $mimeType
 	 * @param string $type
-	 * @return boolean
+	 * @return bool
 	 * @static
 	 */
 	protected static function _isMimeType($mimeType, $type) {
@@ -1255,7 +1231,6 @@ class MimeType {
 	/**
 	 * Find the actual mime type based on the ext or File object.
 	 *
-	 * @access protected
 	 * @param string $mimeType
 	 * @return string
 	 * @static

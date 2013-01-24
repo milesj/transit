@@ -17,16 +17,14 @@ interface Transporter {
 	/**
 	 * Delete a file from the remote location.
 	 *
-	 * @access public
 	 * @param string $id
-	 * @return boolean
+	 * @return bool
 	 */
 	public function delete($id);
 
 	/**
 	 * Transport the file to a remote location.
 	 *
-	 * @access public
 	 * @param \Transit\File $file
 	 * @return string
 	 */

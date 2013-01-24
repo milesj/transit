@@ -27,7 +27,6 @@ class Transit {
 	/**
 	 * Form files data or import URI.
 	 *
-	 * @access protected
 	 * @var array
 	 */
 	protected $_data;
@@ -35,7 +34,6 @@ class Transit {
 	/**
 	 * Temp upload directory.
 	 *
-	 * @access protected
 	 * @var string
 	 */
 	protected $_directory = __DIR__;
@@ -43,7 +41,6 @@ class Transit {
 	/**
 	 * File instance after successful upload or import.
 	 *
-	 * @access protected
 	 * @var \Transit\File
 	 */
 	protected $_file;
@@ -51,31 +48,27 @@ class Transit {
 	/**
 	 * List of Files from transformation.
 	 *
-	 * @access protected
-	 * @var array
+	 * @var \Transit\File[]
 	 */
 	protected $_files = array();
 
 	/**
 	 * List of Transformers to create files from the original file.
 	 *
-	 * @access protected
-	 * @var array
+	 * @var \Transit\Transformer[]
 	 */
 	protected $_transformers = array();
 
 	/**
 	 * List of Transformers to apply to the original file.
 	 *
-	 * @access protected
-	 * @var array
+	 * @var \Transit\Transformer[]
 	 */
 	protected $_selfTransformers = array();
 
 	/**
 	 * Transporter instance.
 	 *
-	 * @access protected
 	 * @var \Transit\Transporter
 	 */
 	protected $_transporter;
@@ -83,7 +76,6 @@ class Transit {
 	/**
 	 * Validator instance.
 	 *
-	 * @access protected
 	 * @var \Transit\Validator
 	 */
 	protected $_validator;
@@ -91,7 +83,6 @@ class Transit {
 	/**
 	 * Store $_FILES data or URI.
 	 *
-	 * @access public
 	 * @param array|string $data
 	 */
 	public function __construct($data) {
@@ -101,7 +92,6 @@ class Transit {
 	/**
 	 * Add a Transformer to generate new images with.
 	 *
-	 * @access public
 	 * @param \Transit\Transformer $transformer
 	 * @return \Transit\Transit
 	 */
@@ -114,7 +104,6 @@ class Transit {
 	/**
 	 * Add a Transformer to apply to the original file.
 	 *
-	 * @access public
 	 * @param \Transit\Transformer $transformer
 	 * @return \Transit\Transit
 	 */
@@ -127,9 +116,8 @@ class Transit {
 	/**
 	 * Find a valid target path taking into account file existence and overwriting.
 	 *
-	 * @access public
 	 * @param \Transit\File|string $file
-	 * @param boolean $overwrite
+	 * @param bool $overwrite
 	 * @return string
 	 */
 	public function findDestination($file, $overwrite = false) {
@@ -164,7 +152,6 @@ class Transit {
 	/**
 	 * Return the file that was uploaded or imported.
 	 *
-	 * @access public
 	 * @return \Transit\File
 	 */
 	public function getOriginalFile() {
@@ -174,8 +161,7 @@ class Transit {
 	/**
 	 * Return a list of all transformed files.
 	 *
-	 * @access public
-	 * @return array
+	 * @return \Transit\File[]
 	 */
 	public function getTransformedFiles() {
 		return $this->_files;
@@ -184,8 +170,7 @@ class Transit {
 	/**
 	 * Return the original file and all transformed files.
 	 *
-	 * @access public
-	 * @return array
+	 * @return \Transit\File[]
 	 */
 	public function getAllFiles() {
 		return array_merge(array($this->getOriginalFile()), $this->getTransformedFiles());
@@ -194,7 +179,6 @@ class Transit {
 	/**
 	 * Return the Transporter object.
 	 *
-	 * @access public
 	 * @return \Transit\Transporter
 	 */
 	public function getTransporter() {
@@ -204,7 +188,6 @@ class Transit {
 	/**
 	 * Return the Validator object.
 	 *
-	 * @access public
 	 * @return \Transit\Validator
 	 */
 	public function getValidator() {
@@ -214,10 +197,9 @@ class Transit {
 	/**
 	 * Copy a local file to the temp directory and return a File object.
 	 *
-	 * @access public
-	 * @param boolean $overwrite
-	 * @param boolean $delete
-	 * @return boolean
+	 * @param bool $overwrite
+	 * @param bool $delete
+	 * @return bool
 	 * @throws \Transit\Exception\IoException
 	 */
 	public function importFromLocal($overwrite = true, $delete = false) {
@@ -241,9 +223,8 @@ class Transit {
 	/**
 	 * Copy a remote file to the temp directory and return a File object.
 	 *
-	 * @access public
-	 * @param boolean $overwrite
-	 * @return boolean
+	 * @param bool $overwrite
+	 * @return bool
 	 * @throws \Transit\Exception\IoException
 	 * @throws \RuntimeException
 	 */
@@ -284,9 +265,8 @@ class Transit {
 	 * Copy a file from the input stream into the temp directory and return a File object.
 	 * Primarily used for Javascript AJAX file uploads.
 	 *
-	 * @access public
-	 * @param boolean $overwrite
-	 * @return boolean
+	 * @param bool $overwrite
+	 * @return bool
 	 * @throws \Transit\Exception\IoException
 	 */
 	public function importFromStream($overwrite = true) {
@@ -313,7 +293,6 @@ class Transit {
 	/**
 	 * Rollback and delete all uploaded and transformed files.
 	 *
-	 * @access public
 	 * @return \Transit\Transit
 	 */
 	public function rollback() {
@@ -332,7 +311,6 @@ class Transit {
 	/**
 	 * Set the temporary directory and create it if it does not exist.
 	 *
-	 * @access public
 	 * @param string $path
 	 * @return \Transit\Transit
 	 */
@@ -356,7 +334,6 @@ class Transit {
 	/**
 	 * Set the Transporter.
 	 *
-	 * @access public
 	 * @param \Transit\Transporter $transporter
 	 * @return \Transit\Transit
 	 */
@@ -369,7 +346,6 @@ class Transit {
 	/**
 	 * Set the Validator.
 	 *
-	 * @access public
 	 * @param \Transit\Validator $validator
 	 * @return \Transit\Transit
 	 */
@@ -382,8 +358,7 @@ class Transit {
 	/**
 	 * Apply transformations to the original file and generate new transformed files.
 	 *
-	 * @access public
-	 * @return boolean
+	 * @return bool
 	 * @throws \Transit\Exception\IoException
 	 * @throws \Transit\Exception\TransformationException
 	 */
@@ -440,7 +415,6 @@ class Transit {
 	/**
 	 * Transport the file using the Transporter object.
 	 *
-	 * @access public
 	 * @return array
 	 * @throws \Transit\Exception\IoException
 	 * @throws \Transit\Exception\TransportationException
@@ -484,9 +458,8 @@ class Transit {
 	/**
 	 * Upload the file to the target directory.
 	 *
-	 * @access public
-	 * @param boolean $overwrite
-	 * @return boolean
+	 * @param bool $overwrite
+	 * @return bool
 	 * @throws \Transit\Exception\ValidationException
 	 */
 	public function upload($overwrite = false) {
@@ -539,9 +512,8 @@ class Transit {
 	/**
 	 * Return true if the file was uploaded via HTTP and is a valid file.
 	 *
-	 * @access protected
 	 * @param string $tempFile
-	 * @return boolean
+	 * @return bool
 	 */
 	protected function _isUploadedFile($tempFile) {
 		return (is_uploaded_file($tempFile) || is_file($tempFile));
@@ -550,10 +522,9 @@ class Transit {
 	/**
 	 * Attempt to copy/move the uploaded file to the target destination.
 	 *
-	 * @access protected
 	 * @param string $tempFile
 	 * @param string $target
-	 * @return boolean
+	 * @return bool
 	 */
 	protected function _moveUploadedFile($tempFile, $target) {
 		return (move_uploaded_file($tempFile, $target) || copy($tempFile, $target));

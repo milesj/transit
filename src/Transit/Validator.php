@@ -17,7 +17,6 @@ interface Validator {
 	/**
 	 * Add a validation rule with an error message and custom params.
 	 *
-	 * @access public
 	 * @param string $method
 	 * @param string $message
 	 * @param mixed $params
@@ -28,7 +27,6 @@ interface Validator {
 	/**
 	 * Return the File object.
 	 *
-	 * @access public
 	 * @return \Transit\File
 	 */
 	public function getFile();
@@ -36,7 +34,6 @@ interface Validator {
 	/**
 	 * Set the File object.
 	 *
-	 * @access public
 	 * @param \Transit\File $file
 	 * @return \Transit\Validator
 	 */
@@ -45,8 +42,7 @@ interface Validator {
 	/**
 	 * Validate that all the rules pass.
 	 *
-	 * @access public
-	 * @return boolean
+	 * @return bool
 	 */
 	public function validate();
 

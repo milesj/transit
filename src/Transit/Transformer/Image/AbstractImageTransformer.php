@@ -20,7 +20,6 @@ abstract class AbstractImageTransformer extends AbstractTransformer {
 	/**
 	 * Store configuration.
 	 *
-	 * @access public
 	 * @param array $config
 	 * @throws \RuntimeException
 	 */
@@ -35,7 +34,6 @@ abstract class AbstractImageTransformer extends AbstractTransformer {
 	/**
 	 * Transform the image using the defined options.
 	 *
-	 * @access protected
 	 * @param \Transit\File $file
 	 * @param array $options
 	 * @return \Transit\File

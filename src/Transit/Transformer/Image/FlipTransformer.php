@@ -22,7 +22,6 @@ class FlipTransformer extends AbstractImageTransformer {
 	/**
 	 * Configuration.
 	 *
-	 * @access protected
 	 * @var array
 	 */
 	protected $_config = array(
@@ -33,9 +32,8 @@ class FlipTransformer extends AbstractImageTransformer {
 	/**
 	 * Calculate the transformation options and process.
 	 *
-	 * @access public
 	 * @param \Transit\File $file
-	 * @param boolean $self
+	 * @param bool $self
 	 * @return \Transit\File
 	 * @throws \InvalidArgumentException
 	 */

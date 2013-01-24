@@ -26,7 +26,6 @@ class GlacierTransporter extends AbstractAwsTransporter {
 	/**
 	 * Configuration.
 	 *
-	 * @access protected
 	 * @var array
 	 */
 	protected $_config = array(
@@ -40,7 +39,6 @@ class GlacierTransporter extends AbstractAwsTransporter {
 	/**
 	 * Instantiate a GlacierClient object.
 	 *
-	 * @access public
 	 * @param string $accessKey
 	 * @param string $secretKey
 	 * @param array $config
@@ -59,9 +57,8 @@ class GlacierTransporter extends AbstractAwsTransporter {
 	/**
 	 * Delete a file from Amazon Glacier using the archive ID.
 	 *
-	 * @access public
 	 * @param string $id
-	 * @return boolean
+	 * @return bool
 	 */
 	public function delete($id) {
 		$config = $this->_config;
@@ -82,7 +79,6 @@ class GlacierTransporter extends AbstractAwsTransporter {
 	/**
 	 * Transport the file to Amazon Glacier and return the archive ID.
 	 *
-	 * @access public
 	 * @param \Transit\File $file
 	 * @return string
 	 * @throws \Transit\Exception\TransportationException

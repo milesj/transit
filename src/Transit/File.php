@@ -19,7 +19,6 @@ class File {
 	/**
 	 * Cached values.
 	 *
-	 * @access protected
 	 * @var array
 	 */
 	protected $_cache = array();
@@ -27,7 +26,6 @@ class File {
 	/**
 	 * Absolute file path.
 	 *
-	 * @access protected
 	 * @var string
 	 */
 	protected $_path;
@@ -35,7 +33,6 @@ class File {
 	/**
 	 * Store the file path.
 	 *
-	 * @access public
 	 * @param string $path
 	 * @throws \Transit\Exception\IoException
 	 */
@@ -50,7 +47,6 @@ class File {
 	/**
 	 * Magic method for toString().
 	 *
-	 * @access public
 	 * @return string
 	 */
 	public function __toString() {
@@ -60,7 +56,6 @@ class File {
 	/**
 	 * Return the file name with extension.
 	 *
-	 * @access public
 	 * @return string
 	 */
 	public function basename() {
@@ -70,8 +65,7 @@ class File {
 	/**
 	 * Delete the file.
 	 *
-	 * @access public
-	 * @return boolean
+	 * @return bool
 	 */
 	public function delete() {
 		$this->reset();
@@ -82,7 +76,6 @@ class File {
 	/**
 	 * Return the dimensions of the file if it is an image.
 	 *
-	 * @access public
 	 * @return array
 	 */
 	public function dimensions() {
@@ -117,7 +110,6 @@ class File {
 	/**
 	 * Return the directory the file is in.
 	 *
-	 * @access public
 	 * @return string
 	 */
 	public function dir() {
@@ -127,7 +119,6 @@ class File {
 	/**
 	 * Return the extension.
 	 *
-	 * @access public
 	 * @return string
 	 */
 	public function ext() {
@@ -137,7 +128,6 @@ class File {
 	/**
 	 * Return the image height.
 	 *
-	 * @access public
 	 * @return int
 	 */
 	public function height() {
@@ -159,8 +149,7 @@ class File {
 	/**
 	 * Return true if the file is an application.
 	 *
-	 * @access public
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isApplication() {
 		return MimeType::isApplication($this);
@@ -169,8 +158,7 @@ class File {
 	/**
 	 * Return true if the file is an audio.
 	 *
-	 * @access public
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isAudio() {
 		return MimeType::isAudio($this);
@@ -179,8 +167,7 @@ class File {
 	/**
 	 * Return true if the file is an image.
 	 *
-	 * @access public
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isImage() {
 		return MimeType::isImage($this);
@@ -189,8 +176,7 @@ class File {
 	/**
 	 * Return true if the file is a text.
 	 *
-	 * @access public
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isText() {
 		return MimeType::isText($this);
@@ -199,8 +185,7 @@ class File {
 	/**
 	 * Return true if the file is a video.
 	 *
-	 * @access public
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isVideo() {
 		return MimeType::isVideo($this);
@@ -209,9 +194,8 @@ class File {
 	/**
 	 * Return true if the file is part of a sub-type.
 	 *
-	 * @access public
 	 * @param string $subType
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isSubType($subType) {
 		return MimeType::isSubType($subType, $this);
@@ -221,10 +205,9 @@ class File {
 	 * Move the file to a new directory.
 	 * If a file with the same name already exists, either overwrite or increment file name.
 	 *
-	 * @access public
 	 * @param string $path
-	 * @param boolean $overwrite
-	 * @return boolean
+	 * @param bool $overwrite
+	 * @return bool
 	 */
 	public function move($path, $overwrite = false) {
 		$path = str_replace('\\', '/', $path);
@@ -274,7 +257,6 @@ class File {
 	/**
 	 * Return the file name without extension.
 	 *
-	 * @access public
 	 * @return string
 	 */
 	public function name() {
@@ -284,7 +266,6 @@ class File {
 	/**
 	 * Return the absolute path.
 	 *
-	 * @access public
 	 * @return string
 	 */
 	public function path() {
@@ -294,11 +275,10 @@ class File {
 	/**
 	 * Rename the file within the current directory.
 	 *
-	 * @access public
 	 * @param string $name
 	 * @param string $append
 	 * @param string $prepend
-	 * @return boolean
+	 * @return bool
 	 */
 	public function rename($name = '', $append = '', $prepend = '') {
 		if (is_callable($name)) {
@@ -329,7 +309,6 @@ class File {
 	/**
 	 * Reset all cache.
 	 *
-	 * @access public
 	 * @return \Transit\File
 	 */
 	public function reset() {
@@ -343,7 +322,6 @@ class File {
 	/**
 	 * Return the file size.
 	 *
-	 * @access public
 	 * @return int
 	 */
 	public function size() {
@@ -353,7 +331,6 @@ class File {
 	/**
 	 * Return the mime type.
 	 *
-	 * @access public
 	 * @return string
 	 */
 	public function type() {
@@ -369,7 +346,6 @@ class File {
 	/**
 	 * Return the image width.
 	 *
-	 * @access public
 	 * @return int
 	 */
 	public function width() {
@@ -391,7 +367,6 @@ class File {
 	/**
 	 * Return all File information as an array.
 	 *
-	 * @access public
 	 * @return array
 	 */
 	public function toArray() {
@@ -411,7 +386,6 @@ class File {
 	/**
 	 * Return path when cast to string.
 	 *
-	 * @access public
 	 * @return string
 	 */
 	public function toString() {
@@ -421,7 +395,6 @@ class File {
 	/**
 	 * Cache the results of a callback.
 	 *
-	 * @access protected
 	 * @param string $key
 	 * @param \Closure $callback
 	 * @return mixed

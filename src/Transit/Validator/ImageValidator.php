@@ -15,9 +15,8 @@ class ImageValidator extends AbstractValidator {
 	/**
 	 * Validate the image height matches the size.
 	 *
-	 * @access public
 	 * @param int $size
-	 * @return boolean
+	 * @return bool
 	 */
 	public function height($size) {
 		return ($this->getFile()->height() == $size);
@@ -26,9 +25,8 @@ class ImageValidator extends AbstractValidator {
 	/**
 	 * Validate the image width matches the size.
 	 *
-	 * @access public
 	 * @param int $size
-	 * @return boolean
+	 * @return bool
 	 */
 	public function width($size) {
 		return ($this->getFile()->width() == $size);
@@ -37,9 +35,8 @@ class ImageValidator extends AbstractValidator {
 	/**
 	 * Validate image height is less than or equal to the max.
 	 *
-	 * @access public
 	 * @param int $max
-	 * @return boolean
+	 * @return bool
 	 */
 	public function maxHeight($max) {
 		return ($this->getFile()->height() <= $max);
@@ -48,9 +45,8 @@ class ImageValidator extends AbstractValidator {
 	/**
 	 * Validate image width is less than or equal to the max.
 	 *
-	 * @access public
 	 * @param int $max
-	 * @return boolean
+	 * @return bool
 	 */
 	public function maxWidth($max) {
 		return ($this->getFile()->width() <= $max);
@@ -59,9 +55,8 @@ class ImageValidator extends AbstractValidator {
 	/**
 	 * Validate image height is greater than or equal to the minimum.
 	 *
-	 * @access public
 	 * @param int $min
-	 * @return boolean
+	 * @return bool
 	 */
 	public function minHeight($min) {
 		return ($this->getFile()->height() >= $min);
@@ -70,9 +65,8 @@ class ImageValidator extends AbstractValidator {
 	/**
 	 * Validate image width is greater than or equal to the minimum.
 	 *
-	 * @access public
 	 * @param int $min
-	 * @return boolean
+	 * @return bool
 	 */
 	public function minWidth($min) {
 		return ($this->getFile()->width() >= $min);

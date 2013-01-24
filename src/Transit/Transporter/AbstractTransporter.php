@@ -17,7 +17,6 @@ abstract class AbstractTransporter implements Transporter {
 	/**
 	 * Configuration.
 	 *
-	 * @access protected
 	 * @var array
 	 */
 	protected $_config = array();
@@ -25,7 +24,6 @@ abstract class AbstractTransporter implements Transporter {
 	/**
 	 * Store configuration.
 	 *
-	 * @access public
 	 * @param array $config
 	 */
 	public function __construct(array $config = array()) {

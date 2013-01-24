@@ -22,7 +22,6 @@ abstract class AbstractValidator implements Validator {
 	/**
 	 * File object.
 	 *
-	 * @access protected
 	 * @var \Transit\File
 	 */
 	protected $_file;
@@ -30,7 +29,6 @@ abstract class AbstractValidator implements Validator {
 	/**
 	 * Validation rules.
 	 *
-	 * @access protected
 	 * @var array
 	 */
 	protected $_rules = array();
@@ -38,7 +36,6 @@ abstract class AbstractValidator implements Validator {
 	/**
 	 * Add a validation rule with an error message and custom params.
 	 *
-	 * @access public
 	 * @param string $method
 	 * @param string $message
 	 * @param mixed $params
@@ -57,7 +54,6 @@ abstract class AbstractValidator implements Validator {
 	/**
 	 * Return the File object.
 	 *
-	 * @access public
 	 * @return \Transit\File
 	 */
 	public function getFile() {
@@ -67,7 +63,6 @@ abstract class AbstractValidator implements Validator {
 	/**
 	 * Set the File object.
 	 *
-	 * @access public
 	 * @param \Transit\File $file
 	 * @return \Transit\Validator
 	 */
@@ -80,9 +75,8 @@ abstract class AbstractValidator implements Validator {
 	/**
 	 * Validate file size is less than or equal to the max.
 	 *
-	 * @access public
 	 * @param int $max
-	 * @return boolean
+	 * @return bool
 	 */
 	public function size($max) {
 		return ($this->getFile()->size() <= $max);
@@ -91,9 +85,8 @@ abstract class AbstractValidator implements Validator {
 	/**
 	 * Validate the extension is in the whitelist.
 	 *
-	 * @access public
 	 * @param array $whitelist
-	 * @return boolean
+	 * @return bool
 	 */
 	public function ext($whitelist = array()) {
 		return in_array($this->getFile()->ext(), (array) $whitelist);
@@ -102,9 +95,8 @@ abstract class AbstractValidator implements Validator {
 	/**
 	 * Validate the mime type is in the whitelist.
 	 *
-	 * @access public
 	 * @param array $whitelist
-	 * @return boolean
+	 * @return bool
 	 */
 	public function type($whitelist = array()) {
 		return in_array($this->getFile()->type(), (array) $whitelist);
@@ -113,9 +105,8 @@ abstract class AbstractValidator implements Validator {
 	/**
 	 * Validate the mime type is in the list of all mime types.
 	 *
-	 * @access public
 	 * @param string|array $mimeTypes
-	 * @return boolean
+	 * @return bool
 	 */
 	public function mimeType($mimeTypes) {
 		$types = array();
@@ -137,8 +128,7 @@ abstract class AbstractValidator implements Validator {
 	/**
 	 * Validate that all the rules pass.
 	 *
-	 * @access public
-	 * @return boolean
+	 * @return bool
 	 * @throws \Transit\Exception\IoException
 	 * @throws \Transit\Exception\ValidationException
 	 * @throws \BadMethodCallException

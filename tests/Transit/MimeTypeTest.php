@@ -77,7 +77,7 @@ class MimeTypeTest extends TestCase {
 	}
 
 	/**
-	 * Test that is() methods return a boolean dependent on the mime type.
+	 * Test that is() methods return a bool dependent on the mime type.
 	 */
 	public function testIs() {
 		$this->assertTrue(MimeType::isApplication('application/x-7z-compressed'));
