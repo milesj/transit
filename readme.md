@@ -1,4 +1,4 @@
-# Transit v1.0.1 #
+# Transit v1.0.2 #
 
 A lightweight file uploader that also provides extended support for file validation,
 file transformation (image resizing, cropping, etc) and file transportation (moving
