@@ -298,7 +298,9 @@ class Transit {
 	public function rollback() {
 		if ($files = $this->getAllFiles()) {
 			foreach ($files as $file) {
-				$file->delete();
+				if ($file instanceof File) {
+					$file->delete();
+				}
 			}
 		}
 
@@ -445,8 +447,12 @@ class Transit {
 
 		// Throw error and rollback
 		if ($error) {
-			foreach ($transportedFiles as $path) {
-				$this->getTransporter()->delete($path);
+			$this->rollback();
+
+			if ($transportedFiles) {
+				foreach ($transportedFiles as $path) {
+					$this->getTransporter()->delete($path);
+				}
 			}
 
 			throw new TransportationException($error);
