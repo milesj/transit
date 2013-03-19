@@ -122,7 +122,15 @@ class File {
 	 * @return string
 	 */
 	public function ext() {
-		return mb_strtolower(pathinfo($this->_path, PATHINFO_EXTENSION));
+		return $this->_cache(__FUNCTION__, function($file) {
+			$ext = MimeType::getExtFromType($file->type(), true);
+
+			if (!$ext) {
+				$ext = mb_strtolower(pathinfo($this->_path, PATHINFO_EXTENSION));
+			}
+
+			return $ext;
+		});
 	}
 
 	/**

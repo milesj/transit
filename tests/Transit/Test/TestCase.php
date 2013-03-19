@@ -62,6 +62,7 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 	 */
 	protected function tearDown() {
 		@unlink($this->tempFile);
+		clearstatcache();
 	}
 
 }

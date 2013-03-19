@@ -102,7 +102,7 @@ class MimeType {
 		'asp' => 'text/plain',
 		'aspx' => 'text/plain',
 		'asx' => 'video/x-ms-asf',
-		'atc' => 'application/vnd.acucorp',
+		'atc' => array('application/vnd.acucorp', true),
 		'atom' => 'application/atom+xml',
 		'atomcat' => 'application/atomcat+xml',
 		'atomsvc' => 'application/atomsvc+xml',
@@ -120,7 +120,7 @@ class MimeType {
 		'bdm' => 'application/vnd.syncml.dm+wbxml',
 		'bed' => 'application/vnd.realvnc.bed',
 		'bh2' => 'application/vnd.fujitsu.oasysprs',
-		'bin' => 'application/octet-stream',
+		'bin' => array('application/octet-stream', true),
 		'bmi' => 'application/vnd.bmi',
 		'bmp' => 'image/bmp',
 		'book' => 'application/vnd.framemaker',
@@ -129,7 +129,7 @@ class MimeType {
 		'bpk' => 'application/octet-stream',
 		'btif' => 'image/prs.btif',
 		'bz' => 'application/x-bzip',
-		'bz2' => 'application/x-bzip2',
+		'bz2' => array('application/x-bzip2', true),
 		'c' => 'text/x-c',
 		'c11amc' => 'application/vnd.cluetrust.cartomobile-config',
 		'c11amz' => 'application/vnd.cluetrust.cartomobile-config-pkg',
@@ -157,7 +157,7 @@ class MimeType {
 		'cdy' => 'application/vnd.cinderella',
 		'cer' => 'application/pkix-cert',
 		'cfc' => 'application/x-coldfusion',
-		'cfm' => 'application/x-coldfusion',
+		'cfm' => array('application/x-coldfusion', true),
 		'cgm' => 'image/cgm',
 		'chat' => 'application/x-chat',
 		'chm' => 'application/vnd.ms-htmlhelp',
@@ -265,7 +265,7 @@ class MimeType {
 		'esf' => 'application/vnd.epson.esf',
 		'et3' => 'application/vnd.eszigno3+xml',
 		'etx' => 'text/x-setext',
-		'exe' => 'application/x-msdownload',
+		'exe' => array('application/x-msdownload', true),
 		'exi' => 'application/exi',
 		'ext' => 'application/vnd.novadigm.ext',
 		'ez' => 'application/andrew-inset',
@@ -293,7 +293,7 @@ class MimeType {
 		'flw' => 'application/vnd.kde.kivio',
 		'flx' => 'text/vnd.fmi.flexstor',
 		'fly' => 'text/vnd.fly',
-		'fm' => 'application/vnd.framemaker',
+		'fm' => array('application/vnd.framemaker', true),
 		'fnc' => 'application/vnd.frogans.fnc',
 		'for' => 'text/x-fortran',
 		'fpx' => 'image/vnd.fpx',
@@ -351,7 +351,7 @@ class MimeType {
 		'htc' => 'text/html',
 		'htke' => 'application/vnd.kenameaapp',
 		'htm' => 'text/html',
-		'html' => 'text/html',
+		'html' => array('text/html', true),
 		'hvd' => 'application/vnd.yamaha.hv-dic',
 		'hvp' => 'application/vnd.yamaha.hv-voice',
 		'hvs' => 'application/vnd.yamaha.hv-script',
@@ -392,7 +392,7 @@ class MimeType {
 		'joda' => 'application/vnd.joost.joda-archive',
 		'jpe' => 'image/jpeg',
 		'jpeg' => 'image/jpeg',
-		'jpg' => 'image/jpeg',
+		'jpg' => array('image/jpeg', true),
 		'jpgm' => 'video/jpm',
 		'jpgv' => 'video/jpeg',
 		'jpm' => 'video/jpm',
@@ -467,9 +467,9 @@ class MimeType {
 		'mgp' => 'application/vnd.osgeo.mapguide.package',
 		'mgz' => 'application/vnd.proteus.magazine',
 		'mid' => 'audio/midi',
-		'midi' => 'audio/midi',
+		'midi' => array('audio/midi', true),
 		'mif' => 'application/vnd.mif',
-		'mime' => 'message/rfc822',
+		'mime' => array('message/rfc822', true),
 		'mj2' => 'video/mj2',
 		'mjp2' => 'video/mj2',
 		'mlp' => 'application/vnd.dolby.mlp',
@@ -484,14 +484,14 @@ class MimeType {
 		'mp2' => 'audio/mpeg',
 		'mp21' => 'application/mp21',
 		'mp2a' => 'audio/mpeg',
-		'mp3' => 'audio/mpeg',
-		'mp4' => 'video/mp4',
+		'mp3' => array('audio/mpeg', true),
+		'mp4' => array('video/mp4', true),
 		'mp4a' => 'audio/mp4',
 		'mp4s' => 'application/mp4',
 		'mp4v' => 'video/mp4',
 		'mpc' => 'application/vnd.mophun.certificate',
 		'mpe' => 'video/mpeg',
-		'mpeg' => 'video/mpeg',
+		'mpeg' => array('video/mpeg', true),
 		'mpg' => 'video/mpeg',
 		'mpg4' => 'video/mp4',
 		'mpga' => 'audio/mpeg',
@@ -553,7 +553,7 @@ class MimeType {
 		'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
 		'odt' => 'application/vnd.oasis.opendocument.text',
 		'oga' => 'audio/ogg',
-		'ogg' => 'audio/ogg',
+		'ogg' => array('audio/ogg', true),
 		'ogv' => 'video/ogg',
 		'ogx' => 'application/ogg',
 		'onepkg' => 'application/onenote',
@@ -626,14 +626,14 @@ class MimeType {
 		'pps' => 'application/vnd.ms-powerpoint',
 		'ppsm' => 'application/vnd.ms-powerpoint.slideshow.macroenabled.12',
 		'ppsx' => 'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
-		'ppt' => 'application/vnd.ms-powerpoint',
+		'ppt' => array('application/vnd.ms-powerpoint', true),
 		'pptm' => 'application/vnd.ms-powerpoint.presentation.macroenabled.12',
 		'pptx' => 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
 		'pqa' => 'application/vnd.palm',
 		'prc' => 'application/x-mobipocket-ebook',
 		'pre' => 'application/vnd.lotus-freelance',
 		'prf' => 'application/pics-rules',
-		'ps' => 'application/postscript',
+		'ps' => array('application/postscript', true),
 		'psb' => 'application/vnd.3gpp.pic-bw-small',
 		'psd' => 'image/vnd.adobe.photoshop',
 		'psf' => 'application/x-font-linux-psf',
@@ -705,7 +705,7 @@ class MimeType {
 		'sdp' => 'application/sdp',
 		'sdw' => 'application/vnd.stardivision.writer',
 		'see' => 'application/vnd.seemail',
-		'seed' => 'application/vnd.fdsn.seed',
+		'seed' => array('application/vnd.fdsn.seed', true),
 		'sema' => 'application/vnd.sema',
 		'semd' => 'application/vnd.semd',
 		'semf' => 'application/vnd.semf',
@@ -797,7 +797,7 @@ class MimeType {
 		'tgz' => 'application/x-compressed',
 		'thmx' => 'application/vnd.ms-officetheme',
 		'tif' => 'image/tiff',
-		'tiff' => 'image/tiff',
+		'tiff' => array('image/tiff', true),
 		'tmo' => 'application/vnd.tmobile-livetv',
 		'torrent' => 'application/x-bittorrent',
 		'tpl' => 'application/vnd.groove-tool-template',
@@ -814,7 +814,7 @@ class MimeType {
 		'twds' => 'application/vnd.simtech-mindmapper',
 		'txd' => 'application/vnd.genomatix.tuxedo',
 		'txf' => 'application/vnd.mobius.txf',
-		'txt' => 'text/plain',
+		'txt' => array('text/plain', true),
 		'u32' => 'application/x-authorware-bin',
 		'udeb' => 'application/x-debian-package',
 		'ufd' => 'application/vnd.ufdl',
@@ -925,14 +925,14 @@ class MimeType {
 		'xfdf' => 'application/vnd.adobe.xfdf',
 		'xfdl' => 'application/vnd.xfdl',
 		'xht' => 'application/xhtml+xml',
-		'xhtml' => 'application/xhtml+xml',
+		'xhtml' => array('application/xhtml+xml', true),
 		'xhvml' => 'application/xv+xml',
 		'xif' => 'image/vnd.xiff',
 		'xla' => 'application/vnd.ms-excel',
 		'xlam' => 'application/vnd.ms-excel.addin.macroenabled.12',
 		'xlc' => 'application/vnd.ms-excel',
 		'xlm' => 'application/vnd.ms-excel',
-		'xls' => 'application/vnd.ms-excel',
+		'xls' => array('application/vnd.ms-excel', true),
 		'xlsb' => 'application/vnd.ms-excel.sheet.binary.macroenabled.12',
 		'xlsm' => 'application/vnd.ms-excel.sheet.macroenabled.12',
 		'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -979,7 +979,10 @@ class MimeType {
 	protected static $_subTypes = array(
 		'archive' => array('boz', 'bz', 'bz2', 'zip', 'rar', '7z', 'gz', 'gtar', 'z', 'tgz', 'rev', 'tar'),
 		'spreadsheet' => array('xla', 'xlam', 'xlc', 'xlm', 'xls', 'xlsb', 'xlsm', 'xlsx', 'xlt', 'xltm', 'xltx', 'xlw', 'ots', 'ods'),
-		'document' => array('doc', 'docm', 'docx', 'dot', 'dotm', 'dotx', 'odt', 'odm', 'ott')
+		'document' => array('doc', 'docm', 'docx', 'dot', 'dotm', 'dotx', 'odt', 'odm', 'ott'),
+		'windows' => array('bat', 'com', 'dll', 'exe', 'msi'),
+		'clang' => array('c', 'cc', 'cpp', 'cxx', 'h', 'hh'),
+		'text' => array('txt', 'text', 'log', 'conf', 'ini')
 	);
 
 	/**
@@ -997,16 +1000,36 @@ class MimeType {
 	 * Return all extensions that have the same mime type.
 	 *
 	 * @param string $type
-	 * @return array
+	 * @param bool $primary
+	 * @return array|string
 	 * static
 	 */
-	public static function getExtFromType($type) {
+	public static function getExtFromType($type, $primary = false) {
 		$exts = array();
 
 		foreach (self::$_types as $ext => $mimeType) {
+			$isPrimary = false;
+
+			if (is_array($mimeType)) {
+				$mimeType = $mimeType[0];
+				$isPrimary = $mimeType[1];
+			}
+
 			if ($mimeType === $type) {
+				if ($primary && $isPrimary) {
+					return $ext;
+				}
+
 				$exts[] = $ext;
 			}
+		}
+
+		if ($primary && isset($exts[0])) {
+			return $exts[0];
+		}
+
+		if (!$exts) {
+			$exts = null;
 		}
 
 		return $exts;
@@ -1022,10 +1045,25 @@ class MimeType {
 	 */
 	public static function getTypeFromExt($ext) {
 		if (isset(self::$_types[$ext])) {
-			return self::$_types[$ext];
+			$mime = self::$_types[$ext];
+
+			if (is_array($mime)) {
+				$mime = $mime[0];
+			}
+
+			return $mime;
 		}
 
 		throw new InvalidArgumentException(sprintf('Invalid extension %s', $ext));
+	}
+
+	/**
+	 * Return all types.
+	 *
+	 * @return array
+	 */
+	public static function getList() {
+		return self::$_types;
 	}
 
 	/**
@@ -1208,6 +1246,10 @@ class MimeType {
 		$types = array();
 
 		foreach (self::$_types as $ext => $mimeType) {
+			if (is_array($mimeType)) {
+				$mimeType = $mimeType[0];
+			}
+
 			if (strpos($mimeType, $type) === 0) {
 				$types[$ext] = $mimeType;
 			}

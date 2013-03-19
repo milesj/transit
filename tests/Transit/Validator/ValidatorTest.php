@@ -43,16 +43,16 @@ class ValidatorTest extends TestCase {
 	 * Test that the file mime type is in the list.
 	 */
 	public function testType() {
-		$this->assertTrue($this->object->type('image/jpeg'));
-		$this->assertFalse($this->object->type(array('image/gif', 'image/png')));
+		$this->assertTrue($this->object->type('image'));
+		$this->assertFalse($this->object->type('archive'));
 	}
 
 	/**
 	 * Test that the file mime type is in the list.
 	 */
 	public function testMimeType() {
-		$this->assertTrue($this->object->mimeType('image'));
-		$this->assertFalse($this->object->mimeType('archive'));
+		$this->assertTrue($this->object->mimeType('image/jpeg'));
+		$this->assertFalse($this->object->mimeType(array('image/png', 'image/gif')));
 	}
 
 	/**

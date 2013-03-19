@@ -26,14 +26,17 @@ class MimeTypeTest extends TestCase {
 	 */
 	public function testGetExtFromType() {
 		$this->assertEquals(array('jpe', 'jpeg', 'jpg'), MimeType::getExtFromType('image/jpeg'));
+		$this->assertEquals('jpg', MimeType::getExtFromType('image/jpeg', true));
 		$this->assertEquals(array('png'), MimeType::getExtFromType('image/png'));
 		$this->assertEquals(array(), MimeType::getExtFromType('foo/bar'));
+		$this->assertEquals('txt', MimeType::getExtFromType('text/plain', true));
 	}
 
 	/**
 	 * Test that getTypeFromExt() returns a mime type from the ext.
 	 */
 	public function testGetTypeFromExt() {
+		$this->assertEquals('image/jpeg', MimeType::getTypeFromExt('jpg'));
 		$this->assertEquals('image/png', MimeType::getTypeFromExt('png'));
 		$this->assertEquals('application/x-7z-compressed', MimeType::getTypeFromExt('7z'));
 
