@@ -1,4 +1,4 @@
-# Transit v1.0.4 #
+# Transit v1.0.5 #
 
 A lightweight file uploader that also provides extended support for file validation,
 file transformation (image resizing, cropping, etc) and file transportation (moving
@@ -7,9 +7,9 @@ files to Amazon S3 or another external storage system).
 ## Requirements ##
 
 * PHP 5.3.3
+	* Multibyte
+	* Curl
 * Composer
-* Multibyte
-* Curl
 
 ## Features ##
 
