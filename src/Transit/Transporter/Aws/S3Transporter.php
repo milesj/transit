@@ -128,7 +128,7 @@ class S3Transporter extends AbstractAwsTransporter {
 			$file->delete();
 
 			return sprintf('%s/%s/%s',
-				$this->getClient()->getEndpointProvider()->getEndpoint('s3', $config['region'])->getBaseUrl($config['scheme']),
+				S3Client::getEndpoint($this->getClient()->getDescription(), $config['region'], $config['scheme']),
 				$config['bucket'],
 				$key);
 		}
