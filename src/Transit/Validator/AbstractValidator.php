@@ -93,22 +93,22 @@ abstract class AbstractValidator implements Validator {
 	}
 
 	/**
-	 * Validate the mime type is in the whitelist.
+	 * Validate the mime type is in the whitelist, e.g., image/jpeg.
 	 *
 	 * @param array $whitelist
 	 * @return bool
 	 */
-	public function type($whitelist = array()) {
+	public function mimeType($whitelist = array()) {
 		return in_array($this->getFile()->type(), (array) $whitelist);
 	}
 
 	/**
-	 * Validate the mime type is in the list of all mime types.
+	 * Validate the top-level type of file, e.g., image.
 	 *
 	 * @param string|array $mimeTypes
 	 * @return bool
 	 */
-	public function mimeType($mimeTypes) {
+	public function type($mimeTypes) {
 		$types = array();
 
 		foreach ((array) $mimeTypes as $mimeType) {
