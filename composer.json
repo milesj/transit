@@ -19,7 +19,7 @@
 		"ext-curl": "*",
 		"ext-mbstring": "*",
 		"ext-fileinfo": "*",
-		"aws/aws-sdk-php": "2.2.*"
+		"aws/aws-sdk-php": "~2.2"
 	},
 	"support": {
 		"source": "https://github.com/milesj/Transit"
