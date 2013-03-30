@@ -236,6 +236,10 @@ class Transit {
 		$url = $this->_data;
 		$name = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_BASENAME);
 
+		if (!$name) {
+			$name = md5(microtime(true));
+		}
+
 		// Fetch the remote file
 		$curl = curl_init($url);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
