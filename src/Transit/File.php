@@ -126,7 +126,7 @@ class File {
 			$ext = MimeType::getExtFromType($file->type(), true);
 
 			if (!$ext) {
-				$ext = mb_strtolower(pathinfo($this->_path, PATHINFO_EXTENSION));
+				$ext = mb_strtolower(pathinfo($file->path(), PATHINFO_EXTENSION));
 			}
 
 			return $ext;
