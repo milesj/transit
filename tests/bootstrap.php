@@ -7,21 +7,25 @@
 
 error_reporting(E_ALL | E_STRICT);
 
+function env($key, $default = '') {
+	return isset($_ENV[$key]) ? $_ENV[$key] : $default;
+}
+
 // Test constants
 define('TEST_DIR', __DIR__);
 define('TEMP_DIR', TEST_DIR . '/tmp');
 define('VENDOR_DIR', dirname(TEST_DIR) . '/vendor');
 
-define('AWS_ACCESS', '');
-define('AWS_SECRET', '');
-define('S3_BUCKET', '');
-define('S3_REGION', 'us-east-1');
-define('GLACIER_VAULT', '');
-define('GLACIER_REGION', 'us-east-1');
+define('AWS_ACCESS', env('AWS_S3_KEY'));
+define('AWS_SECRET', env('AWS_S3_SECRET'));
+define('S3_BUCKET', env('AWS_S3_BUCKET', 'ci-testing'));
+define('S3_REGION', env('AWS_S3_REGION', 'us-east-1'));
+define('GLACIER_VAULT', env('AWS_GLACIER_VAULT', 'ci-testing'));
+define('GLACIER_REGION', env('AWS_GLACIER_REGION', 'us-east-1'));
 
 // Ensure that composer has installed all dependencies
 if (!file_exists(VENDOR_DIR . '/autoload.php')) {
-	exit('Please install composer before running tests!');
+	exit('Please install Composer in Transit\'s root folder before running tests!');
 }
 
 // Include the composer autoloader

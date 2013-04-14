@@ -1,0 +1,24 @@
+language: php
+
+php:
+  - 5.3
+  - 5.3.3
+  - 5.4
+  - 5.5
+
+matrix:
+  allow_failures:
+    - php: 5.5
+
+env:
+  global:
+    - AWS_S3_REGION="us-east-1"
+    - AWS_S3_BUCKET="ci-testing"
+    - secure: "tU5KnujMOwOJ0eSeGbfAFs/oIIPhV6pQRihN9Iy2bvdvV0rt0Vp1Zh2wACNL\nSeNTLJFCPVWKzy29Atd3Cyrau307up8+CuZqLeKQG8I8IeiC0uCheX2Xdw0c\nezSTkvmjuDKDwR7CaxLuIRoKeQrQ02CGpXEC+1Ekc1Yh9XidFOY="
+    - secure: "NOUUL6Pet4rYYkw/BknAvydm0tOenW1lLE3riExcmH152W+/0ceYvUv1uhZs\nARfjfTgBrxprXlwsVVDDCsA4xbmkMfoN9g1q1M5W1GnLHwDdlPf4O1fGYj18\nGnjX8olx3J/uchQ0ZO7w7MwWW6qnxmyJKbi5ObwXYJcAn4yINjc="
+
+before_script:
+  - composer install --dev
+
+notifications:
+  email: false

@@ -1015,7 +1015,7 @@ class MimeType {
 				$isPrimary = $mimeType[1];
 			}
 
-			if ($mimeType === $type) {
+			if ($mimeType == $type) {
 				if ($primary && $isPrimary) {
 					return $ext;
 				}
@@ -1026,10 +1026,6 @@ class MimeType {
 
 		if ($primary && isset($exts[0])) {
 			return $exts[0];
-		}
-
-		if (!$exts) {
-			$exts = null;
 		}
 
 		return $exts;

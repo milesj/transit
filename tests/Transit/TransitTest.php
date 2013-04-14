@@ -168,6 +168,10 @@ class TransitTest extends TestCase {
 	 * Test that transport moves files to a remote location and returns the new paths.
 	 */
 	public function testTransport() {
+		if (!AWS_ACCESS || !AWS_SECRET) {
+			$this->markTestSkipped('Please provide AWS access credentials to run these tests');
+		}
+
 		$this->object->setTransporter(new S3Transporter(AWS_ACCESS, AWS_SECRET, array(
 			'bucket' => S3_BUCKET,
 			'region' => S3_REGION

@@ -17,6 +17,14 @@ class S3TransporterTest extends TestCase {
 	 * Test that uploading a file to S3 returns a URL and deleting the file via the URL works.
 	 */
 	public function testTransportAndDelete() {
+		if (!AWS_ACCESS || !AWS_SECRET) {
+			$this->markTestSkipped('Please provide AWS access credentials to run these tests');
+		}
+
+		if (!S3_BUCKET || !S3_REGION) {
+			$this->markTestSkipped('Please provide an S3 bucket and region to run these tests');
+		}
+
 		$object = new S3Transporter(AWS_ACCESS, AWS_SECRET, array(
 			'bucket' => S3_BUCKET,
 			'region' => S3_REGION
@@ -41,6 +49,14 @@ class S3TransporterTest extends TestCase {
 	 * Test that parsing S3 URLs returns the bucket and key.
 	 */
 	public function testParseUrl() {
+		if (!AWS_ACCESS || !AWS_SECRET) {
+			$this->markTestSkipped('Please provide AWS access credentials to run these tests');
+		}
+
+		if (!S3_BUCKET || !S3_REGION) {
+			$this->markTestSkipped('Please provide an S3 bucket and region to run these tests');
+		}
+
 		$object = new S3Transporter(AWS_ACCESS, AWS_SECRET, array(
 			'bucket' => S3_BUCKET,
 			'region' => S3_REGION

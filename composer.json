@@ -18,7 +18,12 @@
 		"php": ">=5.3.3",
 		"ext-curl": "*",
 		"ext-mbstring": "*",
-		"ext-fileinfo": "*",
+		"ext-fileinfo": "*"
+	},
+	"require-dev": {
+		"aws/aws-sdk-php": "~2.2"
+	},
+	"suggest": {
 		"aws/aws-sdk-php": "~2.2"
 	},
 	"support": {
