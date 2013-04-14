@@ -8,10 +8,14 @@
 error_reporting(E_ALL | E_STRICT);
 
 function env($key, $default = '') {
-	return isset($_ENV[$key]) ? $_ENV[$key] : $default;
-}
+	foreach (array($_ENV, $_SERVER) as $global) {
+		if (isset($global[$key])) {
+			return $global[$key];
+		}
+	}
 
-print_r($_ENV); var_dump($_SERVER);
+	return $default;
+}
 
 // Test constants
 define('TEST_DIR', __DIR__);
