@@ -11,6 +11,8 @@ function env($key, $default = '') {
 	return isset($_ENV[$key]) ? $_ENV[$key] : $default;
 }
 
+print_r($_ENV); var_dump($_SERVER);
+
 // Test constants
 define('TEST_DIR', __DIR__);
 define('TEMP_DIR', TEST_DIR . '/tmp');
