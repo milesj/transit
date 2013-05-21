@@ -40,7 +40,8 @@ class S3Transporter extends AbstractAwsTransporter {
 		'storage' => Storage::STANDARD,
 		'acl' => CannedAcl::PUBLIC_READ,
 		'encryption' => '',
-		'meta' => array()
+		'meta' => array(),
+		'returnUrl' => true
 	);
 
 	/**
@@ -127,10 +128,14 @@ class S3Transporter extends AbstractAwsTransporter {
 		if ($response) {
 			$file->delete();
 
-			return sprintf('%s/%s/%s',
-				S3Client::getEndpoint($this->getClient()->getDescription(), $config['region'], $config['scheme']),
-				$config['bucket'],
-				$key);
+			if ($config['returnUrl']) {
+				return sprintf('%s/%s/%s',
+					S3Client::getEndpoint($this->getClient()->getDescription(), $config['region'], $config['scheme']),
+					$config['bucket'],
+					$key);
+			}
+
+			return $key;
 		}
 
 		throw new TransportationException(sprintf('Failed to transport %s to Amazon S3', $file->basename()));
