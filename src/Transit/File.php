@@ -347,7 +347,11 @@ class File {
 
 			// We can't use the file command on windows
 			if (!defined('PHP_WINDOWS_VERSION_MAJOR')) {
-				$type = system(sprintf("file -bi %s", escapeshellarg($file->path())));
+				$type = shell_exec(sprintf("file -bi %s", escapeshellarg($file->path())));
+
+				if ($type && strpos($type, ';') !== false) {
+					$type = strstr($type, ';', true);
+				}
 			}
 
 			// Fallback because of fileinfo bug: https://bugs.php.net/bug.php?id=53035
