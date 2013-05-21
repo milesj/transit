@@ -343,9 +343,19 @@ class File {
 	 */
 	public function type() {
 		return $this->_cache(__FUNCTION__, function($file) {
-			$info = finfo_open(FILEINFO_MIME_TYPE);
-			$type = finfo_file($info, $file->path());
-			finfo_close($info);
+			$type = null;
+
+			// We can't use the file command on windows
+			if (!defined('PHP_WINDOWS_VERSION_MAJOR')) {
+				$type = system(sprintf("file -bi %s", escapeshellarg($file->path())));
+			}
+
+			// Fallback because of fileinfo bug: https://bugs.php.net/bug.php?id=53035
+			if (!$type) {
+				$info = finfo_open(FILEINFO_MIME_TYPE);
+				$type = finfo_file($info, $file->path());
+				finfo_close($info);
+			}
 
 			return $type;
 		});
