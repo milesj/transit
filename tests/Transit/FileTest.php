@@ -238,4 +238,16 @@ class FileTest extends TestCase {
 		$this->assertEquals($this->tempFile, (string) $this->object);
 	}
 
+	/**
+	 * Test for this bug: https://bugs.php.net/bug.php?id=53035
+	 */
+	public function testTypeDetectionForMagicBugs() {
+		$file = new File(TEMP_DIR . '/magic-mime-verify.js');
+
+		// This will actually return text/plain because magic cant determine a text/javascript file
+		// It can also return text/x-c in some weird corner cases
+		// If either of these happen, fall back to the extension derived mimetype
+		$this->assertEquals('text/javascript', $file->type());
+	}
+
 }

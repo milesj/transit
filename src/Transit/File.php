@@ -123,13 +123,10 @@ class File {
 	 */
 	public function ext() {
 		return $this->_cache(__FUNCTION__, function($file) {
-			$ext = MimeType::getExtFromType($file->type(), true);
+			// Removed because of fileinfo bug
+			//$ext = MimeType::getExtFromType($file->type(), true);
 
-			if (!$ext) {
-				$ext = mb_strtolower(pathinfo($file->path(), PATHINFO_EXTENSION));
-			}
-
-			return $ext;
+			return mb_strtolower(pathinfo($file->path(), PATHINFO_EXTENSION));
 		});
 	}
 
@@ -347,7 +344,7 @@ class File {
 
 			// We can't use the file command on windows
 			if (!defined('PHP_WINDOWS_VERSION_MAJOR')) {
-				$type = shell_exec(sprintf("file -bi %s", escapeshellarg($file->path())));
+				$type = shell_exec(sprintf("file -i --mime %s", escapeshellarg($file->path())));
 
 				if ($type && strpos($type, ';') !== false) {
 					$type = strstr($type, ';', true);
@@ -359,6 +356,14 @@ class File {
 				$info = finfo_open(FILEINFO_MIME_TYPE);
 				$type = finfo_file($info, $file->path());
 				finfo_close($info);
+			}
+
+			// Check the mimetype against the extension
+			// If they are different, use the extension since fileinfo returns invalid mimetypes
+			$extType = MimeType::getTypeFromExt($file->ext());
+
+			if ($type !== $extType) {
+				$type = $extType;
 			}
 
 			return $type;
