@@ -1,5 +1,5 @@
 examples/img/
 examples/tmp/
-tests/tmp/
+tests/tmp/scott-pilgrim-*.jpg
 vendor/
 composer.lock
