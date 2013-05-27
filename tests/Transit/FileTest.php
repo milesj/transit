@@ -8,6 +8,7 @@
 namespace Transit;
 
 use Transit\Test\TestCase;
+use \Exception;
 
 class FileTest extends TestCase {
 
@@ -21,10 +22,40 @@ class FileTest extends TestCase {
 	}
 
 	/**
+	 * Test object construction.
+	 */
+	public function testConstruct() {
+		try {
+			$file = new File(array()); // missing tmp_name
+			$this->assertTrue(false);
+		} catch (Exception $e) {
+			$this->assertTrue(true);
+		}
+
+		try {
+			$file = new File(array('tmp_name' => 'some/path.jpg')); // invalid path
+			$this->assertTrue(false);
+		} catch (Exception $e) {
+			$this->assertTrue(true);
+		}
+	}
+
+	/**
 	 * Test that basename() returns file name with extension.
 	 */
 	public function testBasename() {
 		$this->assertEquals('test.jpg', $this->object->basename());
+	}
+
+	/**
+	 * Test $_FILES data.
+	 */
+	public function testData() {
+		$this->assertEquals(null, $this->object->data('name'));
+
+		// Test using an array
+		$file = new File($this->data);
+		$this->assertEquals('scott-pilgrim.jpg', $file->data('name'));
 	}
 
 	/**
@@ -60,6 +91,10 @@ class FileTest extends TestCase {
 	 */
 	public function testExt() {
 		$this->assertEquals('jpg', $this->object->ext());
+
+		// Test using an array
+		$file = new File($this->data);
+		$this->assertEquals('jpg', $file->ext());
 	}
 
 	/**
@@ -246,7 +281,7 @@ class FileTest extends TestCase {
 
 		// This will actually return text/plain because magic cant determine a text/javascript file
 		// It can also return text/x-c in some weird corner cases
-		// If either of these happen, fall back to the extension derived mimetype
+		// If either of these happen, fall back to the extension derived mimetype (or from $_FILES)
 		$this->assertEquals('text/javascript', $file->type());
 	}
 

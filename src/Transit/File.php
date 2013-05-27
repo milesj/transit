@@ -24,6 +24,13 @@ class File {
 	protected $_cache = array();
 
 	/**
+	 * Raw $_FILES data.
+	 *
+	 * @var array
+	 */
+	protected $_data = array();
+
+	/**
 	 * Absolute file path.
 	 *
 	 * @var string
@@ -33,10 +40,19 @@ class File {
 	/**
 	 * Store the file path.
 	 *
-	 * @param string $path
+	 * @param string|array $path
 	 * @throws \Transit\Exception\IoException
 	 */
 	public function __construct($path) {
+		if (is_array($path)) {
+			if (empty($path['tmp_name'])) {
+				throw new IoException('Passing via array must use $_FILES data');
+			}
+
+			$this->_data = $path;
+			$path = $path['tmp_name'];
+		}
+
 		if (!file_exists($path)) {
 			throw new IoException(sprintf('%s does not exist', $path));
 		}
@@ -60,6 +76,16 @@ class File {
 	 */
 	public function basename() {
 		return pathinfo($this->_path, PATHINFO_BASENAME);
+	}
+
+	/**
+	 * Return the $_FILES data.
+	 *
+	 * @param string $key
+	 * @return string
+	 */
+	public function data($key) {
+		return !empty($this->_data[$key]) ? $this->_data[$key] : null;
 	}
 
 	/**
@@ -123,10 +149,13 @@ class File {
 	 */
 	public function ext() {
 		return $this->_cache(__FUNCTION__, function($file) {
-			// Removed because of fileinfo bug
-			//$ext = MimeType::getExtFromType($file->type(), true);
+			// @version 1.1.1 Removed because of fileinfo bug
+			// return MimeType::getExtFromType($file->type(), true);
 
-			return mb_strtolower(pathinfo($file->path(), PATHINFO_EXTENSION));
+			// @version 1.2.0 Allow support for $_FILES array
+			$path = $this->data('name') ?: $file->path();
+
+			return mb_strtolower(pathinfo($path, PATHINFO_EXTENSION));
 		});
 	}
 
@@ -265,7 +294,10 @@ class File {
 	 * @return string
 	 */
 	public function name() {
-		return pathinfo($this->_path, PATHINFO_FILENAME);
+		// @version 1.2.0 Don't use tmp_name if available
+		$path = $this->data('name') ?: $this->path();
+
+		return pathinfo($path, PATHINFO_FILENAME);
 	}
 
 	/**
@@ -344,7 +376,7 @@ class File {
 
 			// We can't use the file command on windows
 			if (!defined('PHP_WINDOWS_VERSION_MAJOR')) {
-				$type = shell_exec(sprintf("file -i --mime %s", escapeshellarg($file->path())));
+				$type = shell_exec(sprintf("file -b --mime %s", escapeshellarg($file->path())));
 
 				if ($type && strpos($type, ';') !== false) {
 					$type = strstr($type, ';', true);
@@ -360,7 +392,7 @@ class File {
 
 			// Check the mimetype against the extension
 			// If they are different, use the extension since fileinfo returns invalid mimetypes
-			$extType = MimeType::getTypeFromExt($file->ext());
+			$extType = $this->data('type') ?: MimeType::getTypeFromExt($file->ext());
 
 			if ($type !== $extType) {
 				$type = $extType;
