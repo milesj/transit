@@ -19,21 +19,21 @@ class File {
 	/**
 	 * Cached values.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	protected $_cache = array();
 
 	/**
 	 * Raw $_FILES data.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	protected $_data = array();
 
 	/**
 	 * Absolute file path.
 	 *
-	 * @var string
+	 * @type string
 	 */
 	protected $_path;
 
@@ -153,7 +153,7 @@ class File {
 			// return MimeType::getExtFromType($file->type(), true);
 
 			// @version 1.2.0 Allow support for $_FILES array
-			$path = $this->data('name') ?: $file->path();
+			$path = $file->data('name') ?: $file->path();
 
 			return mb_strtolower(pathinfo($path, PATHINFO_EXTENSION));
 		});
@@ -392,7 +392,7 @@ class File {
 
 			// Check the mimetype against the extension
 			// If they are different, use the extension since fileinfo returns invalid mimetypes
-			$extType = $this->data('type') ?: MimeType::getTypeFromExt($file->ext());
+			$extType = $file->data('type') ?: MimeType::getTypeFromExt($file->ext());
 
 			if ($type !== $extType) {
 				$type = $extType;
