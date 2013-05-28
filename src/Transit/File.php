@@ -77,7 +77,7 @@ class File {
 	 * @return string
 	 */
 	public function basename() {
-		// @version 1.2.0 Don't use tmp_name if available
+		// @version 1.2.0 Use filename then fallback to path
 		$path = $this->data('name') ?: $this->path();
 
 		return pathinfo($path, PATHINFO_BASENAME);
@@ -311,7 +311,7 @@ class File {
 	 * @return string
 	 */
 	public function name() {
-		// @version 1.2.0 Don't use tmp_name if available
+		// @version 1.2.0 Use filename then fallback to path
 		$path = $this->data('name') ?: $this->path();
 
 		return pathinfo($path, PATHINFO_FILENAME);
@@ -409,8 +409,9 @@ class File {
 				finfo_close($info);
 			}
 
-			// Check the mimetype against the extension
-			// If they are different, use the extension since fileinfo returns invalid mimetypes
+			// Check the mimetype against the extension or $_FILES type
+			// If they are different, use the upload type since fileinfo returns invalid mimetypes
+			// This could be problematic in the future, but unknown better alternative
 			$extType = $file->data('type') ?: MimeType::getTypeFromExt($file->ext());
 
 			if ($type !== $extType) {
