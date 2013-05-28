@@ -11,6 +11,8 @@ use Transit\File;
 
 /**
  * Interface for all transporters to implement.
+ *
+ * @package Transit
  */
 interface Transporter {
 

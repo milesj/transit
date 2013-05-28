@@ -12,13 +12,15 @@ use \InvalidArgumentException;
 
 /**
  * Base class for all AWS transporters to extend.
+ *
+ * @package Transit\Transporter\Aws
  */
 abstract class AbstractAwsTransporter extends AbstractTransporter {
 
 	/**
 	 * Client instance.
 	 *
-	 * @var object
+	 * @type object
 	 */
 	protected $_client;
 

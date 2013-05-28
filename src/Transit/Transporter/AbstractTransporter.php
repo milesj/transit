@@ -11,13 +11,15 @@ use Transit\Transporter;
 
 /**
  * Provides shared functionality for transporters.
+ *
+ * @package Transit\Transporter
  */
 abstract class AbstractTransporter implements Transporter {
 
 	/**
 	 * Configuration.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	protected $_config = array();
 

@@ -11,6 +11,8 @@ use Transit\File;
 
 /**
  * Interface for all transformers to implement.
+ *
+ * @package Transit
  */
 interface Transformer {
 

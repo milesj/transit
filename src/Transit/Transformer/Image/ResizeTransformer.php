@@ -12,6 +12,8 @@ use \InvalidArgumentException;
 
 /**
  * Resizes an image to new dimensions.
+ *
+ * @package Transit\Transformer\Image
  */
 class ResizeTransformer extends AbstractImageTransformer {
 
@@ -21,7 +23,14 @@ class ResizeTransformer extends AbstractImageTransformer {
 	/**
 	 * Configuration.
 	 *
-	 * @var array
+	 * @type array {
+	 * 		@type string $mode		Which axis to calculate dimensions from
+	 * 		@type int $quality		Quality of JPEG image
+	 * 		@type int $width		Width of output image
+	 * 		@type int $height		Height of output image
+	 * 		@type bool $expand		Allow image to be resized larger than the base dimensions
+	 * 		@type bool $aspect		Maintain aspect ratio when expanding or shrinking
+	 * }
 	 */
 	protected $_config = array(
 		'mode' => self::WIDTH,
@@ -33,11 +42,8 @@ class ResizeTransformer extends AbstractImageTransformer {
 	);
 
 	/**
-	 * Calculate the transformation options and process.
+	 * {@inheritdoc}
 	 *
-	 * @param \Transit\File $file
-	 * @param bool $self
-	 * @return \Transit\File
 	 * @throws \InvalidArgumentException
 	 */
 	public function transform(File $file, $self = false) {

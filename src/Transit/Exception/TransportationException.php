@@ -9,6 +9,8 @@ namespace Transit\Exception;
 
 /**
  * Exception used when a file transportation error occurs.
+ *
+ * @package Transit\Exception
  */
 class TransportationException extends \Exception {
 

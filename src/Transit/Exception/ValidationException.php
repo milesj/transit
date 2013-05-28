@@ -9,6 +9,8 @@ namespace Transit\Exception;
 
 /**
  * Exception used when a validation rule fails.
+ *
+ * @package Transit\Exception
  */
 class ValidationException extends \Exception {
 

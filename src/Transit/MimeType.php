@@ -11,13 +11,15 @@ use \InvalidArgumentException;
 
 /**
  * Houses the collection and organization of mime types.
+ *
+ * @package Transit
  */
 class MimeType {
 
 	/**
 	 * List of application mime types.
 	 *
-	 * @var array
+	 * @type array
 	 * @static
 	 */
 	protected static $_application = array();
@@ -25,7 +27,7 @@ class MimeType {
 	/**
 	 * List of audio mime types.
 	 *
-	 * @var array
+	 * @type array
 	 * @static
 	 */
 	protected static $_audio = array();
@@ -33,7 +35,7 @@ class MimeType {
 	/**
 	 * List of image mime types.
 	 *
-	 * @var array
+	 * @type array
 	 * @static
 	 */
 	protected static $_image = array();
@@ -41,7 +43,7 @@ class MimeType {
 	/**
 	 * List of text mime types.
 	 *
-	 * @var array
+	 * @type array
 	 * @static
 	 */
 	protected static $_text = array();
@@ -49,7 +51,7 @@ class MimeType {
 	/**
 	 * List of video mime types.
 	 *
-	 * @var array
+	 * @type array
 	 * @static
 	 */
 	protected static $_video = array();
@@ -57,7 +59,7 @@ class MimeType {
 	/**
 	 * List of all mime types.
 	 *
-	 * @var array
+	 * @type array
 	 * @static
 	 */
 	protected static $_types = array(
@@ -973,7 +975,7 @@ class MimeType {
 	/**
 	 * List of sub-types.
 	 *
-	 * @var array
+	 * @type array
 	 * @static
 	 */
 	protected static $_subTypes = array(

@@ -13,6 +13,8 @@ use \Closure;
 /**
  * Handles the management of a single file on the file system.
  * Can return detailed information on the file as well as moving and renaming.
+ *
+ * @package Transit
  */
 class File {
 
@@ -183,6 +185,8 @@ class File {
 	/**
 	 * Return true if the file is an application.
 	 *
+	 * @uses Transit\MimeType
+	 *
 	 * @return bool
 	 */
 	public function isApplication() {
@@ -191,6 +195,8 @@ class File {
 
 	/**
 	 * Return true if the file is an audio.
+	 *
+	 * @uses Transit\MimeType
 	 *
 	 * @return bool
 	 */
@@ -201,6 +207,8 @@ class File {
 	/**
 	 * Return true if the file is an image.
 	 *
+	 * @uses Transit\MimeType
+	 *
 	 * @return bool
 	 */
 	public function isImage() {
@@ -209,6 +217,8 @@ class File {
 
 	/**
 	 * Return true if the file is a text.
+	 *
+	 * @uses Transit\MimeType
 	 *
 	 * @return bool
 	 */
@@ -219,6 +229,8 @@ class File {
 	/**
 	 * Return true if the file is a video.
 	 *
+	 * @uses Transit\MimeType
+	 *
 	 * @return bool
 	 */
 	public function isVideo() {
@@ -227,6 +239,8 @@ class File {
 
 	/**
 	 * Return true if the file is part of a sub-type.
+	 *
+	 * @uses Transit\MimeType
 	 *
 	 * @param string $subType
 	 * @return bool
@@ -367,6 +381,8 @@ class File {
 
 	/**
 	 * Return the mime type.
+	 *
+	 * @uses Transit\MimeType
 	 *
 	 * @return string
 	 */

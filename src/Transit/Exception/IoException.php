@@ -9,6 +9,8 @@ namespace Transit\Exception;
 
 /**
  * Exception used when a file read or write fails.
+ *
+ * @package Transit\Exception
  */
 class IoException extends \Exception {
 

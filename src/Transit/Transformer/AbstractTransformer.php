@@ -11,13 +11,15 @@ use Transit\Transformer;
 
 /**
  * Provides shared functionality for transformers.
+ *
+ * @package Transit\Transformer
  */
 abstract class AbstractTransformer implements Transformer {
 
 	/**
 	 * Configuration.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	protected $_config = array();
 

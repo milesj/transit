@@ -21,62 +21,64 @@ use \InvalidArgumentException;
 /**
  * Primary class that handles all aspects of the uploading and importing process.
  * Furthermore provides support for file transformation and transportation.
+ *
+ * @package Transit
  */
 class Transit {
 
 	/**
 	 * Form files data or import URI.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	protected $_data;
 
 	/**
 	 * Temp upload directory.
 	 *
-	 * @var string
+	 * @type string
 	 */
 	protected $_directory = __DIR__;
 
 	/**
 	 * File instance after successful upload or import.
 	 *
-	 * @var \Transit\File
+	 * @type \Transit\File
 	 */
 	protected $_file;
 
 	/**
 	 * List of Files from transformation.
 	 *
-	 * @var \Transit\File[]
+	 * @type \Transit\File[]
 	 */
 	protected $_files = array();
 
 	/**
 	 * List of Transformers to create files from the original file.
 	 *
-	 * @var \Transit\Transformer[]
+	 * @type \Transit\Transformer[]
 	 */
 	protected $_transformers = array();
 
 	/**
 	 * List of Transformers to apply to the original file.
 	 *
-	 * @var \Transit\Transformer[]
+	 * @type \Transit\Transformer[]
 	 */
 	protected $_selfTransformers = array();
 
 	/**
 	 * Transporter instance.
 	 *
-	 * @var \Transit\Transporter
+	 * @type \Transit\Transporter
 	 */
 	protected $_transporter;
 
 	/**
 	 * Validator instance.
 	 *
-	 * @var \Transit\Validator
+	 * @type \Transit\Validator
 	 */
 	protected $_validator;
 
@@ -502,7 +504,7 @@ class Transit {
 		// Validate rules
 		if ($validator = $this->getValidator()) {
 			$validator
-				->setFile(new File($data['tmp_name']))
+				->setFile(new File($data))
 				->validate();
 		}
 

@@ -9,6 +9,8 @@ namespace Transit\Validator;
 
 /**
  * Provides file validation functionality.
+ *
+ * @package Transit\Validator
  */
 class ImageValidator extends AbstractValidator {
 

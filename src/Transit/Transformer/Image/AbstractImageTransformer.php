@@ -14,6 +14,8 @@ use \RuntimeException;
 
 /**
  * Provides shared functionality for transformers.
+ *
+ * @package Transit\Transformer\Image
  */
 abstract class AbstractImageTransformer extends AbstractTransformer {
 
@@ -32,11 +34,8 @@ abstract class AbstractImageTransformer extends AbstractTransformer {
 	}
 
 	/**
-	 * Transform the image using the defined options.
+	 * {@inheritdoc}
 	 *
-	 * @param \Transit\File $file
-	 * @param array $options
-	 * @return \Transit\File
 	 * @throws \DomainException
 	 */
 	protected function _process(File $file, array $options) {

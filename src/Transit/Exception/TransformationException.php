@@ -9,6 +9,8 @@ namespace Transit\Exception;
 
 /**
  * Exception used when a file transformation error occurs.
+ *
+ * @package Transit\Exception
  */
 class TransformationException extends \Exception {
 

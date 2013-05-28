@@ -11,6 +11,8 @@ use Transit\File;
 
 /**
  * Interface for all validators to implement.
+ *
+ * @package Transit
  */
 interface Validator {
 

@@ -12,6 +12,8 @@ use \InvalidArgumentException;
 
 /**
  * Crops a photo, but resizes and keeps aspect ratio depending on which side is larger.
+ *
+ * @package Transit\Transformer\Image
  */
 class CropTransformer extends AbstractImageTransformer {
 
@@ -24,7 +26,12 @@ class CropTransformer extends AbstractImageTransformer {
 	/**
 	 * Configuration.
 	 *
-	 * @var array
+	 * @type array {
+	 * 		@type string $location	Location to crop from the source image
+	 * 		@type int $quality		Quality of JPEG image
+	 * 		@type int $width		Width of output image
+	 * 		@type int $height		Height of output image
+	 * }
 	 */
 	protected $_config = array(
 		'location' => self::CENTER,
@@ -34,11 +41,8 @@ class CropTransformer extends AbstractImageTransformer {
 	);
 
 	/**
-	 * Calculate the transformation options and process.
+	 * {@inheritdoc}
 	 *
-	 * @param \Transit\File $file
-	 * @param bool $self
-	 * @return \Transit\File
 	 * @throws \InvalidArgumentException
 	 */
 	public function transform(File $file, $self = false) {

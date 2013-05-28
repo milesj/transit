@@ -20,13 +20,21 @@ use \InvalidArgumentException;
 
 /**
  * Transport a local file to Amazon Glacier.
+ *
+ * @package Transit\Transporter\Aws
  */
 class GlacierTransporter extends AbstractAwsTransporter {
 
 	/**
 	 * Configuration.
 	 *
-	 * @var array
+	 * @type array {
+	 * 		@type string $key		AWS access key
+	 * 		@type string $secret	AWS secret key
+	 * 		@type string $vault		Vault archive to place files in
+	 * 		@type string $accountId	Account ID used for authentication
+	 * 		@type string $region	AWS vault region
+	 * }
 	 */
 	protected $_config = array(
 		'key' => '',
@@ -38,6 +46,8 @@ class GlacierTransporter extends AbstractAwsTransporter {
 
 	/**
 	 * Instantiate a GlacierClient object.
+	 *
+	 * @uses Aws\Glacier\GlacierClient
 	 *
 	 * @param string $accessKey
 	 * @param string $secretKey
@@ -78,6 +88,10 @@ class GlacierTransporter extends AbstractAwsTransporter {
 
 	/**
 	 * Transport the file to Amazon Glacier and return the archive ID.
+	 *
+	 * @uses Aws\Glacier\GlacierClient
+	 * @uses Aws\Glacier\Model\MultipartUpload\UploadBuilder
+	 * @uses Guzzle\Http\EntityBody
 	 *
 	 * @param \Transit\File $file
 	 * @return string

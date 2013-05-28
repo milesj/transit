@@ -12,6 +12,8 @@ use \InvalidArgumentException;
 
 /**
  * Flips an image in 3 possible directions: vertical, horizontal, or both.
+ *
+ * @package Transit\Transformer\Image
  */
 class FlipTransformer extends AbstractImageTransformer {
 
@@ -22,7 +24,10 @@ class FlipTransformer extends AbstractImageTransformer {
 	/**
 	 * Configuration.
 	 *
-	 * @var array
+	 * @type array {
+	 * 		@type string $direction	Direction to flip the image
+	 * 		@type int $quality		Quality of JPEG image
+	 * }
 	 */
 	protected $_config = array(
 		'direction' => self::VERTICAL,
@@ -30,11 +35,8 @@ class FlipTransformer extends AbstractImageTransformer {
 	);
 
 	/**
-	 * Calculate the transformation options and process.
+	 * {@inheritdoc}
 	 *
-	 * @param \Transit\File $file
-	 * @param bool $self
-	 * @return \Transit\File
 	 * @throws \InvalidArgumentException
 	 */
 	public function transform(File $file, $self = false) {

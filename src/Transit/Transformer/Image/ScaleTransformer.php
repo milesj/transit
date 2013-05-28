@@ -12,13 +12,18 @@ use \InvalidArgumentException;
 
 /**
  * Scale the image based on a percentage.
+ *
+ * @package Transit\Transformer\Image
  */
 class ScaleTransformer extends AbstractImageTransformer {
 
 	/**
 	 * Configuration.
 	 *
-	 * @var array
+	 * @type array {
+	 * 		@type int $percent	Percent to scale image with
+	 * 		@type int $quality	Quality of JPEG image
+	 * }
 	 */
 	protected $_config = array(
 		'percent' => .5,
@@ -26,11 +31,8 @@ class ScaleTransformer extends AbstractImageTransformer {
 	);
 
 	/**
-	 * Calculate the transformation options and process.
+	 * {@inheritdoc}
 	 *
-	 * @param \Transit\File $file
-	 * @param bool $self
-	 * @return \Transit\File
 	 * @throws \InvalidArgumentException
 	 */
 	public function transform(File $file, $self = false) {

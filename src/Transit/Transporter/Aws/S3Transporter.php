@@ -22,13 +22,27 @@ use \InvalidArgumentException;
 
 /**
  * Transport a local file to Amazon S3.
+ *
+ * @package Transit\Transporter\Aws
  */
 class S3Transporter extends AbstractAwsTransporter {
 
 	/**
 	 * Configuration.
 	 *
-	 * @var array
+	 * @type array {
+	 * 		@type string $key		AWS access key
+	 * 		@type string $secret	AWS secret key
+	 * 		@type string $bucket	Bucket name to place files in
+	 * 		@type string $folder	Folder path to prepend to file name
+	 * 		@type string $scheme	HTTP protocol to communicate with
+	 * 		@type string $region	AWS bucket region
+	 * 		@type string $storage	S3 storage method
+	 * 		@type string $acl		S3 ACL rules to use
+	 * 		@type string $encryption Encryption algorithm to use for uploading
+	 * 		@type array $meta		Meta data to apply to S3 files
+	 * 		@type bool $returnUrl	Return the full S3 URL or the S3 key after upload
+	 * }
 	 */
 	protected $_config = array(
 		'key' => '',
@@ -46,6 +60,8 @@ class S3Transporter extends AbstractAwsTransporter {
 
 	/**
 	 * Instantiate an S3Client object.
+	 *
+	 * @uses Aws\S3\S3Client
 	 *
 	 * @param string $accessKey
 	 * @param string $secretKey
@@ -85,6 +101,10 @@ class S3Transporter extends AbstractAwsTransporter {
 
 	/**
 	 * Transport the file to a remote location.
+	 *
+	 * @uses Aws\S3\S3Client
+	 * @uses Aws\S3\Model\MultipartUpload\UploadBuilder
+	 * @uses Guzzle\Http\EntityBody
 	 *
 	 * @param \Transit\File $file
 	 * @return string

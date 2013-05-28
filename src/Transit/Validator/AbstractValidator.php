@@ -16,30 +16,27 @@ use \BadMethodCallException;
 
 /**
  * Provides basic file validation functionality.
+ *
+ * @package Transit\Validator
  */
 abstract class AbstractValidator implements Validator {
 
 	/**
 	 * File object.
 	 *
-	 * @var \Transit\File
+	 * @type \Transit\File
 	 */
 	protected $_file;
 
 	/**
 	 * Validation rules.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	protected $_rules = array();
 
 	/**
-	 * Add a validation rule with an error message and custom params.
-	 *
-	 * @param string $method
-	 * @param string $message
-	 * @param mixed $params
-	 * @return \Transit\Validator
+	 * {@inheritdoc}
 	 */
 	public function addRule($method, $message, $params = array()) {
 		$this->_rules[] = array(
@@ -52,19 +49,14 @@ abstract class AbstractValidator implements Validator {
 	}
 
 	/**
-	 * Return the File object.
-	 *
-	 * @return \Transit\File
+	 * {@inheritdoc}
 	 */
 	public function getFile() {
 		return $this->_file;
 	}
 
 	/**
-	 * Set the File object.
-	 *
-	 * @param \Transit\File $file
-	 * @return \Transit\Validator
+	 * {@inheritdoc}
 	 */
 	public function setFile(File $file) {
 		$this->_file = $file;
@@ -105,6 +97,8 @@ abstract class AbstractValidator implements Validator {
 	/**
 	 * Validate the top-level type of file, e.g., image.
 	 *
+	 * @uses Transit\MimeType
+	 *
 	 * @param string|array $mimeTypes
 	 * @return bool
 	 */
@@ -126,9 +120,8 @@ abstract class AbstractValidator implements Validator {
 	}
 
 	/**
-	 * Validate that all the rules pass.
+	 * {@inheritdoc}
 	 *
-	 * @return bool
 	 * @throws \Transit\Exception\IoException
 	 * @throws \Transit\Exception\ValidationException
 	 * @throws \BadMethodCallException
