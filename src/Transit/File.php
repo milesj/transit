@@ -77,7 +77,10 @@ class File {
 	 * @return string
 	 */
 	public function basename() {
-		return pathinfo($this->_path, PATHINFO_BASENAME);
+		// @version 1.2.0 Don't use tmp_name if available
+		$path = $this->data('name') ?: $this->path();
+
+		return pathinfo($path, PATHINFO_BASENAME);
 	}
 
 	/**
