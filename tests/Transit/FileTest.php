@@ -44,7 +44,7 @@ class FileTest extends TestCase {
 	 * Test that basename() returns file name with extension.
 	 */
 	public function testBasename() {
-		$this->assertEquals('test.jpg', $this->object->basename());
+		$this->assertEquals('scott-pilgrim-test.jpg', $this->object->basename());
 	}
 
 	/**
@@ -55,7 +55,7 @@ class FileTest extends TestCase {
 
 		// Test using an array
 		$file = new File($this->data);
-		$this->assertEquals('scott-pilgrim.jpg', $file->data('name'));
+		$this->assertEquals('scott-pilgrim-test.jpg', $file->data('name'));
 	}
 
 	/**
@@ -150,7 +150,7 @@ class FileTest extends TestCase {
 	 * Test that move() moves the file to another directory.
 	 */
 	public function testMove() {
-		$newPath = TEST_DIR . '/test.jpg';
+		$newPath = TEST_DIR . '/scott-pilgrim-test.jpg';
 
 		$this->assertTrue(file_exists($this->tempFile));
 		$this->assertFalse(file_exists($newPath));
@@ -169,8 +169,8 @@ class FileTest extends TestCase {
 	 * Test that move() doesn't overwrite files but appends an incremented number.
 	 */
 	public function testMoveNoOverwrite() {
-		$testPath = TEST_DIR . '/test.jpg';
-		$movePath = TEMP_DIR . '/test-1.jpg';
+		$testPath = TEST_DIR . '/scott-pilgrim-test.jpg';
+		$movePath = TEMP_DIR . '/scott-pilgrim-test-1.jpg';
 
 		copy($this->baseFile, $testPath);
 
@@ -188,7 +188,7 @@ class FileTest extends TestCase {
 	 * Test that name() returns the file name without extension.
 	 */
 	public function testName() {
-		$this->assertEquals('test', $this->object->name());
+		$this->assertEquals('scott-pilgrim-test', $this->object->name());
 	}
 
 	/**
@@ -221,10 +221,10 @@ class FileTest extends TestCase {
 		$this->assertEquals('precallbackapp', $this->object->name());
 
 		// Reset name
-		$this->object->rename('test');
+		$this->object->rename('scott-pilgrim-test');
 
 		$this->assertTrue(file_exists($this->tempFile));
-		$this->assertEquals('test', $this->object->name());
+		$this->assertEquals('scott-pilgrim-test', $this->object->name());
 	}
 
 	/**
@@ -253,10 +253,10 @@ class FileTest extends TestCase {
 	 */
 	public function testToArray() {
 		$this->assertEquals(array(
-			'basename' => 'test.jpg',
+			'basename' => 'scott-pilgrim-test.jpg',
 			'dir' => dirname($this->tempFile) . '/',
 			'ext' => 'jpg',
-			'name' => 'test',
+			'name' => 'scott-pilgrim-test',
 			'path' => $this->tempFile,
 			'size' => 126869,
 			'type' => 'image/jpeg',
@@ -282,7 +282,7 @@ class FileTest extends TestCase {
 		// This will actually return text/plain because magic cant determine a text/javascript file
 		// It can also return text/x-c in some weird corner cases
 		// If either of these happen, fall back to the extension derived mimetype (or from $_FILES)
-		$this->assertEquals('text/javascript', $file->type());
+		$this->assertEquals('application/javascript', $file->type());
 	}
 
 }

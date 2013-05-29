@@ -42,18 +42,18 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 	 */
 	protected function setUp() {
 		$baseFile = TEMP_DIR . '/scott-pilgrim.jpg';
-		$tempFile = TEMP_DIR . '/test.jpg';
+		$tempFile = TEMP_DIR . '/scott-pilgrim-test.jpg';
 
 		copy($baseFile, $tempFile);
 
 		$this->baseFile = $baseFile;
 		$this->tempFile = $tempFile;
 		$this->data = array(
-			'name' => basename($baseFile),
+			'name' => basename($tempFile),
 			'type' => 'image/jpeg',
 			'tmp_name' => $tempFile,
 			'error' => 0,
-			'size' => filesize($baseFile)
+			'size' => filesize($tempFile)
 		);
 	}
 
@@ -61,7 +61,10 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 	 * Delete the temporary file.
 	 */
 	protected function tearDown() {
-		@unlink($this->tempFile);
+		foreach (glob(TEMP_DIR . '/scott-pilgrim-*.jpg') as $file) {
+			@unlink($file);
+		}
+
 		clearstatcache();
 	}
 

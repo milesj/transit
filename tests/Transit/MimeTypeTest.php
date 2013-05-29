@@ -54,10 +54,10 @@ class MimeTypeTest extends TestCase {
 	 * Test that getList() methods return the correct amount of mime types.
 	 */
 	public function testGetList() {
-		$this->assertEquals(661, count(MimeType::getApplicationList()));
+		$this->assertEquals(662, count(MimeType::getApplicationList()));
 		$this->assertEquals(42, count(MimeType::getAudioList()));
 		$this->assertEquals(54, count(MimeType::getImageList()));
-		$this->assertEquals(77, count(MimeType::getTextList()));
+		$this->assertEquals(76, count(MimeType::getTextList()));
 		$this->assertEquals(51, count(MimeType::getVideoList()));
 	}
 
