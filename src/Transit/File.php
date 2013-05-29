@@ -8,6 +8,7 @@
 namespace Transit;
 
 use Transit\Exception\IoException;
+use \InvalidArgumentException;
 use \Closure;
 
 /**
@@ -409,10 +410,17 @@ class File {
 				finfo_close($info);
 			}
 
-			// Check the mimetype against the extension or $_FILES type
-			// If they are different, use the upload type since fileinfo returns invalid mimetypes
+			// Check the mimetype against the extension
+			// If they are different, use the extension since fileinfo returns invalid mimetypes
 			// This could be problematic in the future, but unknown better alternative
-			$extType = $file->data('type') ?: MimeType::getTypeFromExt($file->ext());
+			try {
+				$extType = MimeType::getTypeFromExt($file->ext());
+
+			// Use $_FILES['type'] last since sometimes it returns application/octet-stream and other mimetypes
+			// When we should always have a literal mimetype
+			} catch (InvalidArgumentException $e) {
+				$extType = $file->data('type');
+			}
 
 			if ($type !== $extType) {
 				$type = $extType;
