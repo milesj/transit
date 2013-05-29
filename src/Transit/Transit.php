@@ -512,7 +512,9 @@ class Transit {
 		$target = $this->findDestination($data['name'], $overwrite);
 
 		if ($this->_moveUploadedFile($data['tmp_name'], $target)) {
-			$this->_file = new File($target);
+			$data['tmp_name'] = $target;
+
+			$this->_file = new File($data);
 
 			return true;
 		}
