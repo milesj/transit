@@ -20,7 +20,6 @@ class MimeType {
 	 * List of application mime types.
 	 *
 	 * @type array
-	 * @static
 	 */
 	protected static $_application = array();
 
@@ -28,7 +27,6 @@ class MimeType {
 	 * List of audio mime types.
 	 *
 	 * @type array
-	 * @static
 	 */
 	protected static $_audio = array();
 
@@ -36,7 +34,6 @@ class MimeType {
 	 * List of image mime types.
 	 *
 	 * @type array
-	 * @static
 	 */
 	protected static $_image = array();
 
@@ -44,7 +41,6 @@ class MimeType {
 	 * List of text mime types.
 	 *
 	 * @type array
-	 * @static
 	 */
 	protected static $_text = array();
 
@@ -52,15 +48,15 @@ class MimeType {
 	 * List of video mime types.
 	 *
 	 * @type array
-	 * @static
 	 */
 	protected static $_video = array();
 
 	/**
 	 * List of all mime types.
 	 *
+	 * @link http://www.iana.org/assignments/media-types
+	 *
 	 * @type array
-	 * @static
 	 */
 	protected static $_types = array(
 		'3dml' => 'text/vnd.in3d.3dml',
@@ -398,7 +394,7 @@ class MimeType {
 		'jpgm' => 'video/jpm',
 		'jpgv' => 'video/jpeg',
 		'jpm' => 'video/jpm',
-		'js' => 'text/javascript',
+		'js' => 'application/javascript',
 		'json' => 'application/json',
 		'kar' => 'audio/midi',
 		'karbon' => 'application/vnd.kde.karbon',
@@ -976,7 +972,6 @@ class MimeType {
 	 * List of sub-types.
 	 *
 	 * @type array
-	 * @static
 	 */
 	protected static $_subTypes = array(
 		'archive' => array('boz', 'bz', 'bz2', 'zip', 'rar', '7z', 'gz', 'gtar', 'z', 'tgz', 'rev', 'tar'),
@@ -992,7 +987,6 @@ class MimeType {
 	 *
 	 * @param string $type
 	 * @param array $exts
-	 * @static
 	 */
 	public static function addSubType($type, array $exts) {
 		self::$_subTypes[$type] = $exts;
@@ -1068,7 +1062,6 @@ class MimeType {
 	 * Return a list of all application mime types.
 	 *
 	 * @return array
-	 * @static
 	 */
 	public static function getApplicationList() {
 		if (self::$_application) {
@@ -1084,7 +1077,6 @@ class MimeType {
 	 * Return a list of all audio mime types.
 	 *
 	 * @return array
-	 * @static
 	 */
 	public static function getAudioList() {
 		if (self::$_audio) {
@@ -1100,7 +1092,6 @@ class MimeType {
 	 * Return a list of all image mime types.
 	 *
 	 * @return array
-	 * @static
 	 */
 	public static function getImageList() {
 		if (self::$_image) {
@@ -1116,7 +1107,6 @@ class MimeType {
 	 * Return a list of all text mime types.
 	 *
 	 * @return array
-	 * @static
 	 */
 	public static function getTextList() {
 		if (self::$_text) {
@@ -1132,7 +1122,6 @@ class MimeType {
 	 * Return a list of all video mime types.
 	 *
 	 * @return array
-	 * @static
 	 */
 	public static function getVideoList() {
 		if (self::$_video) {
@@ -1150,7 +1139,6 @@ class MimeType {
 	 * @param string $type
 	 * @return array
 	 * @throws \InvalidArgumentException
-	 * @static
 	 */
 	public static function getSubTypeList($type) {
 		if (empty(self::$_subTypes[$type])) {
@@ -1171,7 +1159,6 @@ class MimeType {
 	 *
 	 * @param string $mimeType
 	 * @return bool
-	 * @static
 	 */
 	public static function isApplication($mimeType) {
 		return self::_isMimeType($mimeType, 'application');
@@ -1182,7 +1169,6 @@ class MimeType {
 	 *
 	 * @param string $mimeType
 	 * @return bool
-	 * @static
 	 */
 	public static function isAudio($mimeType) {
 		return self::_isMimeType($mimeType, 'audio');
@@ -1193,7 +1179,6 @@ class MimeType {
 	 *
 	 * @param string $mimeType
 	 * @return bool
-	 * @static
 	 */
 	public static function isImage($mimeType) {
 		return self::_isMimeType($mimeType, 'image');
@@ -1204,7 +1189,6 @@ class MimeType {
 	 *
 	 * @param string $mimeType
 	 * @return bool
-	 * @static
 	 */
 	public static function isText($mimeType) {
 		return self::_isMimeType($mimeType, 'text');
@@ -1215,7 +1199,6 @@ class MimeType {
 	 *
 	 * @param string $mimeType
 	 * @return bool
-	 * @static
 	 */
 	public static function isVideo($mimeType) {
 		return self::_isMimeType($mimeType, 'video');
@@ -1227,7 +1210,6 @@ class MimeType {
 	 * @param string $subType
 	 * @param string $mimeType
 	 * @return bool
-	 * @static
 	 */
 	public static function isSubType($subType, $mimeType) {
 		return in_array(self::_findMimeType($mimeType), self::getSubTypeList($subType));
@@ -1238,7 +1220,6 @@ class MimeType {
 	 *
 	 * @param string $type
 	 * @return array
-	 * @static
 	 */
 	protected static function _getList($type) {
 		$types = array();
@@ -1262,7 +1243,6 @@ class MimeType {
 	 * @param string $mimeType
 	 * @param string $type
 	 * @return bool
-	 * @static
 	 */
 	protected static function _isMimeType($mimeType, $type) {
 		return (strpos(self::_findMimeType($mimeType), $type) === 0);
@@ -1273,7 +1253,6 @@ class MimeType {
 	 *
 	 * @param string $mimeType
 	 * @return string
-	 * @static
 	 */
 	protected static function _findMimeType($mimeType) {
 		if ($mimeType instanceof File) {
