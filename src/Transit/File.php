@@ -353,6 +353,7 @@ class File {
 
 		if (rename($this->path(), $targetPath)) {
 			$this->reset();
+			$this->_data['name'] = basename($targetPath);
 			$this->_path = $targetPath;
 
 			return true;
