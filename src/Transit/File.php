@@ -9,6 +9,7 @@ namespace Transit;
 
 use Transit\Exception\IoException;
 use \InvalidArgumentException;
+use \RuntimeException;
 use \Closure;
 
 /**
@@ -146,6 +147,46 @@ class File {
 	 */
 	public function dir() {
 		return dirname($this->_path) . '/';
+	}
+
+	/**
+	 * Attempt to read and determine correct exif data.
+	 *
+	 * @param array $fields
+	 * @returns array
+	 * @throws \RuntimeException
+	 */
+	public function exif(array $fields = array()) {
+		if (!function_exists('exif_read_data')) {
+			throw new RuntimeException('To read exif data requires the exif module');
+		}
+
+		return $this->_cache(__FUNCTION__, function($file) use ($fields) {
+			$exif = array();
+			$fields = $fields + array(
+				'make' => 'Make',
+				'model' => 'Model',
+				'exposure' => 'ExposureTime',
+				'orientation' => 'Orientation',
+				'fnumber' => 'FNumber',
+				'date' => 'DateTime',
+				'iso' => 'ISOSpeedRatings'
+			);
+
+			if ($data = exif_read_data($file->path())) {
+				foreach ($fields as $key => $find) {
+					$value = '';
+
+					if (!empty($data[$find])) {
+						$value = $data[$find];
+					}
+
+					$exif[$key] = $value;
+				}
+			}
+
+			return $exif;
+		});
 	}
 
 	/**
@@ -458,7 +499,7 @@ class File {
 	 * @return array
 	 */
 	public function toArray() {
-		return array(
+		$data = array(
 			'basename' => $this->basename(),
 			'dir' => $this->dir(),
 			'ext' => $this->ext(),
@@ -469,6 +510,13 @@ class File {
 			'height' => $this->height(),
 			'width' => $this->width()
 		);
+
+		// Include exif data
+		foreach ($this->exif() as $key => $value) {
+			$data['exif.' . $key] = $value;
+		}
+
+		return $data;
 	}
 
 	/**

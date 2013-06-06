@@ -87,6 +87,23 @@ class FileTest extends TestCase {
 	}
 
 	/**
+	 * Test that exif() returns exif data.
+	 */
+	public function testExif() {
+		$file = new File(TEMP_DIR . '/hawaii.jpg');
+
+		$this->assertEquals(array(
+			'make' => 'NIKON CORPORATION',
+			'model' => 'NIKON 1 J1',
+			'exposure' => '10/4000',
+			'orientation' => 1,
+			'fnumber' => '45/10',
+			'date' => '2012:10:31 17:41:35',
+			'iso' => 100
+		), $file->exif());
+	}
+
+	/**
 	 * Test that ext() returns the extension.
 	 */
 	public function testExt() {
@@ -261,7 +278,14 @@ class FileTest extends TestCase {
 			'size' => 126869,
 			'type' => 'image/jpeg',
 			'height' => 750,
-			'width' => 485
+			'width' => 485,
+			'exif.make' => '',
+			'exif.model' => '',
+			'exif.exposure' => '',
+			'exif.orientation' => '',
+			'exif.fnumber' => '',
+			'exif.date' => '',
+			'exif.iso' => '',
 		), $this->object->toArray());
 	}
 
