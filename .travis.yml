@@ -19,7 +19,8 @@ env:
 
 before_script:
   - echo "extension=exif.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - composer install --dev
+  - composer selfupdate
+  - composer install
 
 notifications:
   email: false

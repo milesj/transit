@@ -8,7 +8,6 @@
 namespace Transit\Transformer\Image;
 
 use Transit\File;
-use \InvalidArgumentException;
 
 /**
  * Rotates and fixes an images orientation based on exif data.
@@ -19,8 +18,6 @@ class OrientationTransformer extends RotateTransformer {
 
 	/**
 	 * {@inheritdoc}
-	 *
-	 * @throws \InvalidArgumentException
 	 */
 	public function transform(File $file, $self = false) {
 		$exif = $file->exif();
@@ -37,7 +34,7 @@ class OrientationTransformer extends RotateTransformer {
 				$this->setConfig('degrees', 90);
 			break;
 
-			// Return current file if orientation is correct
+			// Return current file if orientation is correct or no exif data
 			default:
 				return $file;
 			break;
