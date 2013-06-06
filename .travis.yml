@@ -18,6 +18,7 @@ env:
     - secure: "nDQWdJTWuj6kB5qeTVHC5NsbR5EZbJHrHIioUKqB2B2H7DrlKOth5DATfRn7\nDicWGJOKbU1FjJaCYX8JbIJrRCiw2y/zlLplpnm1VBu8VVrBgnuqAtHADwLh\nXz49lwYWV98Cvsrd5SasCyjoMece4OZwcgoPu9w7cOqxiDxUokI="
 
 before_script:
+  - echo "extension=exif.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - composer install --dev
 
 notifications:
