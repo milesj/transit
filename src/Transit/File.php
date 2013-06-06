@@ -170,7 +170,8 @@ class File {
 				'orientation' => 'Orientation',
 				'fnumber' => 'FNumber',
 				'date' => 'DateTime',
-				'iso' => 'ISOSpeedRatings'
+				'iso' => 'ISOSpeedRatings',
+				'focal' => 'FocalLength'
 			);
 
 			if ($data = exif_read_data($file->path())) {

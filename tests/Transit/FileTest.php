@@ -99,7 +99,8 @@ class FileTest extends TestCase {
 			'orientation' => 1,
 			'fnumber' => '45/10',
 			'date' => '2012:10:31 17:41:35',
-			'iso' => 100
+			'iso' => 100,
+			'focal' => '100/10'
 		), $file->exif());
 	}
 
@@ -286,6 +287,7 @@ class FileTest extends TestCase {
 			'exif.fnumber' => '',
 			'exif.date' => '',
 			'exif.iso' => '',
+			'exif.focal' => ''
 		), $this->object->toArray());
 	}
 
