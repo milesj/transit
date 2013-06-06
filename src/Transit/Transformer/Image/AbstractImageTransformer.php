@@ -76,7 +76,8 @@ abstract class AbstractImageTransformer extends AbstractTransformer {
 			'source_h' => $file->height(),
 			'quality' => 100,
 			'overwrite' => false,
-			'target' => ''
+			'target' => '',
+			'callback' => ''
 		);
 
 		$targetImage = imagecreatetruecolor($options['dest_w'], $options['dest_h']);
@@ -90,6 +91,11 @@ abstract class AbstractImageTransformer extends AbstractTransformer {
 
 		// Lets take our source and apply it to the temporary file and resize
 		imagecopyresampled($targetImage, $sourceImage, $options['dest_x'], $options['dest_y'], $options['source_x'], $options['source_y'], $options['dest_w'], $options['dest_h'], $options['source_w'], $options['source_h']);
+
+		// Trigger a callback to modify the target
+		if (is_callable($options['callback'])) {
+			$targetImage = call_user_func_array($options['callback'], array($targetImage, $options));
+		}
 
 		// Now write the transformed image to the server
 		if ($options['overwrite']) {
