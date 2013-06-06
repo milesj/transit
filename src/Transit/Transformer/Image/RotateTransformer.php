@@ -32,8 +32,6 @@ class RotateTransformer extends AbstractImageTransformer {
 
 	/**
 	 * {@inheritdoc}
-	 *
-	 * @throws \InvalidArgumentException
 	 */
 	public function transform(File $file, $self = false) {
 		$config = $this->_config;
