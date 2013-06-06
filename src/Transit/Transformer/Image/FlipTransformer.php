@@ -40,7 +40,7 @@ class FlipTransformer extends AbstractImageTransformer {
 	 * @throws \InvalidArgumentException
 	 */
 	public function transform(File $file, $self = false) {
-		$config = $this->_config;
+		$config = $this->getConfig();
 		$width = $file->width();
 		$height = $file->height();
 		$src_x = 0;

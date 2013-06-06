@@ -34,7 +34,7 @@ class RotateTransformer extends AbstractImageTransformer {
 	 * {@inheritdoc}
 	 */
 	public function transform(File $file, $self = false) {
-		$config = $this->_config;
+		$config = $this->getConfig();
 
 		return $this->_process($file, array(
 			'dest_w'	=> $file->width(),
@@ -53,7 +53,7 @@ class RotateTransformer extends AbstractImageTransformer {
 	 * @return resource
 	 */
 	public function rotate($image) {
-		return imagerotate($image, $this->_config['degrees'], 0);
+		return imagerotate($image, $this->getConfig('degrees'), 0);
 	}
 
 }

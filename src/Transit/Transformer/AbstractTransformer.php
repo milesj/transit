@@ -32,4 +32,24 @@ abstract class AbstractTransformer implements Transformer {
 		$this->_config = $config + $this->_config;
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getConfig($key = null) {
+		if ($key === null) {
+			return $this->_config;
+		}
+
+		return isset($this->_config[$key]) ? $this->_config[$key] : null;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function setConfig($key, $value) {
+		$this->_config[$key] = $value;
+
+		return $this;
+	}
+
 }

@@ -36,7 +36,7 @@ class ScaleTransformer extends AbstractImageTransformer {
 	 * @throws \InvalidArgumentException
 	 */
 	public function transform(File $file, $self = false) {
-		$config = $this->_config;
+		$config = $this->getConfig();
 
 		if (empty($config['percent']) || !is_numeric($config['percent'])) {
 			throw new InvalidArgumentException('Invalid percent for scaling');

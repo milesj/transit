@@ -28,13 +28,13 @@ class OrientationTransformer extends RotateTransformer {
 
 		switch ($exif['orientation']) {
 			case 3:
-				$this->_config['degrees'] = 180;
+				$this->setConfig('degrees', 180);
 			break;
 			case 6:
-				$this->_config['degrees'] = -90;
+				$this->setConfig('degrees', -90);
 			break;
 			case 8:
-				$this->_config['degrees'] = 90;
+				$this->setConfig('degrees', 90);
 			break;
 
 			// Return current file if orientation is correct
@@ -46,7 +46,7 @@ class OrientationTransformer extends RotateTransformer {
 		return $this->_process($file, array(
 			'dest_w'	=> $file->width(),
 			'dest_h'	=> $file->height(),
-			'quality'	=> $this->_config['quality'],
+			'quality'	=> $this->getConfig('quality'),
 			'overwrite'	=> $self,
 			'callback'	=> array($this, 'rotate')
 		));

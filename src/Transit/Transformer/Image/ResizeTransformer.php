@@ -47,7 +47,7 @@ class ResizeTransformer extends AbstractImageTransformer {
 	 * @throws \InvalidArgumentException
 	 */
 	public function transform(File $file, $self = false) {
-		$config = $this->_config;
+		$config = $this->getConfig();
 		$baseWidth = $file->width();
 		$baseHeight = $file->height();
 		$width = $config['width'];
