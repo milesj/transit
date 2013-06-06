@@ -226,11 +226,12 @@ class Transit {
 	 * Copy a remote file to the temp directory and return a File object.
 	 *
 	 * @param bool $overwrite
+	 * @param array $options
 	 * @return bool
 	 * @throws \Transit\Exception\IoException
 	 * @throws \RuntimeException
 	 */
-	public function importFromRemote($overwrite = true) {
+	public function importFromRemote($overwrite = true, array $options = array()) {
 		if (!function_exists('curl_init')) {
 			throw new RuntimeException('The cURL module is required for remote file importing');
 		}
@@ -242,12 +243,16 @@ class Transit {
 			$name = md5(microtime(true));
 		}
 
+		$options = $options + array(
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_FOLLOWLOCATION => true,
+			CURLOPT_FAILONERROR => true,
+			CURLOPT_SSL_VERIFYPEER => false
+		);
+
 		// Fetch the remote file
 		$curl = curl_init($url);
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-		curl_setopt($curl, CURLOPT_FAILONERROR, true);
-		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt_array($curl, $options);
 		$response = curl_exec($curl);
 		$error = curl_error($curl);
 		curl_close($curl);
