@@ -10,6 +10,7 @@ files to Amazon S3 or another external storage system).
 	* Fileinfo
 	* Multibyte
 	* Curl
+	* Exif (optional)
 * Composer
 	* AWS PHP SDK v2.2+
 
@@ -28,4 +29,4 @@ files to Amazon S3 or another external storage system).
 
 ## Documentation ##
 
-Thorough documentation can be found here: http://milesj.me/code/php/transit
+Thorough documentation can be found here (eventually): http://milesj.me/code/php/transit
