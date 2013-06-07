@@ -90,7 +90,7 @@ class FileTest extends TestCase {
 	 * Test that exif() returns exif data.
 	 */
 	public function testExif() {
-		$file = new File(TEMP_DIR . '/hawaii.jpg');
+		$file = new File(TEMP_DIR . '/exif-data.jpg');
 
 		$this->assertEquals(array(
 			'make' => 'NIKON CORPORATION',
