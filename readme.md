@@ -16,14 +16,15 @@ files to Amazon S3 or another external storage system).
 ## Features ##
 
 * Easily upload a file into the local file system
-* Basic support for file moving and renaming
+* Basic support for file moving and renaming through `File`
 * Overwrite protection and file name filtering
 * Import a file from a remote location, local file system path or an input stream
-* Transform and alter a file by running a Transformer on it
-* Create new files based off an original file by using Transformers
-* Transport to or delete a file from Amazon S3 or Glacier
-* Validate files and images using a defined set of rules
-* Support for extending built in Transporters, Transformers and Validators
+* Transform and alter a file by running a `Transformer` on it
+* Create new files based off an original file by using transformers
+* Transport to or delete a file from Amazon S3 or Glacier using a `Transporter`
+* Validate files and images using a defined set of rules using a `Validator`
+* Support for extending built in transporters, transformers and validators
+* Exif reading support through `File` and orientation fixing through `ExifTransformer`
 
 ## Documentation ##
 
