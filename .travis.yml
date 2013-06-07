@@ -15,7 +15,7 @@ env:
     - AWS_S3_REGION="us-east-1"
     - AWS_S3_BUCKET="ci-testing"
     - AWS_GLACIER_REGION="us-east-1"
-    - AWS_GLACIER_BUCKET="ci-testing"
+    - AWS_GLACIER_VAULT="ci-testing"
     - secure: "Pecd6/EyJQ+yCZTcbvKmzGKQnYAMy5ohemyw04duzpoVoIYspkMSMhNcSXka\nLVYAPyfLQ3fORMJG3kjGaeoVcfEisMVWXLJNe0huj7pC8hq76M8qMEeHDW9y\nI9kHrlA19OvY6JMJsRn8PiVF+lx84pFRFdvV8gWf+qDKDqxJ0Rk="
     - secure: "nDQWdJTWuj6kB5qeTVHC5NsbR5EZbJHrHIioUKqB2B2H7DrlKOth5DATfRn7\nDicWGJOKbU1FjJaCYX8JbIJrRCiw2y/zlLplpnm1VBu8VVrBgnuqAtHADwLh\nXz49lwYWV98Cvsrd5SasCyjoMece4OZwcgoPu9w7cOqxiDxUokI="
 
