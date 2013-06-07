@@ -98,7 +98,7 @@ class FileTest extends TestCase {
 			'exposure' => '10/4000',
 			'orientation' => 1,
 			'fnumber' => '45/10',
-			'date' => '2012:10:31 17:41:35',
+			'date' => '2013:06:07 11:32:22',
 			'iso' => 100,
 			'focal' => '100/10'
 		), $file->exif());
