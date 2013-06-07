@@ -32,7 +32,8 @@ class ExifTransformer extends RotateTransformer {
 			'source_w'	=> $width,
 			'source_h'	=> $height,
 			'quality'	=> $this->getConfig('quality'),
-			'overwrite'	=> $self
+			'overwrite'	=> $self,
+			'target'	=> sprintf('%s-exif-%s', $file->name(), $exif['orientation'] ?: 0)
 		);
 
 		switch ($exif['orientation']) {
@@ -75,7 +76,6 @@ class ExifTransformer extends RotateTransformer {
 
 		if ($degrees = $this->getConfig('degrees')) {
 			$options['callback'] = array($this, 'rotate');
-			$options['target'] = sprintf('%s-exif-%s', $file->name(), $degrees);
 		}
 
 		return $this->_process($file, $options);
