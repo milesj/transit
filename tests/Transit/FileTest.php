@@ -18,6 +18,8 @@ class FileTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
+		copy($this->baseFile, $this->tempFile);
+
 		$this->object = new File($this->tempFile);
 	}
 

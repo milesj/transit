@@ -44,16 +44,14 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 		$baseFile = TEMP_DIR . '/scott-pilgrim.jpg';
 		$tempFile = TEMP_DIR . '/scott-pilgrim-test.jpg';
 
-		copy($baseFile, $tempFile);
-
 		$this->baseFile = $baseFile;
 		$this->tempFile = $tempFile;
 		$this->data = array(
 			'name' => basename($tempFile),
 			'type' => 'image/jpeg',
-			'tmp_name' => $tempFile,
+			'tmp_name' => $baseFile, // Use base to copy over to test
 			'error' => 0,
-			'size' => filesize($tempFile)
+			'size' => filesize($baseFile)
 		);
 	}
 

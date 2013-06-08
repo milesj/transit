@@ -10,6 +10,8 @@ namespace Transit;
 use Transit\Test\TestCase;
 use Transit\Transformer\Image\CropTransformer;
 use Transit\Transformer\Image\ResizeTransformer;
+use Transit\Transformer\Image\RotateTransformer;
+use Transit\Transformer\Image\ScaleTransformer;
 use Transit\Transporter\Aws\S3Transporter;
 use Transit\Validator\ImageValidator;
 use \Exception;
@@ -141,18 +143,19 @@ class TransitTest extends TestCase {
 	 * Test that self transforming will alter the original file.
 	 */
 	public function testSelfTransform() {
-		$this->object->addSelfTransformer(new ResizeTransformer(array('width' => 100, 'height' => 100, 'aspect' => false)));
+		$this->object->addSelfTransformer(new ScaleTransformer());
+		$this->object->addSelfTransformer(new RotateTransformer(array('degrees' => 90)));
 
 		try {
-			if ($this->object->upload()) {
+			if ($this->object->upload(true)) {
 				$this->object->transform();
 
 				$files = $this->object->getTransformedFiles();
 				$file = $this->object->getOriginalFile();
 
 				$this->assertEquals(0, count($files));
-				$this->assertEquals(100, $file->width());
-				$this->assertEquals(100, $file->height());
+				$this->assertEquals(375, $file->width());
+				$this->assertEquals(243, $file->height());
 
 				$file->delete();
 			}
