@@ -383,21 +383,8 @@ class Transit {
 			throw new IoException('No original file detected');
 		}
 
-		// Create transformed files based off original
-		if ($this->_transformers) {
-			foreach ($this->_transformers as $transformer) {
-				try {
-					$transformedFiles[] = $transformer->transform($originalFile, false);
-
-				} catch (Exception $e) {
-					$error = $e->getMessage();
-					break;
-				}
-			}
-		}
-
 		// Apply transformations to original
-		if ($this->_selfTransformers && !$error) {
+		if ($this->_selfTransformers) {
 			foreach ($this->_selfTransformers as $transformer) {
 				try {
 					$originalFile = $transformer->transform($originalFile, true);
@@ -409,6 +396,19 @@ class Transit {
 			}
 
 			$originalFile->reset();
+		}
+
+		// Create transformed files based off original
+		if ($this->_transformers && !$error) {
+			foreach ($this->_transformers as $transformer) {
+				try {
+					$transformedFiles[] = $transformer->transform($originalFile, false);
+
+				} catch (Exception $e) {
+					$error = $e->getMessage();
+					break;
+				}
+			}
 		}
 
 		$this->_file = $originalFile;

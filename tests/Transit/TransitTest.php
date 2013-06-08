@@ -168,6 +168,40 @@ class TransitTest extends TestCase {
 	}
 
 	/**
+	 * Test that transforms are called after self transforms.
+	 */
+	public function testSelfThanOtherTransform() {
+		$this->object->addSelfTransformer(new RotateTransformer(array('degrees' => 90)));
+		$this->object->addTransformer(new ScaleTransformer(array('percent' => .3)));
+
+		try {
+			if ($this->object->upload(true)) {
+				$this->object->transform();
+
+				$files = $this->object->getTransformedFiles();
+				$file = $this->object->getOriginalFile();
+
+				$this->assertEquals(1, count($files));
+
+				// Original is rotated
+				$this->assertEquals(750, $file->width());
+				$this->assertEquals(485, $file->height());
+
+				// New image based of rotated image is scaled down
+				$this->assertEquals(225, $files[0]->width());
+				$this->assertEquals(146, $files[0]->height());
+
+				$file->delete();
+			}
+
+			$this->assertTrue(true);
+
+		} catch (Exception $e) {
+			$this->assertTrue(false, $e->getMessage());
+		}
+	}
+
+	/**
 	 * Test that transport moves files to a remote location and returns the new paths.
 	 */
 	public function testTransport() {
