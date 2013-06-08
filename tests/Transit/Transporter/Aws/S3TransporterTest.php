@@ -25,6 +25,8 @@ class S3TransporterTest extends TestCase {
 		));
 
 		try {
+			copy($this->baseFile, $this->tempFile);
+
 			if ($response = $object->transport(new File($this->tempFile))) {
 				$this->assertEquals($response, sprintf('https://s3.amazonaws.com/%s/%s', S3_BUCKET, basename($this->tempFile)));
 			} else {

@@ -25,6 +25,8 @@ class GlacierTransporterTest extends TestCase {
 		));
 
 		try {
+			copy($this->baseFile, $this->tempFile);
+
 			if ($response = $object->transport(new File($this->tempFile))) {
 				$this->assertNotEmpty($response);
 			} else {
