@@ -62,6 +62,11 @@ class File {
 		}
 
 		$this->_path = $path;
+
+		// @version 1.3.2 Rename file to add ext if ext is missing
+		if (!$this->ext()) {
+			$this->rename();
+		}
 	}
 
 	/**
@@ -391,7 +396,8 @@ class File {
 		$name = preg_replace('/[^_-\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}\p{Nd}]/imu', '-', $name);
 
 		// Rename file
-		$targetPath = $this->dir() . $name . '.' . $this->ext();
+		$ext = $this->ext() ?: MimeType::getExtFromType($this->type(), true);
+		$targetPath = $this->dir() . $name . '.' . $ext;
 
 		if (rename($this->path(), $targetPath)) {
 			$this->reset();
@@ -456,17 +462,19 @@ class File {
 			// Check the mimetype against the extension
 			// If they are different, use the extension since fileinfo returns invalid mimetypes
 			// This could be problematic in the future, but unknown better alternative
-			try {
-				$extType = MimeType::getTypeFromExt($file->ext());
+			if ($ext = $file->ext()) {
+				try {
+					$extType = MimeType::getTypeFromExt($ext);
 
-			// Use $_FILES['type'] last since sometimes it returns application/octet-stream and other mimetypes
-			// When we should always have a literal mimetype
-			} catch (InvalidArgumentException $e) {
-				$extType = $file->data('type');
-			}
+				// Use $_FILES['type'] last since sometimes it returns application/octet-stream and other mimetypes
+				// When we should always have a true mimetype
+				} catch (InvalidArgumentException $e) {
+					$extType = $file->data('type');
+				}
 
-			if ($type !== $extType) {
-				$type = $extType;
+				if ($type !== $extType) {
+					$type = $extType;
+				}
 			}
 
 			return $type;
