@@ -163,7 +163,7 @@ class File {
 	 */
 	public function exif(array $fields = array()) {
 		if (!function_exists('exif_read_data')) {
-			throw new RuntimeException('To read exif data requires the exif module');
+			throw new RuntimeException('Reading exif data requires the exif module');
 		}
 
 		return $this->_cache(__FUNCTION__, function($file) use ($fields) {
@@ -179,7 +179,14 @@ class File {
 				'focal' => 'FocalLength'
 			);
 
-			if ($file->supportsExif() && $data = exif_read_data($file->path())) {
+			// Return empty values for files that dont support exif
+			if (!$file->supportsExif()) {
+				return array_map(function() {
+					return '';
+				}, $fields);
+			}
+
+			if ($data = exif_read_data($file->path())) {
 				foreach ($fields as $key => $find) {
 					$value = '';
 
@@ -192,21 +199,6 @@ class File {
 			}
 
 			return $exif;
-		});
-	}
-
-	/**
-	 * Checks if the file supports exif data
-	 * @return bool
-	 */
-	public function supportsExif() {
-		return $this->_cache(__FUNCTION__, function($file) {
-			if (!$file->isImage()) {
-				return false;
-			}
-
-			$supportedTypes = array('image/jpeg', 'image/tiff');
-			return in_array($file->type(), $supportedTypes);
 		});
 	}
 
@@ -445,6 +437,21 @@ class File {
 	 */
 	public function size() {
 		return filesize($this->_path);
+	}
+
+	/**
+	 * Checks if the file supports exif data.
+	 *
+	 * @return bool
+	 */
+	public function supportsExif() {
+		return $this->_cache(__FUNCTION__, function($file) {
+			if (!$file->isImage()) {
+				return false;
+			}
+
+			return in_array($file->type(), array('image/jpeg', 'image/tiff'));
+		});
 	}
 
 	/**

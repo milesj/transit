@@ -104,6 +104,19 @@ class FileTest extends TestCase {
 			'iso' => 100,
 			'focal' => '100/10'
 		), $file->exif());
+
+		$file = new File(TEMP_DIR . '/magic-mime-verify.js');
+
+		$this->assertEquals(array(
+			'make' => '',
+			'model' => '',
+			'exposure' => '',
+			'orientation' => '',
+			'fnumber' => '',
+			'date' => '',
+			'iso' => '',
+			'focal' => ''
+		), $file->exif());
 	}
 
 	/**
@@ -252,6 +265,17 @@ class FileTest extends TestCase {
 	 */
 	public function testSize() {
 		$this->assertEquals(126869, $this->object->size());
+	}
+
+	/**
+	 * Test supportsExif() returns a boolean.
+	 */
+	public function testSupportsExif() {
+		$file1 = new File(TEMP_DIR . '/exif-data.jpg');
+		$file2 = new File(TEMP_DIR . '/magic-mime-verify.js');
+
+		$this->assertTrue($file1->supportsExif());
+		$this->assertFalse($file2->supportsExif());
 	}
 
 	/**
