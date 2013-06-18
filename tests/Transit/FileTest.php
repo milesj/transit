@@ -222,6 +222,10 @@ class FileTest extends TestCase {
 	 */
 	public function testName() {
 		$this->assertEquals('scott-pilgrim-test', $this->object->name());
+
+		// Rename and test
+		$this->object->rename('scott-pilgrim-renamed');
+		$this->assertEquals('scott-pilgrim-renamed', $this->object->name());
 	}
 
 	/**
