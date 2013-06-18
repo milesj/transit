@@ -21,8 +21,8 @@ class ExifTransformer extends RotateTransformer {
 	 * {@inheritdoc}
 	 */
 	public function transform(File $file, $self = false) {
-		if ($file->type() !== 'image/jpeg') {
-			return $file; // Exif only in JPGs
+		if (!$file->supportsExif()) {
+			return $file;
 		}
 
 		$width = $file->width();

@@ -179,7 +179,7 @@ class File {
 				'focal' => 'FocalLength'
 			);
 
-			if ($data = exif_read_data($file->path())) {
+			if ($file->supportsExif() && $data = exif_read_data($file->path())) {
 				foreach ($fields as $key => $find) {
 					$value = '';
 
@@ -192,6 +192,21 @@ class File {
 			}
 
 			return $exif;
+		});
+	}
+
+	/**
+	 * Checks if the file supports exif data
+	 * @return bool
+	 */
+	public function supportsExif() {
+		return $this->_cache(__FUNCTION__, function($file) {
+			if (!$file->isImage()) {
+				return false;
+			}
+
+			$supportedTypes = array('image/jpeg', 'image/tiff');
+			return in_array($file->type(), $supportedTypes);
 		});
 	}
 
