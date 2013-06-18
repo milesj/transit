@@ -351,8 +351,7 @@ class File {
 		$targetPath = $path . $name . '.' . $ext;
 
 		if (rename($this->path(), $targetPath)) {
-			$this->reset();
-			$this->_path = $targetPath;
+			$this->reset($targetPath);
 
 			return true;
 		}
@@ -407,9 +406,7 @@ class File {
 		$targetPath = $this->dir() . $name . '.' . $ext;
 
 		if (rename($this->path(), $targetPath)) {
-			$this->reset();
-			$this->_data['name'] = basename($targetPath);
-			$this->_path = $targetPath;
+			$this->reset($targetPath);
 
 			return true;
 		}
@@ -420,12 +417,18 @@ class File {
 	/**
 	 * Reset all cache.
 	 *
+	 * @param string $path
 	 * @return \Transit\File
 	 */
-	public function reset() {
+	public function reset($path = '') {
 		clearstatcache();
 
 		$this->_cache = array();
+
+		if ($path) {
+			$this->_data['name'] = basename($path);
+			$this->_path = $path;
+		}
 
 		return $this;
 	}

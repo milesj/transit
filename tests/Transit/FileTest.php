@@ -206,13 +206,15 @@ class FileTest extends TestCase {
 		$movePath = TEMP_DIR . '/scott-pilgrim-test-1.jpg';
 
 		copy($this->baseFile, $testPath);
+		$file = new File($testPath);
 
 		$this->assertFalse(file_exists($movePath));
+		$this->assertEquals('scott-pilgrim-test', $file->name());
 
-		$file = new File($testPath);
 		$file->move(TEMP_DIR);
 
 		$this->assertTrue(file_exists($movePath));
+		$this->assertEquals('scott-pilgrim-test-1', $file->name());
 
 		$file->delete();
 	}
