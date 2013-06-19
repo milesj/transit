@@ -179,23 +179,25 @@ class File {
 				'focal' => 'FocalLength'
 			);
 
+			if ($file->supportsExif()) {
+				if ($data = @exif_read_data($file->path())) {
+					foreach ($fields as $key => $find) {
+						$value = '';
+
+						if (!empty($data[$find])) {
+							$value = $data[$find];
+						}
+
+						$exif[$key] = $value;
+					}
+				}
+			}
+
 			// Return empty values for files that dont support exif
-			if (!$file->supportsExif()) {
+			if (!$exif) {
 				return array_map(function() {
 					return '';
 				}, $fields);
-			}
-
-			if ($data = exif_read_data($file->path())) {
-				foreach ($fields as $key => $find) {
-					$value = '';
-
-					if (!empty($data[$find])) {
-						$value = $data[$find];
-					}
-
-					$exif[$key] = $value;
-				}
 			}
 
 			return $exif;
