@@ -28,7 +28,7 @@ class FitTransformerTest extends TestCase {
 		$object = new FitTransformer(array('maxWidth' => 900, 'maxHeight'=>1000, 'aspect' => false, 'expand' => true));
 		$file = $object->transform(new File($this->baseFile));
 
-		$this->assertEquals(647, $file->width());
+		$this->assertEquals(646, $file->width());
 		$this->assertEquals(1000, $file->height());
 	}
 
@@ -54,7 +54,7 @@ class FitTransformerTest extends TestCase {
 		$object = new FitTransformer(array('maxWidth' => 100, 'maxHeight' => 100));
 		$file = $object->transform(new File($this->baseFile));
 
-		$this->assertEquals(65, $file->width());
+		$this->assertEquals(64, $file->width());
 		$this->assertEquals(100, $file->height());
 	}
 
