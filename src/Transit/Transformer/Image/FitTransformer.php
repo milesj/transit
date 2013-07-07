@@ -62,6 +62,12 @@ class FitTransformer extends AbstractImageTransformer {
 
                 if($config['fill']) {
 
+                    if(!isset($config['verticalAlign']))
+                        throw new InvalidArgumentException('Invalid verticalAlign argument');
+
+                    if(!isset($config['horizontalAlign']))
+                        throw new InvalidArgumentException('Invalid horizontalAlign argument');
+
                     if(!in_array($config['verticalAlign'], array('top','center', 'bottom')))
                         throw new InvalidArgumentException('Invalid verticalAlign argument');
 

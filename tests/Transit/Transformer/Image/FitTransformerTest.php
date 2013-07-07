@@ -59,7 +59,7 @@ class FitTransformerTest extends TestCase {
 	}
 
         public function testFillBounds() {
-		$object = new FitTransformer(array('maxWidth' => 100, 'maxHeight' => 100, 'fill'=>array(255,255,255)));
+		$object = new FitTransformer(array('maxWidth' => 100, 'maxHeight' => 100, 'fill'=>array(255,255,255), 'verticalAlign'=>'center', 'horizontalAlign'=>'center'));
                 $file = $object->transform(new File($this->baseFile));
 
 		$this->assertEquals(100, $file->width());
