@@ -27,6 +27,9 @@ class FitTransformer extends AbstractImageTransformer {
 	 * 		@type int $maxWidth		Width of output image
 	 * 		@type int $maxHeight		Height of output image
 	 * 		@type bool $expand		Allow image to be resized larger than the base dimensions
+         *              @type mixed $fill               Fill bounds with given (rgb) color or don't
+         *              @type string $verticalAlign
+         *              @type string $horizontalAlign
 	 * }
 	 */
 	protected $_config = array(
@@ -34,6 +37,9 @@ class FitTransformer extends AbstractImageTransformer {
 		'maxHeight' => null,
 		'quality' => 100,
 		'expand' => false,
+                'fill' => false,
+                'vericalAlign' => 'center',
+                'horizontalAlogn' => 'center'
 	);
 
 	/**
@@ -68,12 +74,66 @@ class FitTransformer extends AbstractImageTransformer {
                     $newHeight = $baseHeight / $aspect;
                 }
 
-		return $this->_process($file, array(
-			'dest_w'	=> $newWidth,
-			'dest_h'	=> $newHeight,
-			'quality'	=> $config['quality'],
-			'overwrite'	=> $self
-		));
+                if(!$config['fill'] || (($newHeight == $maxHeight) && ($newWidth == $maxWidth))) {
+                    return $this->_process($file, array(
+                            'dest_w'	=> $newWidth,
+                            'dest_h'	=> $newHeight,
+                            'quality'	=> $config['quality'],
+                            'overwrite'	=> $self
+                    ));
+                }
+
+                return $this->_process($file, array(
+                        'dest_w'	=> $newWidth,
+                        'dest_h'	=> $newHeight,
+                        'quality'	=> $config['quality'],
+                        'overwrite'	=> $self,
+                        'callback'      => array($this, 'fillBounds')
+                ));
 	}
+
+        public function fillBounds($image) {
+            $config = $this->getConfig();
+
+            // FIXME: I'm not sure about transparency in PNG or GIF files
+            $img = imagecreatetruecolor($config['maxWidth'], $config['maxHeight']);
+
+            $sourceWidth = imagesx($image);
+            $sourceHeight = imagesy($image);
+
+            $color = imagecolorallocate($img, $config['fill'][0], $config['fill'][1], $config['fill'][2]);
+
+            imagefill($img, 0, 0, $color);
+
+            if($sourceWidth < $config['maxWidth']) {
+                switch ($config['horizontalAlign']) {
+                    case 'center': $dst_x = (int)floor(($config['maxWidth'] - $sourceWidth)/2);break;
+                    case 'right': $dst_x = $config['maxWidth'] - $sourceWidth;break;
+                    case 'left':
+                    default:
+                        $dst_x = 0;
+                        break;
+                }
+            } else {
+                $dst_x = 0;
+            }
+
+            if($sourceHeight < $config['maxHeight']) {
+                switch ($config['verticalAlign']) {
+                    case 'center': $dst_y = (int)floor(($config['maxHeight'] - $sourceHeight)/2);break;
+                    case 'bottom': $dst_y = $config['maxHeight'] - $sourceHeight;break;
+                    case 'top':
+                    default:
+                        $dst_y = 0;
+                        break;
+                }
+            } else {
+                $dst_y = 0;
+            }
+
+            imagecopy($img, $image, $dst_x, $dst_y, 0, 0, $sourceWidth, $sourceHeight);
+
+            return $img;
+        }
 
 }
