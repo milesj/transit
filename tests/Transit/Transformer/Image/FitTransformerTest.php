@@ -19,13 +19,13 @@ class FitTransformerTest extends TestCase {
 	 * Test that expand enables or disables resizing larger than original images.
 	 */
 	public function testTransformExpand() {
-		$object = new ResizeTransformer(array('maxWidth' => 666, 'maxHeight'=>999,'aspect' => false, 'expand' => false));
+		$object = new FitTransformer(array('maxWidth' => 666, 'maxHeight'=>999,'aspect' => false, 'expand' => false));
 		$file = $object->transform(new File($this->baseFile));
 
 		$this->assertEquals(485, $file->width());
 		$this->assertEquals(750, $file->height());
 
-		$object = new ResizeTransformer(array('maxWidth' => 900, 'maxHeight'=>1000, 'aspect' => false, 'expand' => true));
+		$object = new FitTransformer(array('maxWidth' => 900, 'maxHeight'=>1000, 'aspect' => false, 'expand' => true));
 		$file = $object->transform(new File($this->baseFile));
 
 		$this->assertEquals(647, $file->width());
@@ -36,7 +36,7 @@ class FitTransformerTest extends TestCase {
 	 * Test that an exception is thrown if no settings are defined.
 	 */
 	public function testTransformException() {
-		$object = new ResizeTransformer();
+		$object = new FitTransformer();
 
 		try {
 			$object->transform(new File($this->baseFile));
@@ -51,7 +51,7 @@ class FitTransformerTest extends TestCase {
 	 * Test that excluding the height will automatically generate a correct ratio.
 	 */
 	public function testTransform() {
-		$object = new ResizeTransformer(array('maxWidth' => 100, 'maxHeight' => 100));
+		$object = new FitTransformer(array('maxWidth' => 100, 'maxHeight' => 100));
 		$file = $object->transform(new File($this->baseFile));
 
 		$this->assertEquals(65, $file->width());
