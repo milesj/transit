@@ -39,7 +39,7 @@ class FitTransformer extends AbstractImageTransformer {
 		'expand' => false,
                 'fill' => false,
                 'vericalAlign' => 'center',
-                'horizontalAlogn' => 'center'
+                'horizontalAlign' => 'center'
 	);
 
 	/**
@@ -58,6 +58,22 @@ class FitTransformer extends AbstractImageTransformer {
 
 		if (!is_numeric($maxWidth) || !is_numeric($maxHeight)) {
 			throw new InvalidArgumentException('Invalid maxWidth or maxHeight for fit');
+                }
+
+                if($config['fill']) {
+
+                    if(!in_array($config['verticalAlign'], array('top','center', 'bottom')))
+                        throw new InvalidArgumentException('Invalid verticalAlign argument');
+
+                    if(!in_array($config['horizontalAlign'], array('left','center', 'right')))
+                        throw new InvalidArgumentException('Invalid horizontalAlign argument');
+
+                    if(count($config['fill'])!= 3)
+                        throw new InvalidArgumentException('Invalid color definition in fill');
+
+                    foreach ($config['fill'] as $clr)
+                        if(!is_numeric($clr) || ($clr < 0) || ($clr > 255))
+                            throw new InvalidArgumentException('Invalid color definition in fill');
                 }
 
                 $heightAspect = $baseHeight / $maxHeight;
