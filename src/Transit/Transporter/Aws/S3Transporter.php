@@ -75,7 +75,7 @@ class S3Transporter extends AbstractAwsTransporter {
 
 		parent::__construct($accessKey, $secretKey, $config);
 
-		$this->_client = S3Client::factory($this->_config);
+		$this->_client = S3Client::factory($this->getConfig());
 	}
 
 	/**
@@ -107,13 +107,18 @@ class S3Transporter extends AbstractAwsTransporter {
 	 * @uses Guzzle\Http\EntityBody
 	 *
 	 * @param \Transit\File $file
+	 * @param array $config
 	 * @return string
 	 * @throws \Transit\Exception\TransportationException
 	 */
-	public function transport(File $file) {
-		$config = $this->_config;
-		$key = ltrim($config['folder'], '/') . $file->basename();
+	public function transport(File $file, array $config = array()) {
+		$config = $config + $this->getConfig();
+		$key = $file->basename();
 		$response = null;
+
+		if ($folder = trim($config['folder'], '/')) {
+			$key = $config['folder'] . '/' . $key;
+		}
 
 		// If larger then 100MB, split upload into parts
 		if ($file->size() >= (100 * Size::MB)) {
@@ -168,8 +173,8 @@ class S3Transporter extends AbstractAwsTransporter {
 	 * @return array
 	 */
 	public function parseUrl($url) {
-		$region = $this->_config['region'];
-		$bucket = $this->_config['bucket'];
+		$region = $this->getConfig('region');
+		$bucket = $this->getConfig('bucket');
 		$key = $url;
 
 		if (strpos($url, 'amazonaws.com') !== false) {

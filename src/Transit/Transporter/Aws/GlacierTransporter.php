@@ -61,7 +61,7 @@ class GlacierTransporter extends AbstractAwsTransporter {
 
 		parent::__construct($accessKey, $secretKey, $config);
 
-		$this->_client = GlacierClient::factory($this->_config);
+		$this->_client = GlacierClient::factory($this->getConfig());
 	}
 
 	/**
@@ -71,7 +71,7 @@ class GlacierTransporter extends AbstractAwsTransporter {
 	 * @return bool
 	 */
 	public function delete($id) {
-		$config = $this->_config;
+		$config = $this->getConfig();
 
 		try {
 			$this->getClient()->deleteArchive(array_filter(array(
@@ -94,11 +94,12 @@ class GlacierTransporter extends AbstractAwsTransporter {
 	 * @uses Guzzle\Http\EntityBody
 	 *
 	 * @param \Transit\File $file
+	 * @param array $config
 	 * @return string
 	 * @throws \Transit\Exception\TransportationException
 	 */
-	public function transport(File $file) {
-		$config = $this->_config;
+	public function transport(File $file, array $config = array()) {
+		$config = $config + $this->getConfig();
 		$response = null;
 
 		// If larger then 100MB, split upload into parts

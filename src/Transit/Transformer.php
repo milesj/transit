@@ -14,24 +14,7 @@ use Transit\File;
  *
  * @package Transit
  */
-interface Transformer {
-
-	/**
-	 * Get all config or a single config.
-	 *
-	 * @param string $key
-	 * @return mixed
-	 */
-	public function getConfig($key = null);
-
-	/**
-	 * Set configuration.
-	 *
-	 * @param string $key
-	 * @param mixed $value
-	 * @return \Transit\Transformer
-	 */
-	public function setConfig($key, $value);
+interface Transformer extends Component {
 
 	/**
 	 * Transform a file by running filters and returning a new File object.

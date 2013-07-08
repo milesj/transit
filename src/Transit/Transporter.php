@@ -14,7 +14,7 @@ use Transit\File;
  *
  * @package Transit
  */
-interface Transporter {
+interface Transporter extends Component {
 
 	/**
 	 * Delete a file from the remote location.
@@ -28,8 +28,9 @@ interface Transporter {
 	 * Transport the file to a remote location.
 	 *
 	 * @param \Transit\File $file
+	 * @param array $config
 	 * @return string
 	 */
-	public function transport(File $file);
+	public function transport(File $file, array $config = array());
 
 }

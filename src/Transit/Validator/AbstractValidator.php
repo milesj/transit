@@ -7,6 +7,7 @@
 
 namespace Transit\Validator;
 
+use Transit\Component\AbstractComponent;
 use Transit\File;
 use Transit\MimeType;
 use Transit\Validator;
@@ -19,7 +20,7 @@ use \BadMethodCallException;
  *
  * @package Transit\Validator
  */
-abstract class AbstractValidator implements Validator {
+abstract class AbstractValidator extends AbstractComponent implements Validator {
 
 	/**
 	 * File object.

@@ -7,6 +7,7 @@
 
 namespace Transit\Transporter;
 
+use Transit\Component\AbstractComponent;
 use Transit\Transporter;
 
 /**
@@ -14,22 +15,6 @@ use Transit\Transporter;
  *
  * @package Transit\Transporter
  */
-abstract class AbstractTransporter implements Transporter {
-
-	/**
-	 * Configuration.
-	 *
-	 * @type array
-	 */
-	protected $_config = array();
-
-	/**
-	 * Store configuration.
-	 *
-	 * @param array $config
-	 */
-	public function __construct(array $config = array()) {
-		$this->_config = $config + $this->_config;
-	}
+abstract class AbstractTransporter extends AbstractComponent implements Transporter {
 
 }

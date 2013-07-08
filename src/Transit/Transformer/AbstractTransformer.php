@@ -7,6 +7,7 @@
 
 namespace Transit\Transformer;
 
+use Transit\Component\AbstractComponent;
 use Transit\Transformer;
 
 /**
@@ -14,42 +15,6 @@ use Transit\Transformer;
  *
  * @package Transit\Transformer
  */
-abstract class AbstractTransformer implements Transformer {
-
-	/**
-	 * Configuration.
-	 *
-	 * @type array
-	 */
-	protected $_config = array();
-
-	/**
-	 * Store configuration.
-	 *
-	 * @param array $config
-	 */
-	public function __construct(array $config = array()) {
-		$this->_config = $config + $this->_config;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getConfig($key = null) {
-		if ($key === null) {
-			return $this->_config;
-		}
-
-		return isset($this->_config[$key]) ? $this->_config[$key] : null;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function setConfig($key, $value) {
-		$this->_config[$key] = $value;
-
-		return $this;
-	}
+abstract class AbstractTransformer extends AbstractComponent implements Transformer {
 
 }

@@ -14,7 +14,7 @@ use Transit\File;
  *
  * @package Transit
  */
-interface Validator {
+interface Validator extends Component {
 
 	/**
 	 * Add a validation rule with an error message and custom params.
