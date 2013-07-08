@@ -16,23 +16,6 @@ use \Exception;
 class FitTransformerTest extends TestCase {
 
 	/**
-	 * Test that expand enables or disables resizing larger than original images.
-	 */
-	public function testTransformExpand() {
-		$object = new FitTransformer(array('maxWidth' => 666, 'maxHeight'=>999,'aspect' => false, 'expand' => false));
-		$file = $object->transform(new File($this->baseFile));
-
-		$this->assertEquals(485, $file->width());
-		$this->assertEquals(750, $file->height());
-
-		$object = new FitTransformer(array('maxWidth' => 900, 'maxHeight'=>1000, 'aspect' => false, 'expand' => true));
-		$file = $object->transform(new File($this->baseFile));
-
-		$this->assertEquals(646, $file->width());
-		$this->assertEquals(1000, $file->height());
-	}
-
-	/**
 	 * Test that an exception is thrown if no settings are defined.
 	 */
 	public function testTransformException() {
@@ -56,6 +39,12 @@ class FitTransformerTest extends TestCase {
 
 		$this->assertEquals(64, $file->width());
 		$this->assertEquals(100, $file->height());
+		
+		$object = new FitTransformer(array('maxWidth' => 900, 'maxHeight'=>1000));
+		$file = $object->transform(new File($this->baseFile));
+
+		$this->assertEquals(646, $file->width());
+		$this->assertEquals(1000, $file->height());
 	}
 
         public function testFillBounds() {
