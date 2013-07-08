@@ -24,6 +24,7 @@ use \InvalidArgumentException;
  * Transport a local file to Amazon S3.
  *
  * @package Transit\Transporter\Aws
+ * @method Aws\S3\S3Client getClient()
  */
 class S3Transporter extends AbstractAwsTransporter {
 

@@ -22,6 +22,7 @@ use \InvalidArgumentException;
  * Transport a local file to Amazon Glacier.
  *
  * @package Transit\Transporter\Aws
+ * @method Aws\Glacier\GlacierClient getClient()
  */
 class GlacierTransporter extends AbstractAwsTransporter {
 

@@ -67,6 +67,9 @@ class File {
 		if (!$this->ext()) {
 			$this->rename();
 		}
+
+		// @version 1.4.0 Reset the cache
+		$this->_cache = array();
 	}
 
 	/**
@@ -118,6 +121,8 @@ class File {
 	 */
 	public function dimensions() {
 		return $this->_cache(__FUNCTION__, function($file) {
+			/** @type \Transit\File $file */
+
 			$dims = null;
 
 			if (!$file->isImage()) {
@@ -167,6 +172,8 @@ class File {
 		}
 
 		return $this->_cache(__FUNCTION__, function($file) use ($fields) {
+			/** @type \Transit\File $file */
+
 			$exif = array();
 			$fields = $fields + array(
 				'make' => 'Make',
@@ -193,9 +200,9 @@ class File {
 				}
 			}
 
-			// Return empty values for files that dont support exif
+			// Return empty values for files that don't support exif
 			if (!$exif) {
-				return array_map(function() {
+				$exif = array_map(function() {
 					return '';
 				}, $fields);
 			}
@@ -211,6 +218,8 @@ class File {
 	 */
 	public function ext() {
 		return $this->_cache(__FUNCTION__, function($file) {
+			/** @type \Transit\File $file */
+
 			// @version 1.1.1 Removed because of fileinfo bug
 			// return MimeType::getExtFromType($file->type(), true);
 
@@ -228,6 +237,8 @@ class File {
 	 */
 	public function height() {
 		return $this->_cache(__FUNCTION__, function($file) {
+			/** @type \Transit\File $file */
+
 			if (!$file->isImage()) {
 				return null;
 			}
@@ -451,6 +462,8 @@ class File {
 	 */
 	public function supportsExif() {
 		return $this->_cache(__FUNCTION__, function($file) {
+			/** @type \Transit\File $file */
+
 			if (!$file->isImage()) {
 				return false;
 			}
@@ -468,6 +481,8 @@ class File {
 	 */
 	public function type() {
 		return $this->_cache(__FUNCTION__, function($file) {
+			/** @type \Transit\File $file */
+
 			$type = null;
 
 			// We can't use the file command on windows
@@ -515,6 +530,8 @@ class File {
 	 */
 	public function width() {
 		return $this->_cache(__FUNCTION__, function($file) {
+			/** @type \Transit\File $file */
+
 			if (!$file->isImage()) {
 				return null;
 			}
