@@ -26,7 +26,6 @@ class FitTransformer extends AbstractImageTransformer {
 	 * 		@type int $quality		Quality of JPEG image
 	 * 		@type int $maxWidth		Width of output image
 	 * 		@type int $maxHeight		Height of output image
-	 * 		@type bool $expand		Allow image to be resized larger than the base dimensions
          *              @type mixed $fill               Fill bounds with given (rgb) color or don't
          *              @type string $verticalAlign
          *              @type string $horizontalAlign
@@ -36,7 +35,6 @@ class FitTransformer extends AbstractImageTransformer {
 		'maxWidth' => null,
 		'maxHeight' => null,
 		'quality' => 100,
-		'expand' => false,
                 'fill' => false,
                 'vericalAlign' => 'center',
                 'horizontalAlign' => 'center'
@@ -85,16 +83,10 @@ class FitTransformer extends AbstractImageTransformer {
                 $heightAspect = $baseHeight / $maxHeight;
                 $widthAspect = $baseWidth / $maxWidth;
 
-                if (!$config['expand'] && ($maxWidth > $baseWidth) && ($maxHeight > $baseHeight)) {
-                        $newWidth = $baseWidth;
-                        $newHeight = $baseHeight;
-                } else {
+                $aspect = $heightAspect > $widthAspect ? $heightAspect : $widthAspect;
 
-                    $aspect = $heightAspect > $widthAspect ? $heightAspect : $widthAspect;
-
-                    $newWidth = $baseWidth / $aspect;
-                    $newHeight = $baseHeight / $aspect;
-                }
+                $newWidth = $baseWidth / $aspect;
+                $newHeight = $baseHeight / $aspect;
 
                 if(!$config['fill'] || (($newHeight == $maxHeight) && ($newWidth == $maxWidth))) {
                     return $this->_process($file, array(
@@ -106,56 +98,64 @@ class FitTransformer extends AbstractImageTransformer {
                 }
 
                 return $this->_process($file, array(
-                        'dest_w'	=> $newWidth,
-                        'dest_h'	=> $newHeight,
+                        'dest_w'	=> $maxWidth,
+                        'dest_h'	=> $maxHeight,
                         'quality'	=> $config['quality'],
                         'overwrite'	=> $self,
-                        'callback'      => array($this, 'fillBounds')
+                        'callback'      => array($this, 'fillBounds'),
+                        'fill'		=> $config['fill'],
+                        'actualHeight'	=> $newHeight,
+                        'actualWidth'	=> $newWidth,
+                        'horizontalAlign' => $config['horizontalAlign'],
+                        'verticalAlign' => $config['verticalAlign']
                 ));
 	}
 
-        public function fillBounds($image) {
-            $config = $this->getConfig();
+        public function fillBounds($image, $options) {
 
-            // FIXME: I'm not sure about transparency in PNG or GIF files
-            $img = imagecreatetruecolor($config['maxWidth'], $config['maxHeight']);
+            $color = imagecolorallocate($image, $options['fill'][0], $options['fill'][1], $options['fill'][2]);
 
-            $sourceWidth = imagesx($image);
-            $sourceHeight = imagesy($image);
-
-            $color = imagecolorallocate($img, $config['fill'][0], $config['fill'][1], $config['fill'][2]);
-
-            imagefill($img, 0, 0, $color);
-
-            if($sourceWidth < $config['maxWidth']) {
-                switch ($config['horizontalAlign']) {
-                    case 'center': $dst_x = (int)floor(($config['maxWidth'] - $sourceWidth)/2);break;
-                    case 'right': $dst_x = $config['maxWidth'] - $sourceWidth;break;
+            if($options['actualWidth'] < $options['dest_w']) {
+        	$gap_x = $options['dest_w'] - $options['actualWidth'];
+                switch ($options['horizontalAlign']) {
+                    case 'center':
+                	$gap_x = (int)floor($gap_x/2);
+                	imagefilledrectangle($image, 0, 0, $gap_x, $options['dest_h'], $color);
+                	imagefilledrectangle($image, $gap_x+$options['actualWidth'], 0, $options['dest_w'], $options['dest_h'], $color); 
+                	break;
+                    
+                    case 'right':
+                	imagefilledrectangle($image, 0, 0, $gap_x, $options['dest_h'], $color);
+                	break;
+                	
                     case 'left':
                     default:
-                        $dst_x = 0;
+                	imagefilledrectangle($image, $options['actualWidth'], 0, $options['dest_w'], $options['dest_h'], $color);
                         break;
                 }
-            } else {
-                $dst_x = 0;
             }
 
-            if($sourceHeight < $config['maxHeight']) {
-                switch ($config['verticalAlign']) {
-                    case 'center': $dst_y = (int)floor(($config['maxHeight'] - $sourceHeight)/2);break;
-                    case 'bottom': $dst_y = $config['maxHeight'] - $sourceHeight;break;
+            if($options['actualHeight'] < $options['dest_h']) {
+        	$gap_y = $options['dest_h']-$options['actualHeight'];
+                switch ($options['verticalAlign']) {
+                    case 'center':
+                	$gap_y = (int)floor($gap_y/2);
+                	imagefilledrectangle($image, 0, 0, $options['dest_w'], $gap_y, $color);
+                	imagefilledrectangle($image, 0, $gap_y + $options['actualHeight'], $options['dest_w'], $options['dest_h'], $color);
+                	break;
+                	
+                    case 'bottom':
+                	imagefilledrectangle($image, 0, 0, $options['dest_w'], $gap_y, $color);
+                	break;
+                	
                     case 'top':
                     default:
-                        $dst_y = 0;
+                	imagefilledrectangle($image, 0, $options['actualHeight'], $options['dest_w'], $options['dest_h'], $color);
                         break;
                 }
-            } else {
-                $dst_y = 0;
             }
 
-            imagecopy($img, $image, $dst_x, $dst_y, 0, 0, $sourceWidth, $sourceHeight);
-
-            return $img;
+            return $image;
         }
 
 }
