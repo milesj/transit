@@ -37,12 +37,12 @@ class RotateTransformer extends AbstractImageTransformer {
 		$config = $this->getConfig();
 
 		return $this->_process($file, array(
-			'dest_w'	=> $file->width(),
-			'dest_h'	=> $file->height(),
-			'quality'	=> $config['quality'],
-			'overwrite'	=> $self,
-			'target'	=> sprintf('%s-rotate-%s', $file->name(), $config['degrees']),
-			'callback'	=> array($this, 'rotate')
+			'dest_w'		=> $file->width(),
+			'dest_h'		=> $file->height(),
+			'quality'		=> $config['quality'],
+			'overwrite'		=> $self,
+			'target'		=> sprintf('%s-rotate-%s', $file->name(), $config['degrees']),
+			'postCallback'	=> array($this, 'rotate')
 		));
 	}
 

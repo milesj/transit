@@ -41,8 +41,8 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 	 * Create temporary test files to mimic file uploading.
 	 */
 	protected function setUp() {
-		$baseFile = TEMP_DIR . '/scott-pilgrim.jpg';
-		$tempFile = TEMP_DIR . '/scott-pilgrim-test.jpg';
+		$baseFile = TEMP_DIR . '/vertical.jpg';
+		$tempFile = TEMP_DIR . '/vertical-test.jpg';
 
 		$this->baseFile = $baseFile;
 		$this->tempFile = $tempFile;
@@ -59,7 +59,11 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 	 * Delete the temporary file.
 	 */
 	protected function tearDown() {
-		foreach (glob(TEMP_DIR . '/scott-pilgrim-*.jpg') as $file) {
+		foreach (glob(TEMP_DIR . '/vertical-*.jpg') as $file) {
+			@unlink($file);
+		}
+
+		foreach (glob(TEMP_DIR . '/horizontal-*.jpg') as $file) {
 			@unlink($file);
 		}
 

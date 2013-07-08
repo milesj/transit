@@ -1,8 +1,6 @@
 <?php
 /**
- * Based on the code written by Miles Johnson
- *
- * @copyright	Copyright 2013, Serge Rodovnichenko - http://www.handmadesite.net
+ * @copyright	Copyright 2006-2013, Miles Johnson - http://milesj.me
  * @license		http://opensource.org/licenses/mit-license.php - Licensed under the MIT License
  * @link		http://milesj.me/code/php/transit
  */
@@ -31,28 +29,74 @@ class FitTransformerTest extends TestCase {
 	}
 
 	/**
-	 * Test that excluding the height will automatically generate a correct ratio.
+	 * Test that images are resized when no fill is defined.
 	 */
 	public function testTransform() {
-		$object = new FitTransformer(array('maxWidth' => 100, 'maxHeight' => 100));
+		$object = new FitTransformer(array('width' => 100, 'height' => 100));
 		$file = $object->transform(new File($this->baseFile));
 
 		$this->assertEquals(64, $file->width());
 		$this->assertEquals(100, $file->height());
-		
-		$object = new FitTransformer(array('maxWidth' => 900, 'maxHeight'=>1000));
+
+		$object = new FitTransformer(array('width' => 900, 'height' => 1000));
 		$file = $object->transform(new File($this->baseFile));
 
 		$this->assertEquals(646, $file->width());
 		$this->assertEquals(1000, $file->height());
 	}
 
-        public function testFillBounds() {
-		$object = new FitTransformer(array('maxWidth' => 100, 'maxHeight' => 100, 'fill'=>array(255,255,255), 'verticalAlign'=>'center', 'horizontalAlign'=>'center'));
-                $file = $object->transform(new File($this->baseFile));
+	/**
+	 * Test horizontal color fill.
+	 */
+	public function testHorizontalFill() {
+		// red
+		$object = new FitTransformer(array('width' => 250, 'height' => 250, 'fill' => array(255, 0, 0)));
+		$file = $object->transform(new File($this->baseFile));
 
-		$this->assertEquals(100, $file->width());
-		$this->assertEquals(100, $file->height());
-        }
+		$this->assertEquals(250, $file->width());
+		$this->assertEquals(250, $file->height());
+
+		// green
+		$object = new FitTransformer(array('width' => 200, 'height' => 200, 'fill' => array(0, 255, 0), 'horizontal' => 'left'));
+		$file = $object->transform(new File($this->baseFile));
+
+		$this->assertEquals(200, $file->width());
+		$this->assertEquals(200, $file->height());
+
+		// blue
+		$object = new FitTransformer(array('width' => 150, 'height' => 150, 'fill' => array(0, 0, 255), 'horizontal' => 'right'));
+		$file = $object->transform(new File($this->baseFile));
+
+		$this->assertEquals(150, $file->width());
+		$this->assertEquals(150, $file->height());
+	}
+
+	/**
+	 * Test vertical color fill.
+	 */
+	public function testVerticalFill() {
+		$filePath = TEMP_DIR . '/horizontal.jpg';
+
+		// red
+		$object = new FitTransformer(array('width' => 250, 'height' => 250, 'fill' => array(255, 0, 0)));
+		$file = $object->transform(new File($filePath));
+
+		$this->assertEquals(250, $file->width());
+		$this->assertEquals(250, $file->height());
+
+		// green
+		$object = new FitTransformer(array('width' => 200, 'height' => 200, 'fill' => array(0, 255, 0), 'vertical' => 'top'));
+		$file = $object->transform(new File($filePath));
+
+		$this->assertEquals(200, $file->width());
+		$this->assertEquals(200, $file->height());
+
+		// blue
+		$object = new FitTransformer(array('width' => 150, 'height' => 150, 'fill' => array(0, 0, 255), 'vertical' => 'bottom'));
+		$file = $object->transform(new File($filePath));
+
+		$this->assertEquals(150, $file->width());
+		$this->assertEquals(150, $file->height());
+	}
 
 }

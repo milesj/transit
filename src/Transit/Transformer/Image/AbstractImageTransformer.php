@@ -66,6 +66,8 @@ abstract class AbstractImageTransformer extends AbstractTransformer {
 
 		// Gather options
 		$options = $options + array(
+			'width' => null,
+			'height' => null,
 			'dest_x' => 0,
 			'dest_y' => 0,
 			'dest_w' => null,
@@ -77,24 +79,32 @@ abstract class AbstractImageTransformer extends AbstractTransformer {
 			'quality' => 100,
 			'overwrite' => false,
 			'target' => '',
-			'callback' => ''
+			'preCallback' => '',
+			'postCallback' => ''
 		);
 
-		$targetImage = imagecreatetruecolor($options['dest_w'], $options['dest_h']);
+		$width = $options['width'] ?: $options['dest_w'];
+		$height = $options['height'] ?: $options['dest_h'];
+		$targetImage = imagecreatetruecolor($width, $height);
 
 		// If gif/png allow transparencies
 		if ($mimeType === 'image/gif' || $mimeType === 'image/png') {
 			imagealphablending($targetImage, false);
 			imagesavealpha($targetImage, true);
-			imagefilledrectangle($targetImage, 0, 0, $options['dest_w'], $options['dest_h'], imagecolorallocatealpha($targetImage, 255, 255, 255, 127));
+			imagefill($targetImage, 0, 0, imagecolorallocatealpha($targetImage, 255, 255, 255, 127));
+		}
+
+		// Trigger a callback to prepare the image
+		if (is_callable($options['preCallback'])) {
+			$targetImage = call_user_func_array($options['preCallback'], array($targetImage, $options));
 		}
 
 		// Lets take our source and apply it to the temporary file and resize
 		imagecopyresampled($targetImage, $sourceImage, $options['dest_x'], $options['dest_y'], $options['source_x'], $options['source_y'], $options['dest_w'], $options['dest_h'], $options['source_w'], $options['source_h']);
 
-		// Trigger a callback to modify the target
-		if (is_callable($options['callback'])) {
-			$targetImage = call_user_func_array($options['callback'], array($targetImage, $options));
+		// Trigger a callback to modify the image
+		if (is_callable($options['postCallback'])) {
+			$targetImage = call_user_func_array($options['postCallback'], array($targetImage, $options));
 		}
 
 		// Now write the transformed image to the server
@@ -105,7 +115,7 @@ abstract class AbstractImageTransformer extends AbstractTransformer {
 			$class = explode('\\', get_class($this));
 			$class = str_replace('transformer', '', strtolower(end($class)));
 
-			$options['target'] = sprintf('%s-%s-%sx%s', $file->name(), $class, round($options['dest_w']), round($options['dest_h']));
+			$options['target'] = sprintf('%s-%s-%sx%s', $file->name(), $class, round($width), round($height));
 		}
 
 		$targetPath = sprintf('%s%s.%s', $file->dir(), $options['target'], $file->ext());

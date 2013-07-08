@@ -1,8 +1,6 @@
 <?php
 /**
- * Based on the code of ResizeTransformer by Miles Johnson
- *
- * @copyright	Copyright 2013, Serge Rodovnichenko - http://www.handmadesite.net
+ * @copyright	Copyright 2006-2013, Miles Johnson - http://milesj.me
  * @license		http://opensource.org/licenses/mit-license.php - Licensed under the MIT License
  * @link		http://milesj.me/code/php/transit
  */
@@ -13,31 +11,32 @@ use Transit\File;
 use \InvalidArgumentException;
 
 /**
- * Resizes an image to new dimensions.
+ * Fit an image into the exact dimensions defined.
+ * Will fill the background gaps and align accordingly.
  *
  * @package Transit\Transformer\Image
  */
-class FitTransformer extends AbstractImageTransformer {
+class FitTransformer extends CropTransformer {
 
 	/**
 	 * Configuration.
 	 *
 	 * @type array {
-	 * 		@type int $quality		Quality of JPEG image
-	 * 		@type int $maxWidth		Width of output image
-	 * 		@type int $maxHeight		Height of output image
-         *              @type mixed $fill               Fill bounds with given (rgb) color or don't
-         *              @type string $verticalAlign
-         *              @type string $horizontalAlign
+	 * 		@type int $width				Width of output image
+	 * 		@type int $height				Height of output image
+	 * 		@type int $quality				Quality of JPEG image
+	 * 		@type array $fill				Fill bounds with given (rgba) color or don't
+	 * 		@type string $vertical			Where to align the image vertically
+	 * 		@type string $horizontal		Where to align the image horizontally
 	 * }
 	 */
 	protected $_config = array(
-		'maxWidth' => null,
-		'maxHeight' => null,
+		'width' => null,
+		'height' => null,
 		'quality' => 100,
-                'fill' => false,
-                'vericalAlign' => 'center',
-                'horizontalAlign' => 'center'
+		'fill' => array(),
+		'vertical' => self::CENTER,
+		'horizontal' => self::CENTER
 	);
 
 	/**
@@ -49,113 +48,84 @@ class FitTransformer extends AbstractImageTransformer {
 		$config = $this->getConfig();
 		$baseWidth = $file->width();
 		$baseHeight = $file->height();
-		$maxWidth = $config['maxWidth'];
-		$maxHeight = $config['maxHeight'];
+		$width = $config['width'];
+		$height = $config['height'];
 		$newWidth = null;
 		$newHeight = null;
 
-		if (!is_numeric($maxWidth) || !is_numeric($maxHeight)) {
-			throw new InvalidArgumentException('Invalid maxWidth or maxHeight for fit');
-                }
+		if (!is_numeric($height) && !is_numeric($width)) {
+			throw new InvalidArgumentException('Invalid width and height for resize');
+		}
 
-                if($config['fill']) {
+		$widthAspect = $baseWidth / $width;
+		$heightAspect = $baseHeight / $height;
+		$aspect = ($heightAspect > $widthAspect) ? $heightAspect : $widthAspect;
 
-                    if(!isset($config['verticalAlign']))
-                        throw new InvalidArgumentException('Invalid verticalAlign argument');
+		$newWidth = $baseWidth / $aspect;
+		$newHeight = $baseHeight / $aspect;
 
-                    if(!isset($config['horizontalAlign']))
-                        throw new InvalidArgumentException('Invalid horizontalAlign argument');
+		// Do a simple resize if there is no fill defined
+		if (!$config['fill'] || ($newHeight == $height && $newWidth == $width)) {
+			return $this->_process($file, array(
+				'dest_w'	=> $newWidth,
+				'dest_h'	=> $newHeight,
+				'quality'	=> $config['quality'],
+				'overwrite'	=> $self
+			));
+		}
 
-                    if(!in_array($config['verticalAlign'], array('top','center', 'bottom')))
-                        throw new InvalidArgumentException('Invalid verticalAlign argument');
+		// Determine the alignment
+		$vertGap = 0;
+		$horiGap = 0;
 
-                    if(!in_array($config['horizontalAlign'], array('left','center', 'right')))
-                        throw new InvalidArgumentException('Invalid horizontalAlign argument');
+		// Horizontal
+		if ($newWidth < $width) {
+			if ($config['horizontal'] === self::CENTER) {
+				$horiGap = (($width - $newWidth) / 2);
 
-                    if(count($config['fill'])!= 3)
-                        throw new InvalidArgumentException('Invalid color definition in fill');
+			} else if ($config['horizontal'] === self::RIGHT) {
+				$horiGap = ($width - $newWidth);
+			}
 
-                    foreach ($config['fill'] as $clr)
-                        if(!is_numeric($clr) || ($clr < 0) || ($clr > 255))
-                            throw new InvalidArgumentException('Invalid color definition in fill');
-                }
+		// Vertical
+		} else if ($newHeight < $height) {
+			if ($config['vertical'] === self::CENTER) {
+				$vertGap = (($height - $newHeight) / 2);
 
-                $heightAspect = $baseHeight / $maxHeight;
-                $widthAspect = $baseWidth / $maxWidth;
+			} else if ($config['vertical'] === self::BOTTOM) {
+				$vertGap = ($height - $newHeight);
+			}
+		}
 
-                $aspect = $heightAspect > $widthAspect ? $heightAspect : $widthAspect;
-
-                $newWidth = $baseWidth / $aspect;
-                $newHeight = $baseHeight / $aspect;
-
-                if(!$config['fill'] || (($newHeight == $maxHeight) && ($newWidth == $maxWidth))) {
-                    return $this->_process($file, array(
-                            'dest_w'	=> $newWidth,
-                            'dest_h'	=> $newHeight,
-                            'quality'	=> $config['quality'],
-                            'overwrite'	=> $self
-                    ));
-                }
-
-                return $this->_process($file, array(
-                        'dest_w'	=> $maxWidth,
-                        'dest_h'	=> $maxHeight,
-                        'quality'	=> $config['quality'],
-                        'overwrite'	=> $self,
-                        'callback'      => array($this, 'fillBounds'),
-                        'fill'		=> $config['fill'],
-                        'actualHeight'	=> $newHeight,
-                        'actualWidth'	=> $newWidth,
-                        'horizontalAlign' => $config['horizontalAlign'],
-                        'verticalAlign' => $config['verticalAlign']
-                ));
+		return $this->_process($file, array(
+			'width'			=> $width,
+			'height'		=> $height,
+			'dest_x'		=> $horiGap,
+			'dest_y'		=> $vertGap,
+			'dest_w'		=> $newWidth,
+			'dest_h'		=> $newHeight,
+			'quality'		=> $config['quality'],
+			'overwrite'		=> $self,
+			'preCallback'	=> array($this, 'fill')
+		));
 	}
 
-        public function fillBounds($image, $options) {
+	/**
+	 * Fill the background with an RGB color.
+	 *
+	 * @param resource $image
+	 * @return resource
+	 */
+	public function fill($image) {
+		$fill = $this->getConfig('fill');
+		$r = $fill[0];
+		$g = $fill[1];
+		$b = $fill[2];
+		$a = isset($fill[3]) ? $fill[3] : 127;
 
-            $color = imagecolorallocate($image, $options['fill'][0], $options['fill'][1], $options['fill'][2]);
+		imagefill($image, 0, 0, imagecolorallocatealpha($image, $r, $g, $b, $a));
 
-            if($options['actualWidth'] < $options['dest_w']) {
-        	$gap_x = $options['dest_w'] - $options['actualWidth'];
-                switch ($options['horizontalAlign']) {
-                    case 'center':
-                	$gap_x = (int)floor($gap_x/2);
-                	imagefilledrectangle($image, 0, 0, $gap_x, $options['dest_h'], $color);
-                	imagefilledrectangle($image, $gap_x+$options['actualWidth'], 0, $options['dest_w'], $options['dest_h'], $color); 
-                	break;
-                    
-                    case 'right':
-                	imagefilledrectangle($image, 0, 0, $gap_x, $options['dest_h'], $color);
-                	break;
-                	
-                    case 'left':
-                    default:
-                	imagefilledrectangle($image, $options['actualWidth'], 0, $options['dest_w'], $options['dest_h'], $color);
-                        break;
-                }
-            }
-
-            if($options['actualHeight'] < $options['dest_h']) {
-        	$gap_y = $options['dest_h']-$options['actualHeight'];
-                switch ($options['verticalAlign']) {
-                    case 'center':
-                	$gap_y = (int)floor($gap_y/2);
-                	imagefilledrectangle($image, 0, 0, $options['dest_w'], $gap_y, $color);
-                	imagefilledrectangle($image, 0, $gap_y + $options['actualHeight'], $options['dest_w'], $options['dest_h'], $color);
-                	break;
-                	
-                    case 'bottom':
-                	imagefilledrectangle($image, 0, 0, $options['dest_w'], $gap_y, $color);
-                	break;
-                	
-                    case 'top':
-                    default:
-                	imagefilledrectangle($image, 0, $options['actualHeight'], $options['dest_w'], $options['dest_h'], $color);
-                        break;
-                }
-            }
-
-            return $image;
-        }
+		return $image;
+	}
 
 }

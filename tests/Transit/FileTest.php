@@ -46,7 +46,7 @@ class FileTest extends TestCase {
 	 * Test that basename() returns file name with extension.
 	 */
 	public function testBasename() {
-		$this->assertEquals('scott-pilgrim-test.jpg', $this->object->basename());
+		$this->assertEquals('vertical-test.jpg', $this->object->basename());
 	}
 
 	/**
@@ -57,7 +57,7 @@ class FileTest extends TestCase {
 
 		// Test using an array
 		$file = new File($this->data);
-		$this->assertEquals('scott-pilgrim-test.jpg', $file->data('name'));
+		$this->assertEquals('vertical-test.jpg', $file->data('name'));
 	}
 
 	/**
@@ -183,7 +183,7 @@ class FileTest extends TestCase {
 	 * Test that move() moves the file to another directory.
 	 */
 	public function testMove() {
-		$newPath = TEST_DIR . '/scott-pilgrim-test.jpg';
+		$newPath = TEST_DIR . '/vertical-test.jpg';
 
 		$this->assertTrue(file_exists($this->tempFile));
 		$this->assertFalse(file_exists($newPath));
@@ -202,19 +202,19 @@ class FileTest extends TestCase {
 	 * Test that move() doesn't overwrite files but appends an incremented number.
 	 */
 	public function testMoveNoOverwrite() {
-		$testPath = TEST_DIR . '/scott-pilgrim-test.jpg';
-		$movePath = TEMP_DIR . '/scott-pilgrim-test-1.jpg';
+		$testPath = TEST_DIR . '/vertical-test.jpg';
+		$movePath = TEMP_DIR . '/vertical-test-1.jpg';
 
 		copy($this->baseFile, $testPath);
 		$file = new File($testPath);
 
 		$this->assertFalse(file_exists($movePath));
-		$this->assertEquals('scott-pilgrim-test', $file->name());
+		$this->assertEquals('vertical-test', $file->name());
 
 		$file->move(TEMP_DIR);
 
 		$this->assertTrue(file_exists($movePath));
-		$this->assertEquals('scott-pilgrim-test-1', $file->name());
+		$this->assertEquals('vertical-test-1', $file->name());
 
 		$file->delete();
 	}
@@ -223,11 +223,11 @@ class FileTest extends TestCase {
 	 * Test that name() returns the file name without extension.
 	 */
 	public function testName() {
-		$this->assertEquals('scott-pilgrim-test', $this->object->name());
+		$this->assertEquals('vertical-test', $this->object->name());
 
 		// Rename and test
-		$this->object->rename('scott-pilgrim-renamed');
-		$this->assertEquals('scott-pilgrim-renamed', $this->object->name());
+		$this->object->rename('vertical-renamed');
+		$this->assertEquals('vertical-renamed', $this->object->name());
 	}
 
 	/**
@@ -260,10 +260,10 @@ class FileTest extends TestCase {
 		$this->assertEquals('precallbackapp', $this->object->name());
 
 		// Reset name
-		$this->object->rename('scott-pilgrim-test');
+		$this->object->rename('vertical-test');
 
 		$this->assertTrue(file_exists($this->tempFile));
-		$this->assertEquals('scott-pilgrim-test', $this->object->name());
+		$this->assertEquals('vertical-test', $this->object->name());
 	}
 
 	/**
@@ -303,10 +303,10 @@ class FileTest extends TestCase {
 	 */
 	public function testToArray() {
 		$this->assertEquals(array(
-			'basename' => 'scott-pilgrim-test.jpg',
+			'basename' => 'vertical-test.jpg',
 			'dir' => dirname($this->tempFile) . '/',
 			'ext' => 'jpg',
-			'name' => 'scott-pilgrim-test',
+			'name' => 'vertical-test',
 			'path' => $this->tempFile,
 			'size' => 126869,
 			'type' => 'image/jpeg',

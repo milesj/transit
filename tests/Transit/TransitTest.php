@@ -33,8 +33,8 @@ class TransitTest extends TestCase {
 	 * Checks for overwrites by incrementing file names.
 	 */
 	public function testFindDestination() {
-		$this->assertEquals(TEMP_DIR . '/scott-pilgrim.jpg', $this->object->findDestination('scott-pilgrim.jpg', true));
-		$this->assertEquals(TEMP_DIR . '/scott-pilgrim-1.jpg', $this->object->findDestination(new File($this->baseFile), false));
+		$this->assertEquals(TEMP_DIR . '/vertical.jpg', $this->object->findDestination('vertical.jpg', true));
+		$this->assertEquals(TEMP_DIR . '/vertical-1.jpg', $this->object->findDestination(new File($this->baseFile), false));
 	}
 
 	/**
