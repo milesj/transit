@@ -79,7 +79,7 @@ class ExifTransformer extends RotateTransformer {
 		}
 
 		if ($degrees = $this->getConfig('degrees')) {
-			$options['callback'] = array($this, 'rotate');
+			$options['postCallback'] = array($this, 'rotate');
 		}
 
 		return $this->_process($file, $options);
