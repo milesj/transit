@@ -30,3 +30,8 @@ files to Amazon S3 or another external storage system).
 ## Documentation ##
 
 Thorough documentation can be found here (eventually): http://milesj.me/code/php/transit
+
+## Contributors ##
+
+* Serge Rodovnichenko (SergeR) - `FitTransformer`
+* Ricky Dunlop (rickydunlop) - `File::supportsExif()`
