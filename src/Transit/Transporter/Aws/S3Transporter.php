@@ -117,8 +117,8 @@ class S3Transporter extends AbstractAwsTransporter {
 		$key = $file->basename();
 		$response = null;
 
-		if ($folder = trim($config['folder'], '/')) {
-			$key = $config['folder'] . '/' . $key;
+		if ($folder = $config['folder']) {
+			$key = trim($config['folder'], '/') . '/' . $key;
 		}
 
 		// If larger then 100MB, split upload into parts

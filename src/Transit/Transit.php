@@ -426,13 +426,16 @@ class Transit {
 
 	/**
 	 * Transport the file using the Transporter object.
+	 * An array of configuration can be passed to override the transporter configuration.
+	 * If the configuration is numerically indexed, individual file overrides can be set.
 	 *
+	 * @param array $config
 	 * @return array
 	 * @throws \Transit\Exception\IoException
 	 * @throws \Transit\Exception\TransportationException
 	 * @throws \InvalidArgumentException
 	 */
-	public function transport() {
+	public function transport(array $config = array()) {
 		if (!$this->_transporter) {
 			throw new InvalidArgumentException('No Transporter has been defined');
 		}
@@ -445,9 +448,15 @@ class Transit {
 			throw new IoException('No files to transport');
 		}
 
-		foreach ($localFiles as $file) {
+		foreach ($localFiles as $i => $file) {
 			try {
-				$transportedFiles[] = $this->getTransporter()->transport($file);
+				$tempConfig = $config;
+
+				if (isset($tempConfig[$i])) {
+					$tempConfig = array_merge($tempConfig, $tempConfig[$i]);
+				}
+
+				$transportedFiles[] = $this->getTransporter()->transport($file, $tempConfig);
 
 			} catch (Exception $e) {
 				$error = $e->getMessage();
