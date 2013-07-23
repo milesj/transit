@@ -49,19 +49,23 @@ abstract class AbstractImageTransformer extends AbstractTransformer {
 		// Create an image to work with
 		switch ($mimeType) {
 			case 'image/gif':
-				$sourceImage = imagecreatefromgif($sourcePath);
+				$sourceImage = @imagecreatefromgif($sourcePath);
 			break;
 			case 'image/png':
-				$sourceImage = imagecreatefrompng($sourcePath);
+				$sourceImage = @imagecreatefrompng($sourcePath);
 			break;
 			case 'image/jpg':
 			case 'image/jpeg':
 			case 'image/pjpeg':
-				$sourceImage = imagecreatefromjpeg($sourcePath);
+				$sourceImage = @imagecreatefromjpeg($sourcePath);
 			break;
 			default:
-				throw new DomainException(sprintf('%s can not be transformed', $mimeType));
+				$sourceImage = false;
 			break;
+		}
+
+		if (!$sourceImage) {
+			throw new DomainException(sprintf('%s can not be transformed', $mimeType));
 		}
 
 		// Gather options
