@@ -77,11 +77,11 @@ class CropTransformer extends AbstractImageTransformer {
 		// Source width is larger, use height scale as the base
 		} else {
 			if ($widthScale > $heightScale) {
-				$src_w = round($width * $heightScale);
+				$src_w = $width * $heightScale;
 
 				// Position horizontally in the middle
 				if ($location === self::CENTER) {
-					$src_x = round(($baseWidth / 2) - (($width / 2) * $heightScale));
+					$src_x = ($baseWidth / 2) - (($width / 2) * $heightScale);
 
 				// Position at the far right
 				} else if ($location === self::RIGHT || $location === self::BOTTOM) {
@@ -90,11 +90,11 @@ class CropTransformer extends AbstractImageTransformer {
 
 			// Source height is larger, use width scale as the base
 			} else {
-				$src_h = round($height * $widthScale);
+				$src_h = $height * $widthScale;
 
 				// Position vertically in the middle
 				if ($location === self::CENTER) {
-					$src_y = round(($baseHeight / 2) - (($height / 2) * $widthScale));
+					$src_y = ($baseHeight / 2) - (($height / 2) * $widthScale);
 
 				// Position at the bottom
 				} else if ($location === self::RIGHT || $location === self::BOTTOM) {

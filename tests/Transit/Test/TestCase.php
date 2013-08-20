@@ -60,11 +60,11 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 	 */
 	protected function tearDown() {
 		foreach (glob(TEMP_DIR . '/vertical-*.jpg') as $file) {
-			@unlink($file);
+			//@unlink($file);
 		}
 
 		foreach (glob(TEMP_DIR . '/horizontal-*.jpg') as $file) {
-			@unlink($file);
+			//@unlink($file);
 		}
 
 		clearstatcache();

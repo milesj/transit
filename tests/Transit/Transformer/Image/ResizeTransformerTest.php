@@ -105,7 +105,7 @@ class ResizeTransformerTest extends TestCase {
 		$file = $object->transform(new File($this->baseFile));
 
 		$this->assertEquals(215, $file->width());
-		$this->assertEquals(333, $file->height());
+		$this->assertEquals(332, $file->height());
 	}
 
 }

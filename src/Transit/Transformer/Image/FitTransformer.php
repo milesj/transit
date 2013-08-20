@@ -81,7 +81,7 @@ class FitTransformer extends CropTransformer {
 		// Horizontal
 		if ($newWidth < $width) {
 			if ($config['horizontal'] === self::CENTER) {
-				$horiGap = (($width - $newWidth) / 2);
+				$horiGap = ($width - $newWidth) / 2;
 
 			} else if ($config['horizontal'] === self::RIGHT) {
 				$horiGap = ($width - $newWidth);
@@ -90,7 +90,7 @@ class FitTransformer extends CropTransformer {
 		// Vertical
 		} else if ($newHeight < $height) {
 			if ($config['vertical'] === self::CENTER) {
-				$vertGap = (($height - $newHeight) / 2);
+				$vertGap = ($height - $newHeight) / 2;
 
 			} else if ($config['vertical'] === self::BOTTOM) {
 				$vertGap = ($height - $newHeight);

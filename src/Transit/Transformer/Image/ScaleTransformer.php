@@ -42,8 +42,8 @@ class ScaleTransformer extends AbstractImageTransformer {
 			throw new InvalidArgumentException('Invalid percent for scaling');
 		}
 
-		$width = round($file->width() * $config['percent']);
-		$height = round($file->height() * $config['percent']);
+		$width = $file->width() * $config['percent'];
+		$height = $file->height() * $config['percent'];
 
 		return $this->_process($file, array(
 			'dest_w'	=> $width,

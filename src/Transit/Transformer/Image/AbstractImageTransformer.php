@@ -87,6 +87,14 @@ abstract class AbstractImageTransformer extends AbstractTransformer {
 			'postCallback' => ''
 		);
 
+		$options = array_map(function($value) {
+			if (is_numeric($value)) {
+				$value = round($value);
+			}
+
+			return $value;
+		}, $options);
+
 		$width = $options['width'] ?: $options['dest_w'];
 		$height = $options['height'] ?: $options['dest_h'];
 		$targetImage = imagecreatetruecolor($width, $height);
@@ -119,7 +127,7 @@ abstract class AbstractImageTransformer extends AbstractTransformer {
 			$class = explode('\\', get_class($this));
 			$class = str_replace('transformer', '', strtolower(end($class)));
 
-			$options['target'] = sprintf('%s-%s-%sx%s', $file->name(), $class, round($width), round($height));
+			$options['target'] = sprintf('%s-%s-%sx%s', $file->name(), $class, $width, $height);
 		}
 
 		$targetPath = sprintf('%s%s.%s', $file->dir(), $options['target'], $file->ext());

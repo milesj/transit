@@ -35,13 +35,13 @@ class FitTransformerTest extends TestCase {
 		$object = new FitTransformer(array('width' => 100, 'height' => 100));
 		$file = $object->transform(new File($this->baseFile));
 
-		$this->assertEquals(64, $file->width());
+		$this->assertEquals(65, $file->width());
 		$this->assertEquals(100, $file->height());
 
 		$object = new FitTransformer(array('width' => 900, 'height' => 1000));
 		$file = $object->transform(new File($this->baseFile));
 
-		$this->assertEquals(646, $file->width());
+		$this->assertEquals(647, $file->width());
 		$this->assertEquals(1000, $file->height());
 	}
 
