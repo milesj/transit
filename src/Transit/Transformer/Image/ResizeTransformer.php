@@ -67,8 +67,8 @@ class ResizeTransformer extends AbstractImageTransformer {
 
 		// Maintains the aspect ratio of the image
 		if ($config['aspect']) {
-			$widthScale = round($width / $baseWidth);
-			$heightScale = round($height / $baseHeight);
+			$widthScale = $width / $baseWidth;
+			$heightScale = $height / $baseHeight;
 
 			if (($config['mode'] === self::WIDTH && $widthScale < $heightScale) || ($config['mode'] === self::HEIGHT && $widthScale > $heightScale)) {
 				$newWidth = $width;
