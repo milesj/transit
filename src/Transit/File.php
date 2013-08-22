@@ -164,11 +164,10 @@ class File {
 	 *
 	 * @param array $fields
 	 * @returns array
-	 * @throws \RuntimeException
 	 */
 	public function exif(array $fields = array()) {
 		if (!function_exists('exif_read_data')) {
-			throw new RuntimeException('Reading exif data requires the exif module');
+			return array();
 		}
 
 		return $this->_cache(__FUNCTION__, function($file) use ($fields) {
