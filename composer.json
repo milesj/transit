@@ -29,7 +29,7 @@
 		"aws/aws-sdk-php": "~2.2"
 	},
 	"support": {
-		"source": "https://github.com/milesj/Transit"
+		"source": "https://github.com/milesj/transit"
 	},
 	"autoload": {
 		"psr-0": { "Transit": "src/" }
