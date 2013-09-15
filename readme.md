@@ -1,4 +1,4 @@
-# Transit v1.4.3 [![Build Status](https://travis-ci.org/milesj/Transit.png?branch=master)](https://travis-ci.org/milesj/Transit) #
+# Transit v1.4.4 [![Build Status](https://travis-ci.org/milesj/transit.png?branch=master)](https://travis-ci.org/milesj/transit) #
 
 A lightweight file uploader that also provides extended support for file validation,
 file transformation (image resizing, cropping, etc) and file transportation (moving
