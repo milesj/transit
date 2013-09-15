@@ -127,7 +127,7 @@ abstract class AbstractImageTransformer extends AbstractTransformer {
 			$class = explode('\\', get_class($this));
 			$class = str_replace('transformer', '', strtolower(end($class)));
 
-			$options['target'] = sprintf('%s-%s-%sx%s', $file->name(), $class, $width, $height);
+			$options['target'] = sprintf('%s-%s-%sx%s-%s', $file->name(), $class, $width, $height, uniqid());
 		}
 
 		$targetPath = sprintf('%s%s.%s', $file->dir(), $options['target'], $file->ext());
