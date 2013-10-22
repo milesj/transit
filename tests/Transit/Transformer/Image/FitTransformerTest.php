@@ -29,23 +29,6 @@ class FitTransformerTest extends TestCase {
 	}
 
 	/**
-	 * Test that images are resized when no fill is defined.
-	 */
-	public function testTransform() {
-		$object = new FitTransformer(array('width' => 100, 'height' => 100));
-		$file = $object->transform(new File($this->baseFile));
-
-		$this->assertEquals(65, $file->width());
-		$this->assertEquals(100, $file->height());
-
-		$object = new FitTransformer(array('width' => 900, 'height' => 1000));
-		$file = $object->transform(new File($this->baseFile));
-
-		$this->assertEquals(647, $file->width());
-		$this->assertEquals(1000, $file->height());
-	}
-
-	/**
 	 * Test horizontal color fill.
 	 */
 	public function testHorizontalFill() {
@@ -69,6 +52,13 @@ class FitTransformerTest extends TestCase {
 
 		$this->assertEquals(150, $file->width());
 		$this->assertEquals(150, $file->height());
+
+        // larger than image
+		$object = new FitTransformer(array('width' => 1000, 'height' => 1000, 'fill' => array(255, 255, 255)));
+		$file = $object->transform(new File($this->baseFile));
+
+		$this->assertEquals(1000, $file->width());
+		$this->assertEquals(1000, $file->height());
 	}
 
 	/**
@@ -97,6 +87,13 @@ class FitTransformerTest extends TestCase {
 
 		$this->assertEquals(150, $file->width());
 		$this->assertEquals(150, $file->height());
+
+        // larger than image
+		$object = new FitTransformer(array('width' => 1000, 'height' => 1000, 'fill' => array(255, 255, 255)));
+		$file = $object->transform(new File($filePath));
+
+		$this->assertEquals(1000, $file->width());
+		$this->assertEquals(1000, $file->height());
 	}
 
 }

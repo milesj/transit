@@ -55,43 +55,40 @@ class FitTransformer extends CropTransformer {
 
 		if (!is_numeric($height) && !is_numeric($width)) {
 			throw new InvalidArgumentException('Invalid width and height for resize');
+
+		} else if (empty($config['fill'])) {
+			throw new InvalidArgumentException('Invalid RGB fill color');
 		}
 
-		$widthAspect = $baseWidth / $width;
+        $newWidth = $baseWidth;
+        $newHeight = $baseHeight;
+
+        // Calculate aspect ratio
+        $widthAspect = $baseWidth / $width;
 		$heightAspect = $baseHeight / $height;
 		$aspect = ($heightAspect > $widthAspect) ? $heightAspect : $widthAspect;
 
-		$newWidth = $baseWidth / $aspect;
-		$newHeight = $baseHeight / $aspect;
-
-		// Do a simple resize if there is no fill defined
-		if (!$config['fill'] || ($newHeight == $height && $newWidth == $width)) {
-			return $this->_process($file, array(
-				'dest_w'	=> $newWidth,
-				'dest_h'	=> $newHeight,
-				'quality'	=> $config['quality'],
-				'overwrite'	=> $self
-			));
-		}
+        // Resize if larger image
+        if ($newWidth > $width || $newHeight > $height) {
+            $newWidth = $baseWidth / $aspect;
+            $newHeight = $baseHeight / $aspect;
+        }
 
 		// Determine the alignment
-		$vertGap = 0;
-		$horiGap = 0;
+		$vertGap = ($height - $newHeight) / 2;
+		$horiGap = ($width - $newWidth) / 2;
 
-		// Horizontal
 		if ($newWidth < $width) {
-			if ($config['horizontal'] === self::CENTER) {
-				$horiGap = ($width - $newWidth) / 2;
-
+			if ($config['horizontal'] === self::LEFT) {
+				$horiGap = 0;
 			} else if ($config['horizontal'] === self::RIGHT) {
 				$horiGap = ($width - $newWidth);
 			}
+		}
 
-		// Vertical
-		} else if ($newHeight < $height) {
-			if ($config['vertical'] === self::CENTER) {
-				$vertGap = ($height - $newHeight) / 2;
-
+        if ($newHeight < $height) {
+			if ($config['vertical'] === self::TOP) {
+				$vertGap = 0;
 			} else if ($config['vertical'] === self::BOTTOM) {
 				$vertGap = ($height - $newHeight);
 			}
