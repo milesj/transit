@@ -7,12 +7,12 @@ files to Amazon S3 or another external storage system).
 ## Requirements ##
 
 * PHP 5.3.3
-	* Fileinfo
-	* Multibyte
-	* Curl
-	* Exif (optional)
+    * Fileinfo
+    * Multibyte
+    * Curl
+    * Exif (optional)
 * Composer
-	* AWS PHP SDK v2.2+
+    * AWS PHP SDK v2.2+
 
 ## Features ##
 
