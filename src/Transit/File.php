@@ -513,7 +513,7 @@ class File {
                     $extType = $file->data('type');
                 }
 
-                if ($type !== $extType) {
+                if (!empty($extType) && $type !== $extType) {
                     $type = $extType;
                 }
             }
