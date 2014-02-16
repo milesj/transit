@@ -18,7 +18,7 @@ use Transit\Transporter\AbstractTransporter;
 use \Exception;
 
 /**
- * Class OpenCloudTransporter
+ * Transport a local file to Rackspace CloudFiles.
  *
  * @package Transit\Transporter\Rackspace
  * @method \OpenCloud\Rackspace getClient()
@@ -98,7 +98,8 @@ class CloudFilesTransporter extends AbstractTransporter {
      * @return bool
      */
     public function delete($id) {
-        $object = $this->getContainer()->getObject($id);
+        $object = $this->getContainer()->dataObject();
+        $object->setName($id);
 
         /** @type \Guzzle\Http\Message\Response $response */
         $response = $object->delete();

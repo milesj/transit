@@ -24,7 +24,7 @@ env:
     - RACKSPACE_CF_CONTAINER="ci-testing"
     - secure: "XMVRkF50zLYz7MQD6Co8a1PcTfFg4DHr7rGzRYWVfBJlKLNgt7FAAq6X7vN2esiHTKHVJ2mfZPzbhBrTVZaLsTkGS4y3Sd5yRmGNIWpaAe9VX8KVnjaYaNFNmN+Ykz3ACv15So+65Li/kLUo/a35ZfNKqVSFG52C7mqXjNOzxJY="
     - secure: "MI5e+qcKwY3bZGeTHCL20c7o3Lpxg/thkWFK9Q5xNX7ewIqpU4jbGE4GGWTVRa9PigowmIc+b1OdaCDWgJ68xseY+ECC88eTKDyU/qtd3b/RJeo1I3qg6udlWG1DwEYjLExxtT7LXBMx1Jrra7Kn8RznuNY/crvVv1BWM9xyl08="
-    
+
 before_script:
   - composer selfupdate
   - composer install
