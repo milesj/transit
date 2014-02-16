@@ -8,7 +8,7 @@
 namespace Transit\Validator;
 
 /**
- * Provides file validation functionality.
+ * Provides image validation functionality.
  *
  * @package Transit\Validator
  */

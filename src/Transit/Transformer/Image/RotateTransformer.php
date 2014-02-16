@@ -8,7 +8,6 @@
 namespace Transit\Transformer\Image;
 
 use Transit\File;
-use \InvalidArgumentException;
 
 /**
  * Rotate an image to a certain degree.

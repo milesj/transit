@@ -9,7 +9,6 @@ namespace Transit;
 
 use Transit\Exception\IoException;
 use \InvalidArgumentException;
-use \RuntimeException;
 use \Closure;
 
 /**

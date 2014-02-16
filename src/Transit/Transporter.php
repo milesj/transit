@@ -7,8 +7,6 @@
 
 namespace Transit;
 
-use Transit\File;
-
 /**
  * Interface for all transporters to implement.
  *
