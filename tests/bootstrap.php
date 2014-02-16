@@ -29,6 +29,11 @@ define('S3_REGION', env('AWS_S3_REGION', 'us-east-1'));
 define('GLACIER_VAULT', env('AWS_GLACIER_VAULT'));
 define('GLACIER_REGION', env('AWS_GLACIER_REGION', 'us-east-1'));
 
+define('RACKSPACE_USER', env('RACKSPACE_USER'));
+define('RACKSPACE_KEY', env('RACKSPACE_KEY'));
+define('CF_CONTAINER', env('RACKSPACE_CF_CONTAINER', 'ci-testing'));
+define('CF_REGION', env('RACKSPACE_CF_REGION', 'IAD'));
+
 // Ensure that composer has installed all dependencies
 if (!file_exists(VENDOR_DIR . '/autoload.php')) {
     exit('Please install Composer in Transit\'s root folder before running tests!');

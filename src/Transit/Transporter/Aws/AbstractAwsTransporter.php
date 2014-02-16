@@ -18,13 +18,6 @@ use \InvalidArgumentException;
 abstract class AbstractAwsTransporter extends AbstractTransporter {
 
     /**
-     * Client instance.
-     *
-     * @type object
-     */
-    protected $_client;
-
-    /**
      * Instantiate an AWS client object.
      *
      * @param string $accessKey
@@ -41,15 +34,6 @@ abstract class AbstractAwsTransporter extends AbstractTransporter {
         $config['secret'] = $secretKey;
 
         parent::__construct($config);
-    }
-
-    /**
-     * Return the client.
-     *
-     * @return \Aws\Common\Client\AbstractClient
-     */
-    public function getClient() {
-        return $this->_client;
     }
 
 }

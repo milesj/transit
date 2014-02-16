@@ -11,13 +11,13 @@ use Transit\File;
 use Transit\Exception\TransportationException;
 use Aws\Common\Enum\Region;
 use Aws\Common\Enum\Size;
-use Aws\Common\Exception\MultipartUploadException;
 use Aws\S3\S3Client;
 use Aws\S3\Enum\CannedAcl;
 use Aws\S3\Enum\Storage;
 use Aws\S3\Exception\S3Exception;
 use Aws\S3\Model\MultipartUpload\UploadBuilder;
 use Guzzle\Http\EntityBody;
+use \Exception;
 use \InvalidArgumentException;
 
 /**
@@ -133,7 +133,7 @@ class S3Transporter extends AbstractAwsTransporter {
 
             try {
                 $response = $uploader->upload();
-            } catch (MultipartUploadException $e) {
+            } catch (Exception $e) {
                 $uploader->abort();
             }
 

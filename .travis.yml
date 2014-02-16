@@ -20,6 +20,10 @@ env:
     - AWS_GLACIER_VAULT="ci-testing"
     - secure: "Pecd6/EyJQ+yCZTcbvKmzGKQnYAMy5ohemyw04duzpoVoIYspkMSMhNcSXka\nLVYAPyfLQ3fORMJG3kjGaeoVcfEisMVWXLJNe0huj7pC8hq76M8qMEeHDW9y\nI9kHrlA19OvY6JMJsRn8PiVF+lx84pFRFdvV8gWf+qDKDqxJ0Rk="
     - secure: "nDQWdJTWuj6kB5qeTVHC5NsbR5EZbJHrHIioUKqB2B2H7DrlKOth5DATfRn7\nDicWGJOKbU1FjJaCYX8JbIJrRCiw2y/zlLplpnm1VBu8VVrBgnuqAtHADwLh\nXz49lwYWV98Cvsrd5SasCyjoMece4OZwcgoPu9w7cOqxiDxUokI="
+    - RACKSPACE_CF_REGION="IAD"
+    - RACKSPACE_CF_CONTAINER="ci-testing"
+    - secure: "AKKkC6qWQZwU4BqASmqWrI+bnvXT3IJk4DfT3PnPd1EeXYnafUmvtzkWbL36ZYwGmlQJcacIChAtU3mw5u2Df5pHF4hlO93yQ9UIy49Klh2VqR6ysxNK5PUFWdxgivJKWdx8MBFixOuC7HhI4jH6toGOL+r7oFex81VVPtSPP10="
+    - secure: "P9V+A1ScSqhVuV7yBtzWbePZInMttmyKbN8tCwCy9EOrdTvdRKZn2Zo37CkNh+0F5a2mM2fvHnIj1lWRCE8witAfjDxMCLqxOhbjbp6JL2qOGyJstVfXKgIagzW9NkAzHVEzuEPcguYh4Wq7snyWQsRBjuxaSRzcV5Z85dMrbBw="
 
 before_script:
   - composer selfupdate

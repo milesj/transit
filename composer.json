@@ -4,7 +4,8 @@
     "description": "A file uploader with support for validation, image transformation and remote transportation.",
     "keywords": [
         "transit", "file", "uploader", "validator", "importer", "transformer", "transporter",
-        "image", "audio", "video", "text", "application", "archive", "s3", "glacier", "exif"
+        "image", "audio", "video", "text", "application", "archive", "s3", "glacier", "exif",
+        "rackspace", "opencloud", "cloud", "cloudfiles"
     ],
     "homepage": "http://milesj.me/code/php/transit",
     "license": "MIT",
@@ -22,12 +23,14 @@
     },
     "require-dev": {
         "ext-exif": "*",
-        "aws/aws-sdk-php": "~2.2"
+        "aws/aws-sdk-php": "*",
+        "rackspace/php-opencloud": "*"
     },
     "suggest": {
         "ext-gd": "Enable the GD library for image transforming",
         "ext-exif": "Extract exif data from images",
-        "aws/aws-sdk-php": "~2.2"
+        "aws/aws-sdk-php": "Upload files to Amazon S3 and Glacier",
+        "rackspace/php-opencloud": "Upload files to RackSpace OpenCloud"
     },
     "support": {
         "source": "https://github.com/milesj/transit"

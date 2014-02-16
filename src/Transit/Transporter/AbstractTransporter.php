@@ -17,4 +17,20 @@ use Transit\Transporter;
  */
 abstract class AbstractTransporter extends AbstractComponent implements Transporter {
 
+    /**
+     * Client instance.
+     *
+     * @type object
+     */
+    protected $_client;
+
+    /**
+     * Return the client.
+     *
+     * @return mixed
+     */
+    public function getClient() {
+        return $this->_client;
+    }
+
 }
