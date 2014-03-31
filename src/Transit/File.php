@@ -410,7 +410,7 @@ class File {
         $name = (string) $prepend . $name . (string) $append;
 
         // Remove unwanted characters
-        $name = preg_replace('/[^_-\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}\p{Nd}]/imu', '-', $name);
+        $name = preg_replace('/[^_\-\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}\p{Nd}]/imu', '-', $name);
 
         // Rename file
         $ext = $this->ext() ?: MimeType::getExtFromType($this->type(), true);
