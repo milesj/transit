@@ -397,9 +397,10 @@ class File {
      * @param string $name
      * @param string $append
      * @param string $prepend
+     * @param bool $overwrite
      * @return bool
      */
-    public function rename($name = '', $append = '', $prepend = '') {
+    public function rename($name = '', $append = '', $prepend = '', $overwrite = false) {
         if (is_callable($name)) {
             $name = call_user_func_array($name, array($this->name(), $this));
         } else {
@@ -414,7 +415,19 @@ class File {
 
         // Rename file
         $ext = $this->ext() ?: MimeType::getExtFromType($this->type(), true);
-        $targetPath = $this->dir() . $name . '.' . $ext;
+        $newName = $name;
+
+        // Don't overwrite
+        if (!$overwrite) {
+            $no = 1;
+
+            while (file_exists($this->dir() . $newName . '.' . $ext)) {
+                $newName = $name . '-' . $no;
+                $no++;
+            }
+        }
+
+        $targetPath = $this->dir() . $newName . '.' . $ext;
 
         if (rename($this->path(), $targetPath)) {
             $this->reset($targetPath);

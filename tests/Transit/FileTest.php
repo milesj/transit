@@ -266,6 +266,14 @@ class FileTest extends TestCase {
         $this->assertEquals('vertical-test', $this->object->name());
     }
 
+    public function testRenameOverwrite() {
+        $this->assertTrue($this->object->rename('vertical'));
+        $this->assertEquals(TEMP_DIR . '/vertical-1.jpg', $this->object->path());
+
+        // Clean up
+        $this->object->delete();
+    }
+
     /**
      * Test that size() returns the file size.
      */
