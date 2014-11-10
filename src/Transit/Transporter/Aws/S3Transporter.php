@@ -157,9 +157,9 @@ class S3Transporter extends AbstractAwsTransporter {
 
             if ($config['returnUrl']) {
                 $provider = RulesEndpointProvider::fromDefaults();
-                $endpoint = $provider(['service' => 's3', 'region' => $config['region']]);
+                $endpoint = $provider(array('service' => 's3', 'region' => $config['region'], 'scheme' => $config['scheme']));
 
-                return sprintf('%s://%s/%s/%s', $config['scheme'], $endpoint['endpoint'], $config['bucket'], $key);
+                return sprintf('%s/%s/%s', $endpoint['endpoint'], $config['bucket'], $key);
             }
 
             return $key;
