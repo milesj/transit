@@ -9,6 +9,7 @@ namespace Transit\Transporter\Aws;
 
 use Transit\File;
 use Transit\Exception\TransportationException;
+use Aws\Common\RulesEndpointProvider;
 use Aws\Common\Enum\Region;
 use Aws\Common\Enum\Size;
 use Aws\S3\S3Client;
@@ -155,10 +156,10 @@ class S3Transporter extends AbstractAwsTransporter {
             $file->delete();
 
             if ($config['returnUrl']) {
-                return sprintf('%s/%s/%s',
-                    S3Client::getEndpoint($this->getClient()->getDescription(), $config['region'], $config['scheme']),
-                    $config['bucket'],
-                    $key);
+                $provider = RulesEndpointProvider::fromDefaults();
+                $endpoint = $provider(['service' => 's3', 'region' => $config['region']]);
+
+                return sprintf('%s://%s/%s/%s', $config['scheme'], $endpoint['endpoint'], $config['bucket'], $key);
             }
 
             return $key;

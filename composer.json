@@ -23,7 +23,7 @@
     },
     "require-dev": {
         "ext-exif": "*",
-        "aws/aws-sdk-php": "*",
+        "aws/aws-sdk-php": "~2.7.0",
         "rackspace/php-opencloud": "*"
     },
     "suggest": {
