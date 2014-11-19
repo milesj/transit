@@ -149,7 +149,7 @@ class S3Transporter extends AbstractAwsTransporter {
                 'StorageClass' => $config['storage'],
                 'Metadata' => $config['meta']
             ));
-            if (is_array($config['params'])) {
+            if (isset($config['params']) && is_array($config['params'])) {
                 $params += $config['params'];
             }
             $response = $this->getClient()->putObject($params);
