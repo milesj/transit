@@ -32,7 +32,7 @@ class RotateTransformerTest extends TestCase {
         $file = $object->transform(new File($this->baseFile));
 
         $this->assertEquals(750, $file->width());
-        $this->assertEquals(485, $file->height());
+        $this->assertEquals(485, $file->height(), '', 1); // PHP 5.5+ is off by 1
     }
 
 }
