@@ -139,7 +139,7 @@ class S3Transporter extends AbstractAwsTransporter {
             }
 
         } else {
-            $response = $this->getClient()->putObject(array_filter(array(
+            $params = array_filter(array(
                 'Key' => $key,
                 'Bucket' => $config['bucket'],
                 'Body' => EntityBody::factory(fopen($file->path(), 'r')),
@@ -148,7 +148,11 @@ class S3Transporter extends AbstractAwsTransporter {
                 'ServerSideEncryption' => $config['encryption'],
                 'StorageClass' => $config['storage'],
                 'Metadata' => $config['meta']
-            )));
+            ));
+            if (isset($config['params']) && is_array($config['params'])) {
+                $params += $config['params'];
+            }
+            $response = $this->getClient()->putObject($params);
         }
 
         // Return S3 URL if successful
