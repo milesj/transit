@@ -42,7 +42,7 @@ class S3Transporter extends AbstractAwsTransporter {
      *         @type string $storage    S3 storage method
      *         @type string $acl        S3 ACL rules to use
      *         @type string $encryption Encryption algorithm to use for uploading
-     *         @type array $meta        Meta data to apply to S3 files
+     *         @type array $params      Custom params and meta data to apply to S3 files
      *         @type bool $returnUrl    Return the full S3 URL or the S3 key after upload
      * }
      */
@@ -56,7 +56,7 @@ class S3Transporter extends AbstractAwsTransporter {
         'storage' => Storage::STANDARD,
         'acl' => CannedAcl::PUBLIC_READ,
         'encryption' => '',
-        'meta' => array(),
+        'params' => array(),
         'returnUrl' => true
     );
 
@@ -146,12 +146,18 @@ class S3Transporter extends AbstractAwsTransporter {
                 'ACL' => $config['acl'],
                 'ContentType' => $file->type(),
                 'ServerSideEncryption' => $config['encryption'],
-                'StorageClass' => $config['storage'],
-                'Metadata' => $config['meta']
+                'StorageClass' => $config['storage']
             ));
-            if (isset($config['params']) && is_array($config['params'])) {
+
+            // Backwards compatibility since meta was removed
+            if (!empty($config['meta'])) {
+                $config['params']['Metadata'] = $config['meta'];
+            }
+
+            if (!empty($config['params'])) {
                 $params += $config['params'];
             }
+
             $response = $this->getClient()->putObject($params);
         }
 
