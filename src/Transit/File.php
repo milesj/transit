@@ -182,9 +182,8 @@ class File {
                 'date' => 'DateTime',
                 'iso' => 'ISOSpeedRatings',
                 'focal' => 'FocalLength',
-				'latitude' => 'GPSLatitude',
-				'longitude' => 'GPSLongitude',
-				
+		'latitude' => 'GPSLatitude',
+		'longitude' => 'GPSLongitude'
             );
 
             if ($file->supportsExif()) {
