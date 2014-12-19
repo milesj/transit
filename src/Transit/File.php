@@ -193,11 +193,11 @@ class File {
                         $value = '';
 
                         if (!empty($data[$find])) {
-							if ($key == 'latitude' || $key == 'longitude'){
-								$value = $file->dmstodec($data[$find][0], $data[$find][1], $data[$find][2]);
-							} else {
-								$value = $data[$find];
-							}
+				if ($key == 'latitude' || $key == 'longitude'){
+					$value = $file->dmstodec($data[$find][0], $data[$find][1], $data[$find][2]);
+				} else {
+					$value = $data[$find];
+				}
                         }
 
                         $exif[$key] = $value;
