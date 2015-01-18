@@ -24,6 +24,13 @@ class TestCase extends \PHPUnit_Framework_TestCase {
     protected $data = array();
 
     /**
+     * File objects to delete after each test.
+     *
+     * @type \Transit\File[]
+     */
+    protected $files = array();
+
+    /**
      * Base file for testing.
      *
      * @var string
@@ -60,11 +67,11 @@ class TestCase extends \PHPUnit_Framework_TestCase {
      */
     protected function tearDown() {
         foreach (glob(TEMP_DIR . '/vertical-*.jpg') as $file) {
-            //@unlink($file);
+            @unlink($file);
         }
 
         foreach (glob(TEMP_DIR . '/horizontal-*.jpg') as $file) {
-            //@unlink($file);
+            @unlink($file);
         }
 
         clearstatcache();
