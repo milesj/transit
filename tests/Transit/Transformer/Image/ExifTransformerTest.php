@@ -24,7 +24,9 @@ class ExifTransformerTest extends TestCase {
             'fnumber' => '',
             'date' => '',
             'iso' => '',
-            'focal' => ''
+            'focal' => '',
+            'latitude' => '',
+            'longitude' => ''
         );
 
         // 1
@@ -104,7 +106,9 @@ class ExifTransformerTest extends TestCase {
             'fnumber' => '',
             'date' => '',
             'iso' => '',
-            'focal' => ''
+            'focal' => '',
+            'latitude' => '',
+            'longitude' => ''
         );
 
         // 1

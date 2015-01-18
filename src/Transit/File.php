@@ -182,8 +182,8 @@ class File {
                 'date' => 'DateTime',
                 'iso' => 'ISOSpeedRatings',
                 'focal' => 'FocalLength',
-		'latitude' => 'GPSLatitude',
-		'longitude' => 'GPSLongitude'
+                'latitude' => 'GPSLatitude',
+                'longitude' => 'GPSLongitude'
             );
 
             if ($file->supportsExif()) {
@@ -192,11 +192,16 @@ class File {
                         $value = '';
 
                         if (!empty($data[$find])) {
-				if ($key == 'latitude' || $key == 'longitude'){
-					$value = $file->dmstodec($data[$find][0], $data[$find][1], $data[$find][2]);
-				} else {
-					$value = $data[$find];
-				}
+                            // Convert DMS (degrees, minutes, seconds) to decimals
+                            if ($key === 'latitude' || $key === 'longitude'){
+                                $deg = $data[$find][0];
+                                $min = $data[$find][1];
+                                $sec = $data[$find][2];
+                                $value = $deg + ((($min * 60) + $sec) / 3600);
+
+                            } else {
+                                $value = $data[$find];
+                            }
                         }
 
                         $exif[$key] = $value;
@@ -597,17 +602,6 @@ class File {
     public function toString() {
         return $this->path();
     }
-	
-	/**
-     * Converts DMS ( Degrees / minutes / seconds ) 
-     * to decimal format longitude / latitude
-     * @return float
-     */
-	function dmstodec($deg,$min,$sec) {
-
-		return $deg+((($min*60)+($sec))/3600);
-	
-	}
 
     /**
      * Cache the results of a callback.
