@@ -24,6 +24,13 @@ class AbstractComponent implements Component {
     protected $_config = array();
 
     /**
+     * Default configuration.
+     *
+     * @type array
+     */
+    protected $_defaultConfig = array();
+
+    /**
      * Store configuration.
      *
      * @param array $config
@@ -48,7 +55,7 @@ class AbstractComponent implements Component {
      */
     public function setConfig($key, $value = null) {
         if (is_array($key)) {
-            $this->_config = array_replace($this->_config, $key);
+            $this->_config = array_replace($this->_defaultConfig, $this->_config, $key);
         } else {
             $this->_config[$key] = $value;
         }

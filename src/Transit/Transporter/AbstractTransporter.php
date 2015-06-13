@@ -25,6 +25,13 @@ abstract class AbstractTransporter extends AbstractComponent implements Transpor
     protected $_client;
 
     /**
+     * {@inheritdoc}
+     */
+    protected $_defaultConfig = array(
+        'removeLocal' => true
+    );
+
+    /**
      * Return the client.
      *
      * @return mixed

@@ -163,7 +163,7 @@ class S3Transporter extends AbstractAwsTransporter {
 
         // Return S3 URL if successful
         if ($response) {
-            $file->delete();
+            $config['removeLocal'] && $file->delete();
 
             if ($config['returnUrl']) {
                 $provider = RulesEndpointProvider::fromDefaults();
