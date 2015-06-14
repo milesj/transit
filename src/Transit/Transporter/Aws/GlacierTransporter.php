@@ -129,7 +129,7 @@ class GlacierTransporter extends AbstractAwsTransporter {
 
         // Return archive ID if successful
         if ($response) {
-            $file->delete();
+            $config['removeLocal'] && $file->delete();
 
             return $response->getPath('archiveId');
         }

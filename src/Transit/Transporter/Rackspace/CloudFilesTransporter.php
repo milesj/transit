@@ -164,7 +164,7 @@ class CloudFilesTransporter extends AbstractTransporter {
 
         // Return CloudFiles URL if successful
         if ($response) {
-            $file->delete();
+            $config['removeLocal'] && $file->delete();
 
             if ($config['returnUrl']) {
                 return (string) $response->getPublicUrl($config['urlType']);
