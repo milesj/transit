@@ -1,19 +1,17 @@
-# Transit v1.6.2 [![Build Status](https://travis-ci.org/milesj/transit.png?branch=master)](https://travis-ci.org/milesj/transit) #
+# Transit v2.0.0 [![Build Status](https://travis-ci.org/milesj/transit.png?branch=master)](https://travis-ci.org/milesj/transit) #
 
-A lightweight file uploader that also provides extended support for file validation,
-file transformation (image resizing, cropping, etc) and file transportation (moving
-files to Amazon S3 or another external storage system).
+A lightweight file uploader that also provides extended support for file validation, file transformation (image resizing, cropping, etc) and file transportation (moving files to Amazon S3 or another external storage system).
 
 ## Requirements ##
 
-* PHP 5.3.3
+* PHP 5.4
     * Fileinfo
     * Multibyte
     * Curl
     * Exif (optional)
 * Composer
-    * AWS SDK
-    * Rackspace OpenCloud SDK
+    * AWS SDK (optional)
+    * Rackspace OpenCloud SDK (optional)
 
 ## Features ##
 
@@ -28,11 +26,8 @@ files to Amazon S3 or another external storage system).
 * Support for extending built in transporters, transformers and validators
 * Exif reading support through `File` and orientation fixing through `ExifTransformer`
 
-## Documentation ##
-
-Thorough documentation can be found here (eventually): http://milesj.me/code/php/transit
-
 ## Contributors ##
 
 * Serge Rodovnichenko (SergeR) - `FitTransformer`
 * Ricky Dunlop (rickydunlop) - `File::supportsExif()`
+* Safonov Nikita (ns3777k) - `removeLocal` option
