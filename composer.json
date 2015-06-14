@@ -16,15 +16,15 @@
         }
     ],
     "require": {
-        "php": ">=5.3.3",
+        "php": ">=5.4",
         "ext-curl": "*",
         "ext-mbstring": "*",
         "ext-fileinfo": "*"
     },
     "require-dev": {
         "ext-exif": "*",
-        "phpunit/phpunit": "~4.6",
-        "aws/aws-sdk-php": "~2.7",
+        "phpunit/phpunit": "~4.7",
+        "aws/aws-sdk-php": "~2.8",
         "rackspace/php-opencloud": "~1.14"
     },
     "suggest": {
