@@ -23,8 +23,9 @@
     },
     "require-dev": {
         "ext-exif": "*",
-        "aws/aws-sdk-php": "~2.7.0",
-        "rackspace/php-opencloud": "*"
+        "phpunit/phpunit": "~4.6",
+        "aws/aws-sdk-php": "~2.7",
+        "rackspace/php-opencloud": "~1.14"
     },
     "suggest": {
         "ext-gd": "Enable the GD library for image transforming",

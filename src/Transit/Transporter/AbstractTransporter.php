@@ -26,6 +26,11 @@ abstract class AbstractTransporter extends AbstractComponent implements Transpor
 
     /**
      * {@inheritdoc}
+     *
+     *
+     * @type array {
+     *      @type string $removeLocal - Whether to remove the local file after transportation or not.
+     * }
      */
     protected $_defaultConfig = array(
         'removeLocal' => true
